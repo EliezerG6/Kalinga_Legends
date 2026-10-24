@@ -19,7 +19,6 @@ const STATE_BADGES = 4;
 const STATE_ARTIFACTS = 5;
 
 let currentState = STATE_LOADING;
-let isLandscapeMode = false;
 let loadingProgress = 0;
 
 // Cultural Artifact & Achievement Database for Rewards
@@ -171,13 +170,23 @@ const btnLobby = document.getElementById("btn-lobby");
 const btnSettings = document.getElementById("btn-settings");
 const closeModalsBtns = document.querySelectorAll(".close-modal");
 
-const btnModePortrait = document.getElementById("btn-mode-portrait");
-const btnModeLandscape = document.getElementById("btn-mode-landscape");
 const btnQuitYes = document.getElementById("btn-quit-yes");
 const btnQuitNo = document.getElementById("btn-quit-no");
 
 const toggleSfxBtn = document.getElementById("btn-toggle-sfx");
 const toggleBgmBtn = document.getElementById("btn-toggle-bgm");
+
+// Force automatic landscape orientation check & enforcement on mobile/tablet screens
+function enforceLandscapeLock() {
+    document.body.classList.add("landscape-mode");
+    document.body.classList.remove("portrait-mode", "phone-mode");
+    if (document.documentElement.requestFullscreen && !document.fullscreenElement && window.innerWidth < 1024) {
+        document.documentElement.requestFullscreen().catch(() => { });
+    }
+}
+window.addEventListener("resize", enforceLandscapeLock);
+window.addEventListener("orientationchange", enforceLandscapeLock);
+window.addEventListener("load", enforceLandscapeLock);
 
 // Inject and style side drawer menu buttons to match the wooden theme
 (function injectSideDrawerMenuButtons() {
@@ -271,16 +280,15 @@ function openMinigameInfoModal(gameType) {
         bodyElem.innerHTML = `
             <p><strong>Objective:</strong> Pursue and capture the escaped pig inside the wooden pen before stamina drains.</p>
             <ul>
-                <li><strong>Player Count:</strong> Choose below to play with 1, 2, or 3 hunters!</li>
-                <li><strong>P1 Controls:</strong> <code>WASD</code> or Virtual Joystick.</li>
-                <li><strong>P2 Controls:</strong> <code>Arrow Keys</code>.</li>
-                <li><strong>P3 Controls:</strong> <code>I J K L</code> keys.</li>
-                <li><strong>Catching:</strong> Stand in the range circle and press <code>SPACEBAR</code> or tap <code>GRAB</code>.</li>
+                <li><strong>Mobile Controls (1P):</strong> Use the left on-screen Virtual Joystick to move and tap the <strong>GRAB</strong> button on the right.</li>
+                <li><strong>PC Controls (1P):</strong> <code>WASD</code> keys to move, <code>SPACEBAR</code> to grab.</li>
+                <li><strong>Multiplayer (2P Co-op):</strong> P1 uses WASD / Joystick, P2 uses Arrow Keys.</li>
+                <li><strong>3 Players:</strong> Supported on PC only (P1: WASD, P2: Arrow Keys, P3: I J K L).</li>
             </ul>
             <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">SELECT MODE & PLAYERS:</p>
             <button class="modal-btn-action" id="modal-mode-1p" style="background: #3A6351;">1 PLAYER (SOLO)</button>
-            <button class="modal-btn-action" id="modal-mode-2p" style="background: #2E5A78;">2 PLAYERS CO-OP</button>
-            <button class="modal-btn-action" id="modal-mode-3p" style="background: #8C5A32;">3 PLAYERS CO-OP</button>
+            <button class="modal-btn-action" id="modal-mode-2p" style="background: #2E5A78;">2 PLAYERS CO-OP (MOBILE / PC)</button>
+            <button class="modal-btn-action" id="modal-mode-3p" style="background: #8C5A32;">3 PLAYERS CO-OP (PC ONLY)</button>
             <button class="modal-btn-action" id="modal-home-lobby" style="background: #4E3629; margin-top: 10px;">RETURN TO LOBBY</button>
         `;
 
@@ -303,9 +311,9 @@ function openMinigameInfoModal(gameType) {
         bodyElem.innerHTML = `
             <p><strong>Objective:</strong> Race head-to-head on bamboo stilts across the track without losing balance.</p>
             <ul>
-                <li><strong>Player 1 Controls:</strong> Alternate tapping <code>A</code> and <code>D</code>.</li>
-                <li><strong>Player 2 Controls:</strong> Alternate tapping <code>Left</code> and <code>Right</code> Arrow keys.</li>
-                <li><strong>Balance:</strong> Maintain steady rhythm to sprint fast and stay mounted on your bamboo stilts!</li>
+                <li><strong>Mobile Controls:</strong> Tap the clickable on-screen buttons at bottom-left (Player 1: <code>L</code> / <code>R</code>) and bottom-right (Player 2: <code>L</code> / <code>R</code>) alternately to race!</li>
+                <li><strong>PC Controls (P1):</strong> Alternate tapping <code>A</code> and <code>D</code>.</li>
+                <li><strong>PC Controls (P2):</strong> Alternate tapping <code>Left</code> and <code>Right</code> Arrow keys.</li>
             </ul>
             <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">READY TO RACE?</p>
             <button class="modal-btn-action" id="modal-start-kadang">START GAME</button>
@@ -387,32 +395,6 @@ function closeAllModals() {
     modalBackdrop.classList.add("hidden");
 }
 
-function setDisplayMode(landscapeMode) {
-    isLandscapeMode = landscapeMode;
-    if (isLandscapeMode) {
-        document.body.classList.add("landscape-mode");
-        document.body.classList.remove("portrait-mode", "phone-mode");
-        if (btnModeLandscape) btnModeLandscape.classList.add("active");
-        if (btnModePortrait) btnModePortrait.classList.remove("active");
-
-        if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen().catch(() => { });
-        }
-    } else {
-        document.body.classList.add("portrait-mode");
-        document.body.classList.remove("landscape-mode", "phone-mode");
-        if (btnModePortrait) btnModePortrait.classList.add("active");
-        if (btnModeLandscape) btnModeLandscape.classList.remove("active");
-
-        if (document.exitFullscreen && document.fullscreenElement) {
-            document.exitFullscreen().catch(() => { });
-        }
-    }
-}
-
-if (btnModePortrait) btnModePortrait.addEventListener("click", () => { setDisplayMode(false); closeDrawer(); });
-if (btnModeLandscape) btnModeLandscape.addEventListener("click", () => { setDisplayMode(true); closeDrawer(); });
-
 menuBtn.addEventListener("click", openDrawer);
 closeDrawerBtn.addEventListener("click", closeDrawer);
 modalBackdrop.addEventListener("click", () => {
@@ -467,6 +449,14 @@ window.addEventListener("keydown", e => {
 window.addEventListener("keyup", e => keys[e.code] = false);
 
 let grabTappedThisFrame = false;
+// Dual virtual joystick touch tracking states for mobile 2-player co-op support
+const dualTouchState = {
+    p1JoystickActive: false,
+    p1BaseX: 100, p1BaseY: 580, p1KnobX: 100, p1KnobY: 580, p1TouchId: null,
+    p2JoystickActive: false,
+    p2BaseX: 1180, p2BaseY: 580, p2KnobX: 1180, p2KnobY: 580, p2TouchId: null,
+    maxRadius: 60
+};
 
 function handleKeyDownOnce(code) {
     if (currentState === STATE_KADANG && !kadang.isGameOver) {
@@ -553,16 +543,7 @@ const dokdokma = {
     spaceWasPressed: false,
     startTime: 0,
     elapsedTime: 0,
-    joystick: {
-        active: false,
-        baseX: 85,
-        baseY: 580,
-        knobX: 85,
-        knobY: 580,
-        maxRadius: 65,
-        touchId: null
-    },
-    btnGrab: { cx: 1195, cy: 580, r: 60 },
+    btnGrab: { cx: 640, cy: 620, r: 55 },
 
     reset(selectedDifficulty = null, numPlayers = 1) {
         audioManager.playBgm();
@@ -614,8 +595,10 @@ const dokdokma = {
         this.hasWon = false;
         this.isPaused = false;
         this.spaceWasPressed = false;
-        this.joystick.active = false;
-        this.joystick.touchId = null;
+        dualTouchState.p1JoystickActive = false;
+        dualTouchState.p1TouchId = null;
+        dualTouchState.p2JoystickActive = false;
+        dualTouchState.p2TouchId = null;
         this.startTime = Date.now();
         this.elapsedTime = 0;
     }
@@ -634,8 +617,8 @@ const kadang = {
         animCycle: 0,
         lastSide: null,
         lastTime: 0,
-        btnL: { cx: 120, cy: 580, r: 45 },
-        btnR: { cx: 240, cy: 580, r: 45 }
+        btnL: { cx: 90, cy: 580, r: 42 },
+        btnR: { cx: 190, cy: 580, r: 42 }
     },
     p2: {
         distance: 0,
@@ -644,8 +627,8 @@ const kadang = {
         animCycle: 0,
         lastSide: null,
         lastTime: 0,
-        btnL: { cx: 1040, cy: 580, r: 45 },
-        btnR: { cx: 1160, cy: 580, r: 45 }
+        btnL: { cx: 1090, cy: 580, r: 42 },
+        btnR: { cx: 1190, cy: 580, r: 42 }
     },
 
     reset() {
@@ -957,22 +940,34 @@ canvas.addEventListener("touchstart", e => {
                 continue;
             }
 
-            if (tx < VIRTUAL_WIDTH / 2 && !dokdokma.joystick.active) {
-                dokdokma.joystick.active = true;
-                dokdokma.joystick.touchId = touch.identifier;
-                dokdokma.joystick.baseX = tx;
-                dokdokma.joystick.baseY = ty;
-                dokdokma.joystick.knobX = tx;
-                dokdokma.joystick.knobY = ty;
+            if (dokdokma.activePlayersCount === 2) {
+                if (tx < VIRTUAL_WIDTH / 2 && !dualTouchState.p1JoystickActive) {
+                    dualTouchState.p1JoystickActive = true;
+                    dualTouchState.p1TouchId = touch.identifier;
+                    dualTouchState.p1BaseX = tx; dualTouchState.p1BaseY = ty;
+                    dualTouchState.p1KnobX = tx; dualTouchState.p1KnobY = ty;
+                } else if (tx >= VIRTUAL_WIDTH / 2 && !dualTouchState.p2JoystickActive) {
+                    dualTouchState.p2JoystickActive = true;
+                    dualTouchState.p2TouchId = touch.identifier;
+                    dualTouchState.p2BaseX = tx; dualTouchState.p2BaseY = ty;
+                    dualTouchState.p2KnobX = tx; dualTouchState.p2KnobY = ty;
+                }
+            } else {
+                if (!dualTouchState.p1JoystickActive) {
+                    dualTouchState.p1JoystickActive = true;
+                    dualTouchState.p1TouchId = touch.identifier;
+                    dualTouchState.p1BaseX = tx; dualTouchState.p1BaseY = ty;
+                    dualTouchState.p1KnobX = tx; dualTouchState.p1KnobY = ty;
+                }
             }
         } else if (currentState === STATE_KADANG) {
-            if (Math.hypot(tx - kadang.p1.btnL.cx, ty - kadang.p1.btnL.cy) <= kadang.p1.btnL.r + 10) {
+            if (Math.hypot(tx - kadang.p1.btnL.cx, ty - kadang.p1.btnL.cy) <= kadang.p1.btnL.r + 15) {
                 kadang.registerStep(1, "LEFT");
-            } else if (Math.hypot(tx - kadang.p1.btnR.cx, ty - kadang.p1.btnR.cy) <= kadang.p1.btnR.r + 10) {
+            } else if (Math.hypot(tx - kadang.p1.btnR.cx, ty - kadang.p1.btnR.cy) <= kadang.p1.btnR.r + 15) {
                 kadang.registerStep(1, "RIGHT");
-            } else if (Math.hypot(tx - kadang.p2.btnL.cx, ty - kadang.p2.btnL.cy) <= kadang.p2.btnL.r + 10) {
+            } else if (Math.hypot(tx - kadang.p2.btnL.cx, ty - kadang.p2.btnL.cy) <= kadang.p2.btnL.r + 15) {
                 kadang.registerStep(2, "LEFT");
-            } else if (Math.hypot(tx - kadang.p2.btnR.cx, ty - kadang.p2.btnR.cy) <= kadang.p2.btnR.r + 10) {
+            } else if (Math.hypot(tx - kadang.p2.btnR.cx, ty - kadang.p2.btnR.cy) <= kadang.p2.btnR.r + 15) {
                 kadang.registerStep(2, "RIGHT");
             }
         }
@@ -994,21 +989,30 @@ canvas.addEventListener("touchmove", e => {
 
     for (let i = 0; i < e.changedTouches.length; i++) {
         const touch = e.changedTouches[i];
-        if (touch.identifier === dokdokma.joystick.touchId) {
-            const tx = (touch.clientX - rect.left) * scaleX;
-            const ty = (touch.clientY - rect.top) * scaleY;
+        const tx = (touch.clientX - rect.left) * scaleX;
+        const ty = (touch.clientY - rect.top) * scaleY;
 
-            const dx = tx - dokdokma.joystick.baseX;
-            const dy = ty - dokdokma.joystick.baseY;
+        if (touch.identifier === dualTouchState.p1TouchId && dualTouchState.p1JoystickActive) {
+            const dx = tx - dualTouchState.p1BaseX;
+            const dy = ty - dualTouchState.p1BaseY;
             const dist = Math.hypot(dx, dy);
-
-            if (dist <= dokdokma.joystick.maxRadius) {
-                dokdokma.joystick.knobX = tx;
-                dokdokma.joystick.knobY = ty;
+            if (dist <= dualTouchState.maxRadius) {
+                dualTouchState.p1KnobX = tx; dualTouchState.p1KnobY = ty;
             } else {
                 const angle = Math.atan2(dy, dx);
-                dokdokma.joystick.knobX = dokdokma.joystick.baseX + Math.cos(angle) * dokdokma.joystick.maxRadius;
-                dokdokma.joystick.knobY = dokdokma.joystick.baseY + Math.sin(angle) * dokdokma.joystick.maxRadius;
+                dualTouchState.p1KnobX = dualTouchState.p1BaseX + Math.cos(angle) * dualTouchState.maxRadius;
+                dualTouchState.p1KnobY = dualTouchState.p1BaseY + Math.sin(angle) * dualTouchState.maxRadius;
+            }
+        } else if (touch.identifier === dualTouchState.p2TouchId && dualTouchState.p2JoystickActive) {
+            const dx = tx - dualTouchState.p2BaseX;
+            const dy = ty - dualTouchState.p2BaseY;
+            const dist = Math.hypot(dx, dy);
+            if (dist <= dualTouchState.maxRadius) {
+                dualTouchState.p2KnobX = tx; dualTouchState.p2KnobY = ty;
+            } else {
+                const angle = Math.atan2(dy, dx);
+                dualTouchState.p2KnobX = dualTouchState.p2BaseX + Math.cos(angle) * dualTouchState.maxRadius;
+                dualTouchState.p2KnobY = dualTouchState.p2BaseY + Math.sin(angle) * dualTouchState.maxRadius;
             }
         }
     }
@@ -1017,11 +1021,17 @@ canvas.addEventListener("touchmove", e => {
 function handleTouchEnd(e) {
     for (let i = 0; i < e.changedTouches.length; i++) {
         const touch = e.changedTouches[i];
-        if (touch.identifier === dokdokma.joystick.touchId) {
-            dokdokma.joystick.active = false;
-            dokdokma.joystick.touchId = null;
-            dokdokma.joystick.knobX = dokdokma.joystick.baseX;
-            dokdokma.joystick.knobY = dokdokma.joystick.baseY;
+        if (touch.identifier === dualTouchState.p1TouchId) {
+            dualTouchState.p1JoystickActive = false;
+            dualTouchState.p1TouchId = null;
+            dualTouchState.p1KnobX = dualTouchState.p1BaseX;
+            dualTouchState.p1KnobY = dualTouchState.p1BaseY;
+        }
+        if (touch.identifier === dualTouchState.p2TouchId) {
+            dualTouchState.p2JoystickActive = false;
+            dualTouchState.p2TouchId = null;
+            dualTouchState.p2KnobX = dualTouchState.p2BaseX;
+            dualTouchState.p2KnobY = dualTouchState.p2BaseY;
         }
     }
 }
@@ -1045,31 +1055,40 @@ function updateDokdokma() {
         pig.frameIndex = (pig.frameIndex + 1) % pig.totalFrames;
     }
 
-    // --- Player 1 Controls (WASD) ---
+    // --- Player 1 Controls (WASD & Virtual Joystick 1) ---
     let m1X = 0, m1Y = 0;
     if (keys["KeyA"]) m1X -= 1;
     if (keys["KeyD"]) m1X += 1;
     if (keys["KeyW"]) m1Y -= 1;
     if (keys["KeyS"]) m1Y += 1;
 
-    if (dokdokma.joystick.active) {
-        const dx = dokdokma.joystick.knobX - dokdokma.joystick.baseX;
-        const dy = dokdokma.joystick.knobY - dokdokma.joystick.baseY;
+    if (dualTouchState.p1JoystickActive) {
+        const dx = dualTouchState.p1KnobX - dualTouchState.p1BaseX;
+        const dy = dualTouchState.p1KnobY - dualTouchState.p1BaseY;
         const joyDist = Math.hypot(dx, dy);
-
         if (joyDist > 5) {
-            m1X = dx / dokdokma.joystick.maxRadius;
-            m1Y = dy / dokdokma.joystick.maxRadius;
+            m1X = dx / dualTouchState.maxRadius;
+            m1Y = dy / dualTouchState.maxRadius;
         }
     }
 
-    // --- Player 2 Controls (Arrow Keys) ---
+    // --- Player 2 Controls (Arrow Keys & Virtual Joystick 2) ---
     let m2X = 0, m2Y = 0;
     if (dokdokma.activePlayersCount >= 2) {
         if (keys["ArrowLeft"]) m2X -= 1;
         if (keys["ArrowRight"]) m2X += 1;
         if (keys["ArrowUp"]) m2Y -= 1;
         if (keys["ArrowDown"]) m2Y += 1;
+
+        if (dualTouchState.p2JoystickActive) {
+            const dx = dualTouchState.p2KnobX - dualTouchState.p2BaseX;
+            const dy = dualTouchState.p2KnobY - dualTouchState.p2BaseY;
+            const joyDist = Math.hypot(dx, dy);
+            if (joyDist > 5) {
+                m2X = dx / dualTouchState.maxRadius;
+                m2Y = dy / dualTouchState.maxRadius;
+            }
+        }
     }
 
     // --- Player 3 Controls (I J K L Keys) ---
@@ -1263,35 +1282,51 @@ function drawFence() {
     ctx.strokeRect(cage.x, cage.y, cage.w, cage.h);
 }
 
-function drawJoystickUI() {
-    const joy = dokdokma.joystick;
-    const bx = joy.active ? joy.baseX : 85;
-    const by = joy.active ? joy.baseY : 580;
-    const kx = joy.active ? joy.knobX : 85;
-    const ky = joy.active ? joy.knobY : 580;
-    const opacity = joy.active ? 0.95 : 0.65;
-
+function drawDualJoysticksUI() {
     ctx.save();
-    ctx.globalAlpha = opacity;
+    // Player 1 Joystick (Bottom-Left)
+    const p1Active = dualTouchState.p1JoystickActive;
+    const p1Bx = p1Active ? dualTouchState.p1BaseX : 100;
+    const p1By = p1Active ? dualTouchState.p1BaseY : 580;
+    const p1Kx = p1Active ? dualTouchState.p1KnobX : 100;
+    const p1Ky = p1Active ? dualTouchState.p1KnobY : 580;
 
+    ctx.globalAlpha = p1Active ? 0.95 : 0.6;
     ctx.fillStyle = "rgba(30, 24, 18, 0.85)";
-    ctx.beginPath();
-    ctx.arc(bx, by, joy.maxRadius, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(p1Bx, p1By, dualTouchState.maxRadius, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = "#3A6351"; ctx.lineWidth = 4; ctx.stroke();
 
-    ctx.strokeStyle = "#C28245";
-    ctx.lineWidth = 4;
-    ctx.stroke();
+    ctx.fillStyle = "#3A6351";
+    ctx.beginPath(); ctx.arc(p1Kx, p1Ky, 26, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = "#E5A93C"; ctx.lineWidth = 3; ctx.stroke();
 
-    ctx.fillStyle = "#4E3629";
-    ctx.beginPath();
-    ctx.arc(kx, ky, 28, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "bold 13px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("P1 MOVE", p1Bx, p1By - dualTouchState.maxRadius - 8);
 
-    ctx.strokeStyle = "#E5A93C";
-    ctx.lineWidth = 3;
-    ctx.stroke();
+    // Player 2 Joystick (Bottom-Right, rendered if activePlayersCount >= 2)
+    if (dokdokma.activePlayersCount >= 2) {
+        const p2Active = dualTouchState.p2JoystickActive;
+        const p2Bx = p2Active ? dualTouchState.p2BaseX : 1180;
+        const p2By = p2Active ? dualTouchState.p2BaseY : 580;
+        const p2Kx = p2Active ? dualTouchState.p2KnobX : 1180;
+        const p2Ky = p2Active ? dualTouchState.p2KnobY : 580;
 
+        ctx.globalAlpha = p2Active ? 0.95 : 0.6;
+        ctx.fillStyle = "rgba(30, 24, 18, 0.85)";
+        ctx.beginPath(); ctx.arc(p2Bx, p2By, dualTouchState.maxRadius, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = "#2E5A78"; ctx.lineWidth = 4; ctx.stroke();
+
+        ctx.fillStyle = "#2E5A78";
+        ctx.beginPath(); ctx.arc(p2Kx, p2Ky, 26, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = "#E5A93C"; ctx.lineWidth = 3; ctx.stroke();
+
+        ctx.fillStyle = "#FFFFFF";
+        ctx.font = "bold 13px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("P2 MOVE", p2Bx, p2By - dualTouchState.maxRadius - 8);
+    }
     ctx.restore();
 }
 
@@ -1307,7 +1342,7 @@ function drawKalingaGrabBtn(cx, cy, r, inRange) {
     ctx.stroke();
 
     ctx.fillStyle = "#FFFFFF";
-    ctx.font = "bold 20px sans-serif";
+    ctx.font = "bold 18px sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText("GRAB", cx, cy);
@@ -1438,7 +1473,7 @@ function renderDokdokma() {
     ctx.save();
     ctx.translate(p1.x, p1.y);
     if (!p1.facingRight) ctx.scale(-1, 1);
-    let isMoving1 = p1.frameIndex > 0 || (keys["KeyA"] || keys["KeyD"] || keys["KeyW"] || keys["KeyS"] || dokdokma.joystick.active);
+    let isMoving1 = p1.frameIndex > 0 || (keys["KeyA"] || keys["KeyD"] || keys["KeyW"] || keys["KeyS"] || dualTouchState.p1JoystickActive);
     if (isMoving1 && playerRunImg.complete && playerRunImg.naturalWidth !== 0) {
         const totalFrames = 4;
         const frameWidth = playerRunImg.naturalWidth / totalFrames;
@@ -1458,7 +1493,7 @@ function renderDokdokma() {
         ctx.save();
         ctx.translate(p2.x, p2.y);
         if (!p2.facingRight) ctx.scale(-1, 1);
-        let isMoving2 = p2.frameIndex > 0 || (keys["ArrowLeft"] || keys["ArrowRight"] || keys["ArrowUp"] || keys["ArrowDown"]);
+        let isMoving2 = p2.frameIndex > 0 || (keys["ArrowLeft"] || keys["ArrowRight"] || keys["ArrowUp"] || keys["ArrowDown"] || dualTouchState.p2JoystickActive);
         if (isMoving2 && playerRunImg.complete && playerRunImg.naturalWidth !== 0) {
             const totalFrames = 4;
             const frameWidth = playerRunImg.naturalWidth / totalFrames;
@@ -1510,7 +1545,7 @@ function renderDokdokma() {
     }
     ctx.restore();
 
-    drawJoystickUI();
+    drawDualJoysticksUI();
     let grabInRange = dist1 <= dokdokma.catchRadius;
     if (dokdokma.activePlayersCount >= 2) grabInRange = grabInRange || (dist2 <= dokdokma.catchRadius);
     if (dokdokma.activePlayersCount >= 3) grabInRange = grabInRange || (dist3 <= dokdokma.catchRadius);
