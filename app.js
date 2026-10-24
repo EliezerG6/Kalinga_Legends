@@ -21,6 +21,9 @@ const STATE_ARTIFACTS = 5;
 let currentState = STATE_LOADING;
 let loadingProgress = 0;
 
+// Platform Mode: "PHONE" or "PC"
+let currentDeviceMode = (window.innerWidth <= 800 || 'ontouchstart' in window) ? "PHONE" : "PC";
+
 // Cultural Artifact & Achievement Database for Rewards
 const CULTURAL_ARTIFACTS = {
     EASY: [
@@ -123,7 +126,7 @@ loadingImg.onerror = () => {
 };
 loadingImg.src = "res/minigames/loading.jpg";
 
-// Audio Management System configured for a single non-alternating track (`song3`) with explicit ON/OFF toggle support
+// Audio Management System
 const audioManager = {
     sfxMuted: false,
     bgmMuted: false,
@@ -176,19 +179,42 @@ const btnQuitNo = document.getElementById("btn-quit-no");
 const toggleSfxBtn = document.getElementById("btn-toggle-sfx");
 const toggleBgmBtn = document.getElementById("btn-toggle-bgm");
 
-// Force automatic landscape orientation check & enforcement on mobile/tablet screens
-function enforceLandscapeLock() {
+const btnModePortrait = document.getElementById("btn-mode-portrait");
+const btnModeLandscape = document.getElementById("btn-mode-landscape");
+
+// Setup Device Mode Buttons (Phone vs PC)
+if (btnModePortrait) {
+    btnModePortrait.textContent = "Phone Mode";
+    btnModePortrait.addEventListener("click", () => {
+        setDeviceMode("PHONE");
+        closeDrawer();
+    });
+}
+if (btnModeLandscape) {
+    btnModeLandscape.textContent = "PC Mode";
+    btnModeLandscape.addEventListener("click", () => {
+        setDeviceMode("PC");
+        closeDrawer();
+    });
+}
+
+function setDeviceMode(mode) {
+    currentDeviceMode = mode;
+    if (btnModePortrait && btnModeLandscape) {
+        if (mode === "PHONE") {
+            btnModePortrait.classList.add("active");
+            btnModeLandscape.classList.remove("active");
+        } else {
+            btnModeLandscape.classList.add("active");
+            btnModePortrait.classList.remove("active");
+        }
+    }
     document.body.classList.add("landscape-mode");
     document.body.classList.remove("portrait-mode", "phone-mode");
-    if (document.documentElement.requestFullscreen && !document.fullscreenElement && window.innerWidth < 1024) {
-        document.documentElement.requestFullscreen().catch(() => { });
-    }
 }
-window.addEventListener("resize", enforceLandscapeLock);
-window.addEventListener("orientationchange", enforceLandscapeLock);
-window.addEventListener("load", enforceLandscapeLock);
+setDeviceMode(currentDeviceMode);
 
-// Inject and style side drawer menu buttons to match the wooden theme
+// Inject and style side drawer menu buttons
 (function injectSideDrawerMenuButtons() {
     if (!sideDrawer) return;
 
@@ -277,30 +303,53 @@ function openMinigameInfoModal(gameType) {
 
     if (gameType === "DOKDOKMA") {
         titleElem.textContent = "DOKDOKMA (PIG CATCHING)";
-        bodyElem.innerHTML = `
-            <p><strong>Objective:</strong> Pursue and capture the escaped pig inside the wooden pen before stamina drains.</p>
-            <ul>
-                <li><strong>Mobile Controls (1P):</strong> Use the left on-screen Virtual Joystick to move and tap the <strong>GRAB</strong> button on the right.</li>
-                <li><strong>PC Controls (1P):</strong> <code>WASD</code> keys to move, <code>SPACEBAR</code> to grab.</li>
-                <li><strong>Multiplayer (2P Co-op):</strong> P1 uses WASD / Joystick, P2 uses Arrow Keys.</li>
-                <li><strong>3 Players:</strong> Supported on PC only (P1: WASD, P2: Arrow Keys, P3: I J K L).</li>
-            </ul>
-            <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">SELECT MODE & PLAYERS:</p>
-            <button class="modal-btn-action" id="modal-mode-1p" style="background: #3A6351;">1 PLAYER (SOLO)</button>
-            <button class="modal-btn-action" id="modal-mode-2p" style="background: #2E5A78;">2 PLAYERS CO-OP (MOBILE / PC)</button>
-            <button class="modal-btn-action" id="modal-mode-3p" style="background: #8C5A32;">3 PLAYERS CO-OP (PC ONLY)</button>
-            <button class="modal-btn-action" id="modal-home-lobby" style="background: #4E3629; margin-top: 10px;">RETURN TO LOBBY</button>
-        `;
+        if (currentDeviceMode === "PHONE") {
+            bodyElem.innerHTML = `
+                <p><strong>Objective:</strong> Pursue and capture the escaped pig inside the wooden pen before stamina drains.</p>
+                <p style="color: #E5A93C; font-weight: bold; margin-top: 8px;">📱 PHONE MODE INSTRUCTIONS:</p>
+                <ul>
+                    <li><strong>1 Player (Solo):</strong> Drag the left touch joystick to run. Tap the <strong>GRAB</strong> button on the right when near the pig.</li>
+                    <li><strong>2 Players (Dual Mode):</strong> Player 1 controls the left joystick and left <strong>P1 GRAB</strong> button. Player 2 controls the right joystick and right <strong>P2 GRAB</strong> button!</li>
+                    <li><strong style="color: #A34836;">Notice:</strong> 3-Player Co-op is supported on PC only due to mobile screen size limits.</li>
+                </ul>
+                <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">SELECT MODE:</p>
+                <button class="modal-btn-action" id="modal-mode-1p" style="background: #3A6351;">1 PLAYER (SOLO)</button>
+                <button class="modal-btn-action" id="modal-mode-2p" style="background: #2E5A78;">2 PLAYERS DUAL TOUCH</button>
+                <button class="modal-btn-action" id="modal-mode-3p-disabled" style="background: #4A3E34; opacity: 0.6; cursor: not-allowed;">3 PLAYERS (PC ONLY)</button>
+                <button class="modal-btn-action" id="modal-home-lobby" style="background: #4E3629; margin-top: 10px;">RETURN TO LOBBY</button>
+            `;
+        } else {
+            bodyElem.innerHTML = `
+                <p><strong>Objective:</strong> Pursue and capture the escaped pig inside the wooden pen before stamina drains.</p>
+                <p style="color: #E5A93C; font-weight: bold; margin-top: 8px;">💻 PC MODE INSTRUCTIONS:</p>
+                <ul>
+                    <li><strong>1 Player (Solo):</strong> Use <code>WASD</code> keys to move, <code>SPACEBAR</code> to grab.</li>
+                    <li><strong>2 Players Co-op:</strong> Player 1 uses <code>WASD</code> + <code>SPACEBAR</code>. Player 2 uses <code>Arrow Keys</code> + <code>ENTER</code> / Touch.</li>
+                    <li><strong>3 Players Co-op:</strong> Player 1 uses <code>WASD</code>, Player 2 uses <code>Arrow Keys</code>, Player 3 uses <code>I J K L</code> keys!</li>
+                </ul>
+                <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">SELECT PLAYERS:</p>
+                <button class="modal-btn-action" id="modal-mode-1p" style="background: #3A6351;">1 PLAYER (SOLO)</button>
+                <button class="modal-btn-action" id="modal-mode-2p" style="background: #2E5A78;">2 PLAYERS CO-OP</button>
+                <button class="modal-btn-action" id="modal-mode-3p" style="background: #8C5A32;">3 PLAYERS CO-OP</button>
+                <button class="modal-btn-action" id="modal-home-lobby" style="background: #4E3629; margin-top: 10px;">RETURN TO LOBBY</button>
+            `;
+        }
 
-        document.getElementById("modal-mode-1p").addEventListener("click", () => {
-            showDifficultySelector(1);
-        });
-        document.getElementById("modal-mode-2p").addEventListener("click", () => {
-            showDifficultySelector(2);
-        });
-        document.getElementById("modal-mode-3p").addEventListener("click", () => {
-            showDifficultySelector(3);
-        });
+        document.getElementById("modal-mode-1p").addEventListener("click", () => showDifficultySelector(1));
+        document.getElementById("modal-mode-2p").addEventListener("click", () => showDifficultySelector(2));
+
+        const btn3p = document.getElementById("modal-mode-3p");
+        if (btn3p) {
+            btn3p.addEventListener("click", () => showDifficultySelector(3));
+        }
+
+        const btn3pDisabled = document.getElementById("modal-mode-3p-disabled");
+        if (btn3pDisabled) {
+            btn3pDisabled.addEventListener("click", () => {
+                alert("3 Players mode is only playable on PC with keyboard controls.");
+            });
+        }
+
         document.getElementById("modal-home-lobby").addEventListener("click", () => {
             closeAllModals();
             currentState = STATE_LOBBY;
@@ -308,17 +357,31 @@ function openMinigameInfoModal(gameType) {
         });
     } else if (gameType === "KADANG") {
         titleElem.textContent = "KADANG-KADANG (2-PLAYER STILT RACE)";
-        bodyElem.innerHTML = `
-            <p><strong>Objective:</strong> Race head-to-head on bamboo stilts across the track without losing balance.</p>
-            <ul>
-                <li><strong>Mobile Controls:</strong> Tap the clickable on-screen buttons at bottom-left (Player 1: <code>L</code> / <code>R</code>) and bottom-right (Player 2: <code>L</code> / <code>R</code>) alternately to race!</li>
-                <li><strong>PC Controls (P1):</strong> Alternate tapping <code>A</code> and <code>D</code>.</li>
-                <li><strong>PC Controls (P2):</strong> Alternate tapping <code>Left</code> and <code>Right</code> Arrow keys.</li>
-            </ul>
-            <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">READY TO RACE?</p>
-            <button class="modal-btn-action" id="modal-start-kadang">START GAME</button>
-            <button class="modal-btn-action" id="modal-home-lobby-kadang" style="background: #4E3629; margin-top: 5px;">RETURN TO LOBBY</button>
-        `;
+        if (currentDeviceMode === "PHONE") {
+            bodyElem.innerHTML = `
+                <p><strong>Objective:</strong> Race head-to-head on bamboo stilts across the track without losing balance.</p>
+                <p style="color: #E5A93C; font-weight: bold; margin-top: 8px;">📱 PHONE MODE INSTRUCTIONS:</p>
+                <ul>
+                    <li>Tap the on-screen buttons at bottom-left (Player 1: <code>L</code> / <code>R</code>) and bottom-right (Player 2: <code>L</code> / <code>R</code>) alternately to race!</li>
+                    <li>Maintain steady rhythm so your player stays balanced on stilts.</li>
+                </ul>
+                <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">READY TO RACE?</p>
+                <button class="modal-btn-action" id="modal-start-kadang">START GAME</button>
+                <button class="modal-btn-action" id="modal-home-lobby-kadang" style="background: #4E3629; margin-top: 5px;">RETURN TO LOBBY</button>
+            `;
+        } else {
+            bodyElem.innerHTML = `
+                <p><strong>Objective:</strong> Race head-to-head on bamboo stilts across the track without losing balance.</p>
+                <p style="color: #E5A93C; font-weight: bold; margin-top: 8px;">💻 PC MODE INSTRUCTIONS:</p>
+                <ul>
+                    <li><strong>Player 1 Controls:</strong> Alternate tapping <code>A</code> and <code>D</code>.</li>
+                    <li><strong>Player 2 Controls:</strong> Alternate tapping <code>Left</code> and <code>Right</code> Arrow keys.</li>
+                </ul>
+                <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">READY TO RACE?</p>
+                <button class="modal-btn-action" id="modal-start-kadang">START GAME</button>
+                <button class="modal-btn-action" id="modal-home-lobby-kadang" style="background: #4E3629; margin-top: 5px;">RETURN TO LOBBY</button>
+            `;
+        }
 
         document.getElementById("modal-start-kadang").addEventListener("click", () => {
             closeAllModals();
@@ -448,8 +511,10 @@ window.addEventListener("keydown", e => {
 });
 window.addEventListener("keyup", e => keys[e.code] = false);
 
-let grabTappedThisFrame = false;
-// Dual virtual joystick touch tracking states for mobile 2-player co-op support
+let p1GrabTapped = false;
+let p2GrabTapped = false;
+
+// Dual virtual joystick touch tracking states for mobile co-op support
 const dualTouchState = {
     p1JoystickActive: false,
     p1BaseX: 100, p1BaseY: 580, p1KnobX: 100, p1KnobY: 580, p1TouchId: null,
@@ -543,7 +608,11 @@ const dokdokma = {
     spaceWasPressed: false,
     startTime: 0,
     elapsedTime: 0,
-    btnGrab: { cx: 640, cy: 620, r: 55 },
+
+    // Grab Buttons Layout Coordinates
+    p1GrabBtnSingle: { cx: 1180, cy: 580, r: 55 },
+    p1GrabBtnDual: { cx: 240, cy: 580, r: 45 },
+    p2GrabBtnDual: { cx: 1040, cy: 580, r: 45 },
 
     reset(selectedDifficulty = null, numPlayers = 1) {
         audioManager.playBgm();
@@ -599,6 +668,8 @@ const dokdokma = {
         dualTouchState.p1TouchId = null;
         dualTouchState.p2JoystickActive = false;
         dualTouchState.p2TouchId = null;
+        p1GrabTapped = false;
+        p2GrabTapped = false;
         this.startTime = Date.now();
         this.elapsedTime = 0;
     }
@@ -934,13 +1005,24 @@ canvas.addEventListener("touchstart", e => {
         }
 
         if (currentState === STATE_DOKDOKMA) {
-            const distGrab = Math.hypot(tx - dokdokma.btnGrab.cx, ty - dokdokma.btnGrab.cy);
-            if (distGrab <= dokdokma.btnGrab.r + 15) {
-                grabTappedThisFrame = true;
-                continue;
+            if (dokdokma.activePlayersCount >= 2 && currentDeviceMode === "PHONE") {
+                // Dual Grab Buttons Check for Phone Mode
+                if (Math.hypot(tx - dokdokma.p1GrabBtnDual.cx, ty - dokdokma.p1GrabBtnDual.cy) <= dokdokma.p1GrabBtnDual.r + 15) {
+                    p1GrabTapped = true;
+                    continue;
+                }
+                if (Math.hypot(tx - dokdokma.p2GrabBtnDual.cx, ty - dokdokma.p2GrabBtnDual.cy) <= dokdokma.p2GrabBtnDual.r + 15) {
+                    p2GrabTapped = true;
+                    continue;
+                }
+            } else {
+                if (Math.hypot(tx - dokdokma.p1GrabBtnSingle.cx, ty - dokdokma.p1GrabBtnSingle.cy) <= dokdokma.p1GrabBtnSingle.r + 15) {
+                    p1GrabTapped = true;
+                    continue;
+                }
             }
 
-            if (dokdokma.activePlayersCount === 2) {
+            if (dokdokma.activePlayersCount >= 2) {
                 if (tx < VIRTUAL_WIDTH / 2 && !dualTouchState.p1JoystickActive) {
                     dualTouchState.p1JoystickActive = true;
                     dualTouchState.p1TouchId = touch.identifier;
@@ -1205,10 +1287,12 @@ function updateDokdokma() {
     const spaceTapped = spaceIsDown && !dokdokma.spaceWasPressed;
     dokdokma.spaceWasPressed = spaceIsDown;
 
-    const validGrabTap = spaceTapped || grabTappedThisFrame;
-    grabTappedThisFrame = false;
+    const p1ValidGrab = spaceTapped || p1GrabTapped;
+    const p2ValidGrab = p2GrabTapped;
+    p1GrabTapped = false;
+    p2GrabTapped = false;
 
-    if (validGrabTap) {
+    if (p1ValidGrab || p2ValidGrab) {
         audioManager.playSfx("grab");
     }
 
@@ -1218,19 +1302,16 @@ function updateDokdokma() {
     if (dokdokma.activePlayersCount >= 3 && dist3 <= dokdokma.catchRadius) inRangeCount++;
 
     if (inRangeCount > 0) {
-        if (validGrabTap) {
+        if (p1ValidGrab || p2ValidGrab) {
             dokdokma.gripProgress += (inRangeCount * 6);
-            if (dist1 <= dokdokma.catchRadius) p1.stamina -= 1.5;
-            if (dokdokma.activePlayersCount >= 2 && dist2 <= dokdokma.catchRadius) p2.stamina -= 1.5;
+            if (dist1 <= dokdokma.catchRadius && p1ValidGrab) p1.stamina -= 1.5;
+            if (dokdokma.activePlayersCount >= 2 && dist2 <= dokdokma.catchRadius && p2ValidGrab) p2.stamina -= 1.5;
             if (dokdokma.activePlayersCount >= 3 && dist3 <= dokdokma.catchRadius) p3.stamina -= 1.5;
         }
         if (dokdokma.gripProgress > 0) dokdokma.gripProgress -= 0.25;
     } else {
-        if (validGrabTap) {
-            p1.stamina -= 4.0;
-            if (dokdokma.activePlayersCount >= 2) p2.stamina -= 4.0;
-            if (dokdokma.activePlayersCount >= 3) p3.stamina -= 4.0;
-        }
+        if (p1ValidGrab) p1.stamina -= 4.0;
+        if (p2ValidGrab && dokdokma.activePlayersCount >= 2) p2.stamina -= 4.0;
         if (dokdokma.gripProgress > 0) dokdokma.gripProgress -= 1.0;
     }
 
@@ -1330,7 +1411,7 @@ function drawDualJoysticksUI() {
     ctx.restore();
 }
 
-function drawKalingaGrabBtn(cx, cy, r, inRange) {
+function drawKalingaGrabBtn(cx, cy, r, label, inRange) {
     ctx.save();
     ctx.fillStyle = inRange ? "#C28245" : "#4E3629";
     ctx.beginPath();
@@ -1338,14 +1419,14 @@ function drawKalingaGrabBtn(cx, cy, r, inRange) {
     ctx.fill();
 
     ctx.strokeStyle = "#E5A93C";
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 3;
     ctx.stroke();
 
     ctx.fillStyle = "#FFFFFF";
-    ctx.font = "bold 18px sans-serif";
+    ctx.font = "bold 15px sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("GRAB", cx, cy);
+    ctx.fillText(label, cx, cy);
     ctx.restore();
 }
 
@@ -1546,17 +1627,24 @@ function renderDokdokma() {
     ctx.restore();
 
     drawDualJoysticksUI();
-    let grabInRange = dist1 <= dokdokma.catchRadius;
-    if (dokdokma.activePlayersCount >= 2) grabInRange = grabInRange || (dist2 <= dokdokma.catchRadius);
-    if (dokdokma.activePlayersCount >= 3) grabInRange = grabInRange || (dist3 <= dokdokma.catchRadius);
 
-    drawKalingaGrabBtn(dokdokma.btnGrab.cx, dokdokma.btnGrab.cy, dokdokma.btnGrab.r, grabInRange);
+    // Render Grab Buttons based on Mode & Player Count
+    if (dokdokma.activePlayersCount >= 2 && currentDeviceMode === "PHONE") {
+        drawKalingaGrabBtn(dokdokma.p1GrabBtnDual.cx, dokdokma.p1GrabBtnDual.cy, dokdokma.p1GrabBtnDual.r, "P1 GRAB", dist1 <= dokdokma.catchRadius);
+        drawKalingaGrabBtn(dokdokma.p2GrabBtnDual.cx, dokdokma.p2GrabBtnDual.cy, dokdokma.p2GrabBtnDual.r, "P2 GRAB", dist2 <= dokdokma.catchRadius);
+    } else {
+        let grabInRange = dist1 <= dokdokma.catchRadius;
+        if (dokdokma.activePlayersCount >= 2) grabInRange = grabInRange || (dist2 <= dokdokma.catchRadius);
+        if (dokdokma.activePlayersCount >= 3) grabInRange = grabInRange || (dist3 <= dokdokma.catchRadius);
+        drawKalingaGrabBtn(dokdokma.p1GrabBtnSingle.cx, dokdokma.p1GrabBtnSingle.cy, dokdokma.p1GrabBtnSingle.r, "GRAB", grabInRange);
+    }
+
     drawInGameExitButton();
 
     ctx.fillStyle = "#E5A93C";
     ctx.font = "bold 22px sans-serif";
     ctx.textAlign = "left";
-    ctx.fillText(`LEVEL: ${dokdokma.difficulty.name} (${dokdokma.activePlayersCount}P)`, cage.x, cage.y - 20);
+    ctx.fillText(`LEVEL: ${dokdokma.difficulty.name} (${dokdokma.activePlayersCount}P - ${currentDeviceMode})`, cage.x, cage.y - 20);
 
     ctx.textAlign = "right";
     ctx.fillText(`TIME: ${formatTime(dokdokma.elapsedTime)}`, cage.x + cage.w, cage.y - 20);
@@ -1788,7 +1876,7 @@ function renderKadang() {
     ctx.fillStyle = "#E5A93C";
     ctx.font = "bold 24px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText(`KADANG-KADANG (2-PLAYER STILT RACE)`, VIRTUAL_WIDTH / 2, 45);
+    ctx.fillText(`KADANG-KADANG (2-PLAYER STILT RACE - ${currentDeviceMode})`, VIRTUAL_WIDTH / 2, 45);
     ctx.font = "18px sans-serif";
     ctx.fillText(`P1 Dist: ${Math.floor(kadang.p1.distance)}m | P2 Dist: ${Math.floor(kadang.p2.distance)}m`, VIRTUAL_WIDTH / 2, 75);
 
@@ -1845,7 +1933,7 @@ function renderLobby() {
 
     ctx.fillStyle = "#E2D7C5";
     ctx.font = "20px sans-serif";
-    ctx.fillText("Select a Minigame", VIRTUAL_WIDTH / 2, 150);
+    ctx.fillText(`Select a Minigame (${currentDeviceMode} MODE)`, VIRTUAL_WIDTH / 2, 150);
 
     drawLobbyCard(290, 240, 280, 320, "DOKDOKMA", "Pig Catching Game", "#3A6351");
     drawLobbyCard(710, 240, 280, 320, "KADANG-KADANG", "2-Player Stilt Race", "#3A6351");
@@ -2106,9 +2194,7 @@ function renderArtifactsScreen() {
     });
 }
 
-// ==========================================
-// USER AUTHENTICATION & DATABASE SYNC ADDITIONS
-// ==========================================
+// User Authentication & Database Sync
 let currentUser = null;
 let isRegisterMode = false;
 
@@ -2244,7 +2330,6 @@ async function syncProgressToServer() {
         console.warn("Failed to auto-sync progress to database.");
     }
 }
-// ==========================================
 
 function gameLoop() {
     ctx.clearRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
