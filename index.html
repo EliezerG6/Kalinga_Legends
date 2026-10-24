@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Kalinga Legends - Cultural Games Preservation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header Navigation Bar -->
+    <div id="top-nav">
+        <h1 class="game-title">KALINGA LEGENDS</h1>
+        <button id="menu-btn" aria-label="Open Menu">&#9776;</button>
+    </div>
+
+    <!-- Responsive Game Canvas Viewport -->
+    <div id="game-container">
+        <canvas id="gameCanvas" width="1280" height="720"></canvas>
+    </div>
+
+    <!-- Side Navigation Drawer -->
+    <div id="side-drawer" class="drawer-closed">
+        <div class="drawer-header">
+            <h2>MAIN MENU</h2>
+            <button id="close-drawer-btn" aria-label="Close Menu">&times;</button>
+        </div>
+        <div class="drawer-menu">
+            <button id="btn-lobby" class="nav-item">Return to Lobby</button>
+            <button id="btn-settings" class="nav-item">Settings & Audio</button>
+
+            <!-- Display Mode Selector -->
+            <div class="mode-toggle-container">
+                <p class="mode-label">DISPLAY MODE</p>
+                <div class="mode-buttons">
+                    <button id="btn-mode-portrait" class="btn-mode active">Portrait</button>
+                    <button id="btn-mode-landscape" class="btn-mode">Landscape</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backdrop Overlay -->
+    <div id="modal-backdrop" class="hidden"></div>
+
+    <!-- Minigame Instructions & Mode Selection Modal -->
+    <div id="minigame-info-modal" class="modal hidden">
+        <div class="modal-header">
+            <h3 id="info-modal-title">MINIGAME INFO</h3>
+            <button class="close-modal" aria-label="Close Info">&times;</button>
+        </div>
+        <div class="modal-body" id="info-modal-body"></div>
+    </div>
+
+    <!-- System Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-header">
+            <h3>AUDIO SETTINGS</h3>
+            <button class="close-modal" aria-label="Close Settings">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="settings-container">
+                <div class="settings-option">
+                    <span>Sound Effects (SFX)</span>
+                    <button id="btn-toggle-sfx" class="audio-toggle-btn">SFX: ON</button>
+                </div>
+                <div class="settings-option">
+                    <span>Background Music (BGM)</span>
+                    <button id="btn-toggle-bgm" class="audio-toggle-btn">BGM: ON</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="auth-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; z-index: 99999;">
+        <div
+            style="background: #2B1A0E; border: 3px solid #E5A93C; padding: 30px; width: 420px; border-radius: 8px; text-align: center; color: #E2D7C5;">
+            <h2 id="auth-title" style="color: #E5A93C; margin-bottom: 20px;">ACCOUNT LOGIN</h2>
+            <div id="auth-msg" style="color: #A34836; margin-bottom: 15px; font-size: 14px;"></div>
+            <input type="text" id="auth-username" placeholder="Username"
+                style="width: 100%; padding: 12px; margin-bottom: 15px; background: #120F0D; border: 1px solid #C28245; color: #FFF; border-radius: 4px; box-sizing: border-box;">
+            <input type="password" id="auth-password" placeholder="Password"
+                style="width: 100%; padding: 12px; margin-bottom: 20px; background: #120F0D; border: 1px solid #C28245; color: #FFF; border-radius: 4px; box-sizing: border-box;">
+
+            <button id="auth-submit-btn"
+                style="width: 100%; padding: 12px; background: #C28245; color: #FFF; border: 1px solid #E5A93C; font-weight: bold; border-radius: 4px; cursor: pointer; margin-bottom: 10px;">LOGIN</button>
+            <button id="auth-toggle-btn"
+                style="background: none; border: none; color: #E5A93C; cursor: pointer; text-decoration: underline; font-size: 14px;">Need
+                an account? Register</button>
+            <div style="margin-top: 15px;">
+                <button id="auth-close-btn"
+                    style="background: #4E3629; color: #FFF; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">CONTINUE
+                    AS GUEST</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exit Game Confirmation Modal -->
+    <div id="exit-modal" class="modal hidden">
+        <div class="modal-header">
+            <h3>QUIT MINIGAME</h3>
+        </div>
+        <div class="modal-body">
+            <p class="exit-message">Do you want to exit the current minigame and return to the lobby?</p>
+            <div class="modal-actions">
+                <button id="btn-quit-yes" class="confirm-btn quit-btn">Quit Game</button>
+                <button id="btn-quit-no" class="confirm-btn resume-btn">Resume</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
