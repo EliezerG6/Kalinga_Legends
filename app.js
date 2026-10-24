@@ -89,7 +89,6 @@ bgImg.onerror = () => {
 };
 bgImg.src = "mountain.jpg";
 
-// Lobby Specific Background Image
 const lobbyBgImg = new Image();
 lobbyBgImg.onerror = () => {
     console.warn("lobby.jpg missing; falling back to default background.");
@@ -214,7 +213,7 @@ function setDeviceMode(mode) {
 }
 setDeviceMode(currentDeviceMode);
 
-// Inject and style side drawer menu buttons
+// Inject side drawer menu buttons
 (function injectSideDrawerMenuButtons() {
     if (!sideDrawer) return;
 
@@ -514,7 +513,7 @@ window.addEventListener("keyup", e => keys[e.code] = false);
 let p1GrabTapped = false;
 let p2GrabTapped = false;
 
-// Dual virtual joystick touch tracking states for mobile co-op support
+// Dual virtual joystick touch tracking states
 const dualTouchState = {
     p1JoystickActive: false,
     p1BaseX: 100, p1BaseY: 580, p1KnobX: 100, p1KnobY: 580, p1TouchId: null,
@@ -609,7 +608,6 @@ const dokdokma = {
     startTime: 0,
     elapsedTime: 0,
 
-    // Grab Buttons Layout Coordinates
     p1GrabBtnSingle: { cx: 1180, cy: 580, r: 55 },
     p1GrabBtnDual: { cx: 240, cy: 580, r: 45 },
     p2GrabBtnDual: { cx: 1040, cy: 580, r: 45 },
@@ -790,9 +788,28 @@ const kadang = {
     }
 };
 
+// Request Fullscreen & Landscape Orientation on mobile tap
+async function requestFullscreenAndLandscape() {
+    try {
+        const docEl = document.documentElement;
+        if (docEl.requestFullscreen) {
+            await docEl.requestFullscreen();
+        } else if (docEl.webkitRequestFullscreen) {
+            await docEl.webkitRequestFullscreen();
+        }
+
+        if (screen.orientation && screen.orientation.lock) {
+            await screen.orientation.lock("landscape");
+        }
+    } catch (err) {
+        // Handled silently for browsers without full support
+    }
+}
+
 // Canvas Pointer Input Handling
 canvas.addEventListener("pointerdown", e => {
     audioManager.playBgm();
+    requestFullscreenAndLandscape();
 
     if (currentState === STATE_LOADING) return;
 
@@ -905,6 +922,7 @@ canvas.addEventListener("pointerdown", e => {
 
 canvas.addEventListener("touchstart", e => {
     audioManager.playBgm();
+    requestFullscreenAndLandscape();
 
     if (!modalBackdrop.classList.contains("hidden") || currentState === STATE_LOADING) return;
 
@@ -1006,7 +1024,6 @@ canvas.addEventListener("touchstart", e => {
 
         if (currentState === STATE_DOKDOKMA) {
             if (dokdokma.activePlayersCount >= 2 && currentDeviceMode === "PHONE") {
-                // Dual Grab Buttons Check for Phone Mode
                 if (Math.hypot(tx - dokdokma.p1GrabBtnDual.cx, ty - dokdokma.p1GrabBtnDual.cy) <= dokdokma.p1GrabBtnDual.r + 15) {
                     p1GrabTapped = true;
                     continue;
@@ -1137,7 +1154,6 @@ function updateDokdokma() {
         pig.frameIndex = (pig.frameIndex + 1) % pig.totalFrames;
     }
 
-    // --- Player 1 Controls (WASD & Virtual Joystick 1) ---
     let m1X = 0, m1Y = 0;
     if (keys["KeyA"]) m1X -= 1;
     if (keys["KeyD"]) m1X += 1;
@@ -1154,7 +1170,6 @@ function updateDokdokma() {
         }
     }
 
-    // --- Player 2 Controls (Arrow Keys & Virtual Joystick 2) ---
     let m2X = 0, m2Y = 0;
     if (dokdokma.activePlayersCount >= 2) {
         if (keys["ArrowLeft"]) m2X -= 1;
@@ -1173,7 +1188,6 @@ function updateDokdokma() {
         }
     }
 
-    // --- Player 3 Controls (I J K L Keys) ---
     let m3X = 0, m3Y = 0;
     if (dokdokma.activePlayersCount >= 3) {
         if (keys["KeyJ"]) m3X -= 1;
@@ -1182,7 +1196,6 @@ function updateDokdokma() {
         if (keys["KeyK"]) m3Y += 1;
     }
 
-    // Update Player 1
     const p1Moving = Math.abs(m1X) > 0.1 || Math.abs(m1Y) > 0.1;
     if (p1Moving) {
         p1.stamina -= dokdokma.difficulty.drainRate;
@@ -1201,7 +1214,6 @@ function updateDokdokma() {
     }
     p1.stamina = Math.max(0, Math.min(100, p1.stamina));
 
-    // Update Player 2
     if (dokdokma.activePlayersCount >= 2) {
         const p2Moving = Math.abs(m2X) > 0.1 || Math.abs(m2Y) > 0.1;
         if (p2Moving) {
@@ -1222,7 +1234,6 @@ function updateDokdokma() {
         p2.stamina = Math.max(0, Math.min(100, p2.stamina));
     }
 
-    // Update Player 3
     if (dokdokma.activePlayersCount >= 3) {
         const p3Moving = Math.abs(m3X) > 0.1 || Math.abs(m3Y) > 0.1;
         if (p3Moving) {
@@ -1243,7 +1254,6 @@ function updateDokdokma() {
         p3.stamina = Math.max(0, Math.min(100, p3.stamina));
     }
 
-    // Keep players inside cage bounds
     p1.x = Math.max(cage.x + 35, Math.min(p1.x, cage.x + cage.w - 35));
     p1.y = Math.max(cage.y + 35, Math.min(p1.y, cage.y + cage.h - 35));
     if (dokdokma.activePlayersCount >= 2) {
@@ -1255,7 +1265,6 @@ function updateDokdokma() {
         p3.y = Math.max(cage.y + 35, Math.min(p3.y, cage.y + cage.h - 35));
     }
 
-    // Pig avoidance behavior (runs away from the nearest active player)
     const dist1 = Math.hypot(p1.x - pig.x, p1.y - pig.y);
     const dist2 = dokdokma.activePlayersCount >= 2 ? Math.hypot(p2.x - pig.x, p2.y - pig.y) : Infinity;
     const dist3 = dokdokma.activePlayersCount >= 3 ? Math.hypot(p3.x - pig.x, p3.y - pig.y) : Infinity;
@@ -1365,7 +1374,6 @@ function drawFence() {
 
 function drawDualJoysticksUI() {
     ctx.save();
-    // Player 1 Joystick (Bottom-Left)
     const p1Active = dualTouchState.p1JoystickActive;
     const p1Bx = p1Active ? dualTouchState.p1BaseX : 100;
     const p1By = p1Active ? dualTouchState.p1BaseY : 580;
@@ -1386,7 +1394,6 @@ function drawDualJoysticksUI() {
     ctx.textAlign = "center";
     ctx.fillText("P1 MOVE", p1Bx, p1By - dualTouchState.maxRadius - 8);
 
-    // Player 2 Joystick (Bottom-Right, rendered if activePlayersCount >= 2)
     if (dokdokma.activePlayersCount >= 2) {
         const p2Active = dualTouchState.p2JoystickActive;
         const p2Bx = p2Active ? dualTouchState.p2BaseX : 1180;
@@ -1550,7 +1557,6 @@ function renderDokdokma() {
         ctx.fill();
     }
 
-    // Render Player 1
     ctx.save();
     ctx.translate(p1.x, p1.y);
     if (!p1.facingRight) ctx.scale(-1, 1);
@@ -1569,7 +1575,6 @@ function renderDokdokma() {
     }
     ctx.restore();
 
-    // Render Player 2
     if (dokdokma.activePlayersCount >= 2) {
         ctx.save();
         ctx.translate(p2.x, p2.y);
@@ -1590,7 +1595,6 @@ function renderDokdokma() {
         ctx.restore();
     }
 
-    // Render Player 3
     if (dokdokma.activePlayersCount >= 3) {
         ctx.save();
         ctx.translate(p3.x, p3.y);
@@ -1611,7 +1615,6 @@ function renderDokdokma() {
         ctx.restore();
     }
 
-    // Render Pig
     ctx.save();
     ctx.translate(pig.x, pig.y);
     if (pig.vx < 0) ctx.scale(-1, 1);
@@ -1628,7 +1631,6 @@ function renderDokdokma() {
 
     drawDualJoysticksUI();
 
-    // Render Grab Buttons based on Mode & Player Count
     if (dokdokma.activePlayersCount >= 2 && currentDeviceMode === "PHONE") {
         drawKalingaGrabBtn(dokdokma.p1GrabBtnDual.cx, dokdokma.p1GrabBtnDual.cy, dokdokma.p1GrabBtnDual.r, "P1 GRAB", dist1 <= dokdokma.catchRadius);
         drawKalingaGrabBtn(dokdokma.p2GrabBtnDual.cx, dokdokma.p2GrabBtnDual.cy, dokdokma.p2GrabBtnDual.r, "P2 GRAB", dist2 <= dokdokma.catchRadius);
@@ -1659,7 +1661,6 @@ function renderDokdokma() {
     ctx.strokeStyle = "#E2D7C5";
     ctx.strokeRect(barX, cage.y + cage.h + 20, barW, 16);
 
-    // Stamina Bars Rendering
     ctx.fillStyle = "#120F0D";
     ctx.fillRect(barX, cage.y + cage.h + 45, barW, 14);
 
@@ -2333,7 +2334,6 @@ async function syncProgressToServer() {
 
 function gameLoop() {
     ctx.clearRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
-
     audioManager.playBgm();
 
     if (currentState === STATE_LOADING) {

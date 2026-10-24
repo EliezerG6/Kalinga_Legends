@@ -513,3 +513,27 @@ body.landscape-mode canvas {
     margin: 0 !important;
     transform: none !important;
 }
+
+/* Rotate Screen Overlay for Portrait Mobile Users */
+#rotate-device-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #120F0D;
+    color: #E5A93C;
+    z-index: 99999;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+@media screen and (orientation: portrait) {
+    #rotate-device-overlay {
+        display: flex;
+    }
+}
