@@ -418,9 +418,9 @@ function handleMinigameResultAction(x, y) {
         if (currentState === STATE_DOKDOKMA) {
             const difficulty = dokdokma.difficulty;
             const playerCount = dokdokma.activePlayersCount;
-            dokdokma.reset(difficulty, playerCount);
+            dokdokma.reset(difficulty, playerCount, dokdokma.practiceMode, dokdokma.timedChallenge);
         } else {
-            kadang.reset();
+            kadang.reset(kadang.mode);
         }
         return true;
     }
@@ -464,7 +464,7 @@ function openMinigameInfoModal(gameType) {
         titleElem.textContent = "DOKDOKMA (PIG CATCHING)";
         if (currentDeviceMode === "PHONE") {
             bodyElem.innerHTML = `
-                <p><strong>Objective:</strong> Pursue and capture the escaped pig inside the wooden pen before stamina drains.</p>
+                <p><strong>Objective:</strong> Pursue and capture the escaped pig inside the wooden pen before stamina drains, or practice without pressure.</p>
                 <p style="color: #E5A93C; font-weight: bold; margin-top: 8px;">📱 PHONE MODE INSTRUCTIONS:</p>
                 <ul>
                     <li><strong>1 Player (Solo):</strong> Drag the left touch joystick to run. Tap the <strong>GRAB</strong> button on the right when near the pig.</li>
@@ -479,7 +479,7 @@ function openMinigameInfoModal(gameType) {
             `;
         } else {
             bodyElem.innerHTML = `
-                <p><strong>Objective:</strong> Pursue and capture the escaped pig inside the wooden pen before stamina drains.</p>
+                <p><strong>Objective:</strong> Pursue and capture the escaped pig inside the wooden pen before stamina drains, or practice without pressure.</p>
                 <p style="color: #E5A93C; font-weight: bold; margin-top: 8px;">💻 PC MODE INSTRUCTIONS:</p>
                 <ul>
                     <li><strong>1 Player (Solo):</strong> Use <code>WASD</code> keys to move, <code>SPACEBAR</code> to grab.</li>
@@ -515,25 +515,46 @@ function openMinigameInfoModal(gameType) {
             audioManager.playBgm();
         });
     } else if (gameType === "KADANG") {
-        titleElem.textContent = "KADANG-KADANG (2-PLAYER STILT RACE)";
+        titleElem.textContent = "KADANG-KADANG RACE & SOLO CHALLENGES";
         bodyElem.innerHTML = `
-            <p><strong>Objective:</strong> Race head-to-head on bamboo stilts across the track without losing balance. Face forward away from the screen like Temple Run!</p>
+            <p><strong>Objective:</strong> Race on bamboo stilts. Choose a head-to-head race, a solo challenge, or untimed solo practice.</p>
             <p style="color: #E5A93C; font-weight: bold; margin-top: 8px;">INSTRUCTIONS:</p>
             <ul>
-                <li><strong>Phone Mode:</strong> Use the on-screen <strong>[LEFT]</strong> and <code>[RIGHT]</code> foot buttons in your respective viewport.</li>
-                <li><strong>PC Player 1 Controls:</strong> Alternate tapping <code>A</code> and <code>D</code>.</li>
-                <li><strong>PC Player 2 Controls:</strong> Alternate tapping <code>Left</code> and <code>Right</code> Arrow keys.</li>
-                <li>Mashing the same foot causes imbalance/stumble! Keep a steady rhythm.</li>
+                <li><strong>Phone Mode:</strong> Alternate the on-screen <strong>[LEFT]</strong> and <code>[RIGHT]</code> foot buttons.</li>
+                <li><strong>Solo PC Controls:</strong> Alternate tapping <code>A</code> and <code>D</code>.</li>
+                <li><strong>Two-Player PC Controls:</strong> Player 1 uses <code>A</code>/<code>D</code>; Player 2 uses the left/right arrows.</li>
+                <li>Solo challenges use a route twice as long and a 120-second limit.</li>
+                <li>The No-Fall challenge ends on the first stumble. Keep a steady rhythm!</li>
             </ul>
-            <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">READY TO RACE?</p>
-            <button class="modal-btn-action" id="modal-start-kadang" style="background: #C28245; color:#fff; padding:12px; border:none; border-radius:4px; font-weight:bold; cursor:pointer; width:100%;">START GAME</button>
+            <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">CHOOSE YOUR MODE</p>
+            <button class="modal-btn-action" id="modal-start-kadang" style="background: #C28245;">2-PLAYER RACE</button>
+            <button class="modal-btn-action" id="modal-solo-time-trial" style="background: #3A6351;">SOLO TIME TRIAL (2X ROUTE / 120 SEC)</button>
+            <button class="modal-btn-action" id="modal-solo-no-fall" style="background: #8C5A32;">SOLO NO-FALL CHALLENGE (2X ROUTE / 120 SEC)</button>
+            <button class="modal-btn-action" id="modal-practice-kadang" style="background: #2E5A78; border-color:#6BA2B5;">2-PLAYER PRACTICE (NO TIMER OR RECORD)</button>
+            <button class="modal-btn-action" id="modal-solo-practice-kadang" style="background: #2E5A78; border-color:#6BA2B5;">SOLO PRACTICE (NO TIMER OR RECORD)</button>
             <button class="modal-btn-action" id="modal-home-lobby-kadang" style="background: #4E3629; margin-top: 8px; color:#fff; padding:10px; border:none; border-radius:4px; cursor:pointer; width:100%;">RETURN TO LOBBY</button>
         `;
 
-        document.getElementById("modal-start-kadang").addEventListener("click", () => {
+        const startKadangMode = mode => {
             closeAllModals();
-            kadang.reset();
+            kadang.reset(mode);
             currentState = STATE_KADANG;
+        };
+
+        document.getElementById("modal-start-kadang").addEventListener("click", () => {
+            startKadangMode("RACE");
+        });
+        document.getElementById("modal-solo-time-trial").addEventListener("click", () => {
+            startKadangMode("SOLO_TIME_TRIAL");
+        });
+        document.getElementById("modal-solo-no-fall").addEventListener("click", () => {
+            startKadangMode("SOLO_NO_FALL");
+        });
+        document.getElementById("modal-practice-kadang").addEventListener("click", () => {
+            startKadangMode("PRACTICE");
+        });
+        document.getElementById("modal-solo-practice-kadang").addEventListener("click", () => {
+            startKadangMode("SOLO_PRACTICE");
         });
         document.getElementById("modal-home-lobby-kadang").addEventListener("click", () => {
             closeAllModals();
@@ -604,6 +625,26 @@ function showDifficultySelector(numPlayers) {
                 <span class="difficulty-meter" aria-hidden="true"><i class="is-active"></i><i class="is-active"></i><i class="is-active"></i></span>
                 <span class="difficulty-chevron" aria-hidden="true"></span>
             </button>
+            <button class="difficulty-card difficulty-challenge" id="modal-diff-challenge" type="button" aria-label="Timed challenge: medium pace, catch the pig in 90 seconds">
+                <span class="difficulty-mark" aria-hidden="true">90</span>
+                <span class="difficulty-copy">
+                    <span class="difficulty-name">Timed Challenge</span>
+                    <span class="difficulty-description">Catch the pig in 90 seconds on Medium pace.</span>
+                    <span class="difficulty-tag">90 SECOND LIMIT</span>
+                </span>
+                <span class="difficulty-meter" aria-hidden="true"><i class="is-active"></i><i class="is-active"></i><i></i></span>
+                <span class="difficulty-chevron" aria-hidden="true"></span>
+            </button>
+            <button class="difficulty-card difficulty-practice" id="modal-diff-practice" type="button" aria-label="Practice mode: easy pace, no timer, stamina drain, or rewards">
+                <span class="difficulty-mark" aria-hidden="true">P</span>
+                <span class="difficulty-copy">
+                    <span class="difficulty-name">Practice</span>
+                    <span class="difficulty-description">Easy pace with no timer or stamina drain.</span>
+                    <span class="difficulty-tag">NO REWARDS OR RECORDS</span>
+                </span>
+                <span class="difficulty-meter" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="difficulty-chevron" aria-hidden="true"></span>
+            </button>
         </div>
         <button class="difficulty-back" id="modal-back-players" type="button">BACK TO PLAYER MODE</button>
     `;
@@ -621,6 +662,16 @@ function showDifficultySelector(numPlayers) {
     document.getElementById("modal-diff-hard").addEventListener("click", () => {
         closeAllModals();
         dokdokma.reset(DIFFICULTY_SETTINGS.HARD, numPlayers);
+        currentState = STATE_DOKDOKMA;
+    });
+    document.getElementById("modal-diff-challenge").addEventListener("click", () => {
+        closeAllModals();
+        dokdokma.reset(DIFFICULTY_SETTINGS.MEDIUM, numPlayers, false, true);
+        currentState = STATE_DOKDOKMA;
+    });
+    document.getElementById("modal-diff-practice").addEventListener("click", () => {
+        closeAllModals();
+        dokdokma.reset(DIFFICULTY_SETTINGS.EASY, numPlayers, true);
         currentState = STATE_DOKDOKMA;
     });
     document.getElementById("modal-back-players").addEventListener("click", () => {
@@ -812,6 +863,11 @@ const dokdokma = {
     hasWon: false,
     resultStartedAt: 0,
     newPersonalBest: false,
+    newArtifactUnlocked: false,
+    practiceMode: false,
+    timedChallenge: false,
+    challengeTimeLimit: 90,
+    resultReason: null,
     isCountingDown: false,
     countdownTimer: 3,
     countdownInterval: null,
@@ -827,11 +883,15 @@ const dokdokma = {
     p1GrabBtnDual: { cx: 240, cy: 580, r: 45 },
     p2GrabBtnDual: { cx: 1040, cy: 580, r: 45 },
 
-    reset(selectedDifficulty = null, numPlayers = 1) {
+    reset(selectedDifficulty = null, numPlayers = 1, practiceMode = false, timedChallenge = false) {
         audioManager.playBgm();
         if (this.countdownInterval) clearInterval(this.countdownInterval);
         this.difficulty = selectedDifficulty;
         this.activePlayersCount = numPlayers;
+        this.practiceMode = Boolean(practiceMode);
+        this.timedChallenge = Boolean(timedChallenge) && !this.practiceMode;
+        this.newArtifactUnlocked = false;
+        currentRunArtifact = null;
 
         this.player.x = cage.x + 120;
         this.player.y = cage.y + cage.h / 2 - (numPlayers > 1 ? 60 : 0);
@@ -861,13 +921,13 @@ const dokdokma = {
             this.pig.vx = -speed;
             this.pig.vy = speed * 0.7;
 
-            const tierList = CULTURAL_ARTIFACTS[this.difficulty.name];
-            const randomIndex = Math.floor(Math.random() * tierList.length);
-            currentRunArtifact = tierList[randomIndex];
-
-            if (!playerAchievements[this.difficulty.name].some(a => a.name === currentRunArtifact.name)) {
-                playerAchievements[this.difficulty.name].push(currentRunArtifact);
-                syncProgressToServer();
+            if (!this.practiceMode) {
+                const tierList = CULTURAL_ARTIFACTS[this.difficulty.name];
+                const collectedNames = new Set(playerAchievements[this.difficulty.name].map(artifact => artifact.name));
+                const availableArtifacts = tierList.filter(artifact => !collectedNames.has(artifact.name));
+                if (availableArtifacts.length > 0) {
+                    currentRunArtifact = availableArtifacts[Math.floor(Math.random() * availableArtifacts.length)];
+                }
             }
         }
 
@@ -877,8 +937,9 @@ const dokdokma = {
         this.isGameOver = false;
         this.hasWon = false;
         this.resultStartedAt = 0;
+        this.resultReason = null;
         this.newPersonalBest = false;
-        this.isCountingDown = Boolean(selectedDifficulty);
+        this.isCountingDown = Boolean(selectedDifficulty) && !this.practiceMode;
         this.countdownTimer = 3;
         this.isPaused = false;
         this.pauseStartedAt = 0;
@@ -927,8 +988,15 @@ const dokdokma = {
 // =============================================
 const kadang = {
     targetDistance: 100,
+    soloDistance: 200,
+    soloTimeLimit: 120,
     maxSpeed: 4.5,
     stepDistance: 1.2,
+    mode: "RACE",
+    challengeType: null,
+    activePlayersCount: 2,
+    resultOutcome: null,
+    resultReason: null,
     isGameOver: false,
     isPaused: false,
     pauseStartedAt: 0,
@@ -941,6 +1009,8 @@ const kadang = {
     loser: null,
     resultStartedAt: 0,
     newPersonalBest: false,
+    practiceMode: false,
+    hasCompetitiveWin: false,
     startTime: 0,
     elapsedTime: 0,
     p1: {
@@ -953,6 +1023,7 @@ const kadang = {
         isStumbling: false,
         animTime: 0,
         stepCount: 0,
+        stumbleCount: 0,
         wobbleTime: 0
     },
     p2: {
@@ -965,23 +1036,35 @@ const kadang = {
         isStumbling: false,
         animTime: 0,
         stepCount: 0,
+        stumbleCount: 0,
         wobbleTime: 0
     },
 
-    reset() {
+    reset(mode = "RACE") {
         audioManager.playBgm();
+        if (this.countdownInterval) clearInterval(this.countdownInterval);
+        this.mode = mode;
+        this.challengeType = mode === "SOLO_TIME_TRIAL"
+            ? "TIME_TRIAL"
+            : mode === "SOLO_NO_FALL" ? "NO_FALL" : null;
+        this.activePlayersCount = mode.startsWith("SOLO") ? 1 : 2;
+        this.practiceMode = mode === "PRACTICE" || mode === "SOLO_PRACTICE";
+        this.targetDistance = this.activePlayersCount === 1 ? this.soloDistance : 100;
+        this.resultOutcome = null;
+        this.resultReason = null;
         this.isGameOver = false;
         this.isPaused = false;
         this.pauseStartedAt = 0;
         this.phoneOrientationPaused = false;
         this.phoneOrientationCountdownPaused = false;
-        this.isCountingDown = true;
-        this.countdownTimer = 3;
+        this.isCountingDown = !this.practiceMode;
+        this.countdownTimer = this.practiceMode ? 0 : 3;
         this.winner = null;
         this.loser = null;
         this.resultStartedAt = 0;
         this.newPersonalBest = false;
         this.elapsedTime = 0;
+        this.startTime = 0;
 
         [this.p1, this.p2].forEach(p => {
             p.distance = 0;
@@ -992,10 +1075,11 @@ const kadang = {
             p.isStumbling = false;
             p.animTime = 0;
             p.stepCount = 0;
+            p.stumbleCount = 0;
             p.wobbleTime = 0;
         });
 
-        this.startCountdown();
+        if (this.isCountingDown) this.startCountdown();
     },
 
     startCountdown() {
@@ -1013,6 +1097,7 @@ const kadang = {
 
     registerStep(playerNum, foot) {
         if (this.isGameOver || this.isPaused || this.isCountingDown) return;
+        if (playerNum === 2 && this.activePlayersCount === 1) return;
         const p = (playerNum === 1) ? this.p1 : this.p2;
         if (p.isStumbling) return;
 
@@ -1034,19 +1119,24 @@ const kadang = {
 
         if (p.balance <= 0 || p.balance >= 100) {
             this.triggerStumble(p);
+            if (this.isGameOver) return;
         }
 
         if (p.distance >= this.targetDistance) {
             p.distance = this.targetDistance;
-            this.endRace(p);
+            this.endRace(p, true);
         }
     },
 
     triggerStumble(p) {
+        p.stumbleCount += 1;
         p.balance = 50;
         p.speed = 0;
         p.stumbleCooldown = 60;
         p.isStumbling = true;
+        if (this.challengeType === "NO_FALL") {
+            this.endRace(p, false, "FALL");
+        }
     },
 
     recoverFromStumble(p) {
@@ -1063,9 +1153,16 @@ const kadang = {
 
     update() {
         if (this.isGameOver || this.isPaused || this.isCountingDown) return;
-        this.elapsedTime = Math.floor((Date.now() - this.startTime) / 1000);
+        if (!this.practiceMode) {
+            this.elapsedTime = Math.floor((Date.now() - this.startTime) / 1000);
+        }
+        if (this.challengeType && this.elapsedTime >= this.soloTimeLimit) {
+            this.endRace(this.p1, false, "TIME_UP");
+            return;
+        }
 
-        [this.p1, this.p2].forEach(p => {
+        const activePlayers = this.activePlayersCount === 1 ? [this.p1] : [this.p1, this.p2];
+        activePlayers.forEach(p => {
             if (p.speed > 0.1) {
                 p.animTime += 0.12 + Math.min(p.speed / this.maxSpeed, 1) * 0.1;
             } else {
@@ -1081,19 +1178,28 @@ const kadang = {
 
             if (p.distance >= this.targetDistance) {
                 p.distance = this.targetDistance;
-                this.endRace(p);
+                this.endRace(p, true);
             }
         });
     },
 
-    endRace(p) {
+    endRace(p, completed = true, reason = null) {
         if (this.isGameOver) return;
         this.isGameOver = true;
-        this.winner = p.name;
-        this.loser = (p === this.p1) ? this.p2.name : this.p1.name;
+        this.resultOutcome = completed ? "WIN" : "LOSS";
+        this.resultReason = reason;
+        this.winner = completed ? p.name : null;
+        this.loser = completed
+            ? this.activePlayersCount > 1 ? (p === this.p1 ? this.p2.name : this.p1.name) : null
+            : p.name;
         this.resultStartedAt = Date.now();
-        this.newPersonalBest = recordKadangBest(this.elapsedTime);
-        syncProgressToServer();
+        if (!this.practiceMode && completed) {
+            if (this.mode === "RACE") {
+                this.newPersonalBest = recordKadangBest(this.elapsedTime);
+            }
+            this.hasCompetitiveWin = true;
+            syncProgressToServer();
+        }
     }
 };
 
@@ -1242,21 +1348,26 @@ canvas.addEventListener("pointerdown", e => {
     // Kadang-Kadang on-screen touch controller buttons
     if (currentState === STATE_KADANG && !kadang.isGameOver && !kadang.isPaused && !kadang.isCountingDown) {
         const halfW = VIRTUAL_WIDTH / 2;
-        // Left viewport: Player 1 controls (Left Button vs Right Button)
-        if (clickX < halfW) {
-            // Check if clicking left foot button area (bottom left)
+        if (kadang.activePlayersCount === 1) {
+            const controlOffset = (VIRTUAL_WIDTH - halfW) / 2;
+            if (clickX >= controlOffset + 40 && clickX <= controlOffset + 300 && clickY >= 520 && clickY <= 670) {
+                kadang.registerStep(1, "left");
+                return;
+            }
+            if (clickX >= controlOffset + 340 && clickX <= controlOffset + 600 && clickY >= 520 && clickY <= 670) {
+                kadang.registerStep(1, "right");
+                return;
+            }
+        } else if (clickX < halfW) {
             if (clickX >= 40 && clickX <= 300 && clickY >= 520 && clickY <= 670) {
                 kadang.registerStep(1, "left");
                 return;
             }
-            // Check if clicking right foot button area (bottom center-left)
             if (clickX >= 340 && clickX <= 600 && clickY >= 520 && clickY <= 670) {
                 kadang.registerStep(1, "right");
                 return;
             }
-        }
-        // Right viewport: Player 2 controls (Left Button vs Right Button)
-        else {
+        } else {
             const rx = clickX - halfW;
             if (rx >= 40 && rx <= 300 && clickY >= 520 && clickY <= 670) {
                 kadang.registerStep(2, "left");
@@ -1378,7 +1489,16 @@ canvas.addEventListener("lostpointercapture", e => endDokdokmaJoystick(e.pointer
 function updateDokdokma() {
     if (!dokdokma.difficulty || dokdokma.isGameOver || dokdokma.isPaused || dokdokma.isCountingDown) return;
 
-    dokdokma.elapsedTime = Math.floor((Date.now() - dokdokma.startTime) / 1000);
+    if (!dokdokma.practiceMode) {
+        dokdokma.elapsedTime = Math.floor((Date.now() - dokdokma.startTime) / 1000);
+    }
+    if (dokdokma.timedChallenge && dokdokma.elapsedTime >= dokdokma.challengeTimeLimit) {
+        dokdokma.isGameOver = true;
+        dokdokma.hasWon = false;
+        dokdokma.resultReason = "TIME_UP";
+        dokdokma.resultStartedAt = Date.now();
+        return;
+    }
 
     const p1 = dokdokma.player;
     const p2 = dokdokma.player2;
@@ -1557,7 +1677,13 @@ function updateDokdokma() {
         if (dokdokma.gripProgress > 0) dokdokma.gripProgress -= 1.0;
     }
 
-    let allStaminaDepleted = p1.stamina <= 0;
+    if (dokdokma.practiceMode) {
+        p1.stamina = 100;
+        p2.stamina = 100;
+        p3.stamina = 100;
+    }
+
+    let allStaminaDepleted = !dokdokma.practiceMode && p1.stamina <= 0;
     if (dokdokma.activePlayersCount >= 2) allStaminaDepleted = allStaminaDepleted && p2.stamina <= 0;
     if (dokdokma.activePlayersCount >= 3) allStaminaDepleted = allStaminaDepleted && p3.stamina <= 0;
 
@@ -1565,12 +1691,23 @@ function updateDokdokma() {
         dokdokma.gripProgress = 100;
         dokdokma.isGameOver = true;
         dokdokma.hasWon = true;
+        dokdokma.resultReason = "CAUGHT";
         dokdokma.resultStartedAt = Date.now();
-        dokdokma.newPersonalBest = recordDokdokmaBest(dokdokma.elapsedTime, dokdokma.difficulty.name);
-        syncProgressToServer();
+        if (!dokdokma.practiceMode) {
+            dokdokma.newPersonalBest = recordDokdokmaBest(dokdokma.elapsedTime, dokdokma.difficulty.name);
+            if (currentRunArtifact) {
+                const tierArtifacts = playerAchievements[dokdokma.difficulty.name];
+                if (!tierArtifacts.some(artifact => artifact.name === currentRunArtifact.name)) {
+                    tierArtifacts.push(currentRunArtifact);
+                    dokdokma.newArtifactUnlocked = true;
+                }
+            }
+            syncProgressToServer();
+        }
     } else if (allStaminaDepleted) {
         dokdokma.isGameOver = true;
         dokdokma.hasWon = false;
+        dokdokma.resultReason = "STAMINA";
         dokdokma.resultStartedAt = Date.now();
     }
 }
@@ -1838,6 +1975,38 @@ function drawResultActions() {
     ctx.textBaseline = "alphabetic";
 }
 
+function drawResultStatTile(x, y, w, label, value, accent) {
+    ctx.fillStyle = "rgba(18, 15, 13, 0.7)";
+    ctx.fillRect(x, y, w, 76);
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x, y, w, 76);
+
+    ctx.textAlign = "center";
+    ctx.fillStyle = accent;
+    ctx.font = "bold 11px sans-serif";
+    ctx.fillText(label, x + w / 2, y + 23);
+    ctx.fillStyle = "#F3E9D7";
+    ctx.font = "bold 17px sans-serif";
+    ctx.fillText(value, x + w / 2, y + 53, w - 12);
+}
+
+function drawResultInfoRow(x, y, w, label, value, accent = "#E5A93C") {
+    ctx.fillStyle = "rgba(18, 15, 13, 0.55)";
+    ctx.fillRect(x, y, w, 46);
+    ctx.strokeStyle = "#59432F";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(x, y, w, 46);
+
+    ctx.textAlign = "left";
+    ctx.fillStyle = accent;
+    ctx.font = "bold 11px sans-serif";
+    ctx.fillText(label, x + 12, y + 18);
+    ctx.fillStyle = "#E2D7C5";
+    ctx.font = "13px sans-serif";
+    ctx.fillText(value, x + 12, y + 36, w - 24);
+}
+
 function drawGamePausePanel() {
     ctx.fillStyle = "rgba(18, 15, 13, 0.85)";
     ctx.fillRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
@@ -2059,8 +2228,12 @@ function renderDokdokma() {
     }
 
     drawGameTopBar(
-        `DOKDOKMA | ${dokdokma.difficulty.name} | ${dokdokma.activePlayersCount} PLAYER${dokdokma.activePlayersCount > 1 ? "S" : ""}`,
-        `TIME ${formatTime(dokdokma.elapsedTime)}`
+        `DOKDOKMA | ${dokdokma.practiceMode ? "PRACTICE" : dokdokma.timedChallenge ? "TIMED CHALLENGE" : dokdokma.difficulty.name} | ${dokdokma.activePlayersCount} PLAYER${dokdokma.activePlayersCount > 1 ? "S" : ""}`,
+        dokdokma.practiceMode
+            ? "UNTIMED PRACTICE"
+            : dokdokma.timedChallenge
+                ? `LEFT ${formatTime(Math.max(0, dokdokma.challengeTimeLimit - dokdokma.elapsedTime))}`
+                : `TIME ${formatTime(dokdokma.elapsedTime)}`
     );
     drawInGamePauseButton();
 
@@ -2118,46 +2291,67 @@ function renderDokdokma() {
         drawResultEffect(dokdokma.hasWon, dokdokma.resultStartedAt);
 
         ctx.textAlign = "center";
-        if (dokdokma.hasWon) {
-            ctx.fillStyle = "#E5A93C";
-            ctx.font = "bold 48px sans-serif";
-            ctx.shadowColor = "#E5A93C";
-            ctx.shadowBlur = 12;
-            ctx.fillText("YOU WIN!", VIRTUAL_WIDTH / 2, 200);
-            ctx.shadowBlur = 0;
+        ctx.fillStyle = dokdokma.hasWon ? "#E5A93C" : "#D4775D";
+        ctx.font = "bold 40px sans-serif";
+        ctx.shadowColor = dokdokma.hasWon ? "#E5A93C" : "#A34836";
+        ctx.shadowBlur = 12;
+        const resultTitle = dokdokma.practiceMode
+            ? "PRACTICE COMPLETE"
+            : dokdokma.timedChallenge && dokdokma.hasWon
+                ? "CHALLENGE CLEARED!"
+                : dokdokma.resultReason === "TIME_UP" ? "TIME'S UP" : dokdokma.hasWon ? "YOU WIN!" : "GAME OVER";
+        ctx.fillText(resultTitle, VIRTUAL_WIDTH / 2, 195);
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = "#C7B79E";
+        ctx.font = "bold 12px sans-serif";
+        ctx.fillText("DOKDOKMA RUN RECAP", VIRTUAL_WIDTH / 2, 219);
 
-            if (currentRunArtifact) {
-                ctx.fillStyle = "#C28245";
-                ctx.font = "bold 24px sans-serif";
-                ctx.fillText(`Artifact Unlocked: ${currentRunArtifact.name}`, VIRTUAL_WIDTH / 2, 260);
+        const tileY = 237;
+        const tileW = 190;
+        const tileGap = 12;
+        const tileStartX = (VIRTUAL_WIDTH - (tileW * 4 + tileGap * 3)) / 2;
+        const modeLabel = dokdokma.practiceMode
+            ? `PRACTICE / ${dokdokma.difficulty.name}`
+            : dokdokma.timedChallenge ? `CHALLENGE / ${dokdokma.difficulty.name}` : dokdokma.difficulty.name;
+        const timeLabel = dokdokma.timedChallenge ? "TIME LEFT" : "TIME";
+        const timeValue = dokdokma.practiceMode
+            ? "NOT TIMED"
+            : dokdokma.timedChallenge
+                ? formatTime(Math.max(0, dokdokma.challengeTimeLimit - dokdokma.elapsedTime))
+                : formatTime(dokdokma.elapsedTime);
+        drawResultStatTile(tileStartX, tileY, tileW, "MODE", modeLabel, "#6BA2B5");
+        drawResultStatTile(tileStartX + tileW + tileGap, tileY, tileW, "PLAYERS", `${dokdokma.activePlayersCount} PLAYER${dokdokma.activePlayersCount > 1 ? "S" : ""}`, "#C28245");
+        drawResultStatTile(tileStartX + (tileW + tileGap) * 2, tileY, tileW, timeLabel, timeValue, "#E5A93C");
+        drawResultStatTile(tileStartX + (tileW + tileGap) * 3, tileY, tileW, "CATCH PROGRESS", `${Math.round(dokdokma.gripProgress)}%`, "#6F9B72");
 
-                ctx.fillStyle = "#E2D7C5";
-                ctx.font = "18px sans-serif";
-                ctx.fillText(currentRunArtifact.desc, VIRTUAL_WIDTH / 2, 300);
-            }
-
-            ctx.fillStyle = "#E2D7C5";
-            ctx.font = "20px sans-serif";
-            ctx.fillText(`Captured in: ${formatTime(dokdokma.elapsedTime)} (${dokdokma.difficulty.name})`, VIRTUAL_WIDTH / 2, 360);
-            ctx.fillStyle = "#E5A93C";
-            ctx.fillText(`${dokdokma.newPersonalBest ? "NEW PERSONAL BEST" : "PERSONAL BEST"}: ${formatTime(personalBestTimes.dokdokma[dokdokma.difficulty.name])}`, VIRTUAL_WIDTH / 2, 395);
-        } else {
-            ctx.fillStyle = "#A34836";
-            ctx.font = "bold 56px sans-serif";
-            ctx.shadowColor = "#A34836";
-            ctx.shadowBlur = 14;
-            ctx.fillText("GAME OVER", VIRTUAL_WIDTH / 2, 280);
-            ctx.shadowBlur = 0;
-
-            ctx.fillStyle = "#E2D7C5";
-            ctx.font = "24px sans-serif";
-            ctx.fillText(`Stamina Drained after ${formatTime(dokdokma.elapsedTime)}`, VIRTUAL_WIDTH / 2, 340);
-            ctx.font = "20px sans-serif";
-            const bestTime = personalBestTimes.dokdokma[dokdokma.difficulty.name];
-            if (bestTime !== null) {
-                ctx.fillText(`PERSONAL BEST: ${formatTime(bestTime)}`, VIRTUAL_WIDTH / 2, 380);
-            }
+        let rewardText = "No artifact earned on this run.";
+        let rewardColor = "#C7B79E";
+        if (dokdokma.practiceMode) {
+            rewardText = "Practice runs do not award artifacts or records.";
+            rewardColor = "#6BA2B5";
+        } else if (dokdokma.newArtifactUnlocked && currentRunArtifact) {
+            rewardText = `Collected: ${currentRunArtifact.name}`;
+            rewardColor = "#E5A93C";
+        } else if (dokdokma.hasWon && !currentRunArtifact) {
+            rewardText = `All ${dokdokma.difficulty.name} artifacts collected.`;
+            rewardColor = "#6F9B72";
         }
+        drawResultInfoRow(278, 326, 724, "ARTIFACT / REWARD", rewardText, rewardColor);
+
+        const playerList = [dokdokma.player, dokdokma.player2, dokdokma.player3].slice(0, dokdokma.activePlayersCount);
+        const staminaText = playerList.map((player, index) => `P${index + 1} ${Math.round(player.stamina)}%`).join("  |  ");
+        drawResultInfoRow(278, 380, 724, "REMAINING STAMINA", staminaText, "#C28245");
+
+        const bestTime = personalBestTimes.dokdokma[dokdokma.difficulty.name];
+        const recordText = dokdokma.practiceMode
+            ? "Personal bests are not affected by practice."
+            : dokdokma.resultReason === "TIME_UP"
+                ? `The ${dokdokma.challengeTimeLimit}-second challenge ended before the pig was caught.`
+            : `${dokdokma.newPersonalBest ? "NEW PERSONAL BEST" : "PERSONAL BEST"}: ${bestTime === null ? "NOT SET" : formatTime(bestTime)}`;
+        ctx.textAlign = "center";
+        ctx.fillStyle = dokdokma.practiceMode ? "#6BA2B5" : "#E5A93C";
+        ctx.font = "bold 14px sans-serif";
+        ctx.fillText(recordText, VIRTUAL_WIDTH / 2, 454);
         drawResultActions();
     }
 }
@@ -2418,7 +2612,10 @@ function drawKadangCloud(x, y, scale) {
     ctx.restore();
 }
 
-function drawKadangScenery(halfW) {
+function drawKadangScenery(viewWidth) {
+    const scaleX = viewWidth / 640;
+    ctx.save();
+    ctx.scale(scaleX, 1);
     drawKadangCloud(115, 170, 0.9);
     drawKadangCloud(500, 140, 0.7);
 
@@ -2432,8 +2629,8 @@ function drawKadangScenery(halfW) {
     ctx.lineTo(425, 235);
     ctx.lineTo(520, 325);
     ctx.lineTo(580, 270);
-    ctx.lineTo(halfW, 355);
-    ctx.lineTo(halfW, VIRTUAL_HEIGHT * 0.6);
+    ctx.lineTo(640, 355);
+    ctx.lineTo(640, VIRTUAL_HEIGHT * 0.6);
     ctx.lineTo(0, VIRTUAL_HEIGHT * 0.6);
     ctx.closePath();
     ctx.fill();
@@ -2446,11 +2643,50 @@ function drawKadangScenery(halfW) {
     ctx.lineTo(295, 270);
     ctx.lineTo(390, 370);
     ctx.lineTo(485, 300);
-    ctx.lineTo(halfW, 385);
-    ctx.lineTo(halfW, VIRTUAL_HEIGHT * 0.6);
+    ctx.lineTo(640, 385);
+    ctx.lineTo(640, VIRTUAL_HEIGHT * 0.6);
     ctx.lineTo(0, VIRTUAL_HEIGHT * 0.6);
     ctx.closePath();
     ctx.fill();
+    ctx.restore();
+}
+
+function drawKadangPlayerView(player, playerNum, offsetX, viewWidth) {
+    ctx.save();
+    ctx.translate(offsetX, 0);
+    ctx.beginPath();
+    ctx.rect(0, 0, viewWidth, VIRTUAL_HEIGHT);
+    ctx.clip();
+
+    ctx.fillStyle = "#76C6F2";
+    ctx.fillRect(0, 0, viewWidth, VIRTUAL_HEIGHT);
+
+    drawKadangScenery(viewWidth);
+
+    ctx.fillStyle = "#B88A52";
+    ctx.fillRect(0, VIRTUAL_HEIGHT * 0.6, viewWidth, VIRTUAL_HEIGHT * 0.4);
+    ctx.fillStyle = "#D4A66C";
+    ctx.beginPath();
+    ctx.moveTo(viewWidth * 0.35, VIRTUAL_HEIGHT * 0.6);
+    ctx.lineTo(viewWidth * 0.65, VIRTUAL_HEIGHT * 0.6);
+    ctx.lineTo(viewWidth * 0.95, VIRTUAL_HEIGHT * 0.95);
+    ctx.lineTo(viewWidth * 0.05, VIRTUAL_HEIGHT * 0.95);
+    ctx.closePath();
+    ctx.fill();
+    drawKadangFinishLine(viewWidth);
+
+    const progress = Math.min(player.distance / kadang.targetDistance, 1);
+    const startY = VIRTUAL_HEIGHT * 0.90;
+    const finishPosY = VIRTUAL_HEIGHT * 0.65;
+    const playerY = startY - progress * (startY - finishPosY);
+
+    drawTraditionalPlayer(ctx, player, viewWidth * 0.5, playerY, playerNum === 2);
+    drawKadangBalanceHUD(player, 30, 30, `PLAYER ${playerNum}`, playerNum === 1 ? "A / D" : "◄ / ►");
+    ctx.save();
+    if (viewWidth > 640) ctx.translate((viewWidth - 640) / 2, 0);
+    drawKadangTouchControllers(ctx);
+    ctx.restore();
+    ctx.restore();
 }
 
 function renderKadang() {
@@ -2458,82 +2694,29 @@ function renderKadang() {
     drawCanvasBackground();
 
     const halfW = VIRTUAL_WIDTH / 2;
+    if (kadang.activePlayersCount === 1) {
+        drawKadangPlayerView(kadang.p1, 1, 0, VIRTUAL_WIDTH);
+    } else {
+        drawKadangPlayerView(kadang.p1, 1, 0, halfW);
 
-    // Player 1 Viewport
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(0, 0, halfW, VIRTUAL_HEIGHT);
-    ctx.clip();
+        ctx.strokeStyle = "#E5A93C";
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(halfW, 0);
+        ctx.lineTo(halfW, VIRTUAL_HEIGHT);
+        ctx.stroke();
 
-    ctx.fillStyle = "#76C6F2";
-    ctx.fillRect(0, 0, halfW, VIRTUAL_HEIGHT);
+        drawKadangPlayerView(kadang.p2, 2, halfW, halfW);
+    }
 
-    drawKadangScenery(halfW);
-
-    ctx.fillStyle = "#B88A52";
-    ctx.fillRect(0, VIRTUAL_HEIGHT * 0.6, halfW, VIRTUAL_HEIGHT * 0.4);
-    ctx.fillStyle = "#D4A66C";
-    ctx.beginPath();
-    ctx.moveTo(halfW * 0.35, VIRTUAL_HEIGHT * 0.6);
-    ctx.lineTo(halfW * 0.65, VIRTUAL_HEIGHT * 0.6);
-    ctx.lineTo(halfW * 0.95, VIRTUAL_HEIGHT * 0.95);
-    ctx.lineTo(halfW * 0.05, VIRTUAL_HEIGHT * 0.95);
-    ctx.closePath();
-    ctx.fill();
-    drawKadangFinishLine(halfW);
-
-    const p1Prog = Math.min(kadang.p1.distance / kadang.targetDistance, 1);
-    const startY = VIRTUAL_HEIGHT * 0.90;
-    const finishPosY = VIRTUAL_HEIGHT * 0.65;
-    const p1Y = startY - p1Prog * (startY - finishPosY);
-
-    drawTraditionalPlayer(ctx, kadang.p1, halfW * 0.5, p1Y, false);
-    drawKadangBalanceHUD(kadang.p1, 30, 30, "PLAYER 1", "A / D");
-    drawKadangTouchControllers(ctx);
-
-    ctx.restore();
-
-    ctx.strokeStyle = "#E5A93C";
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(halfW, 0);
-    ctx.lineTo(halfW, VIRTUAL_HEIGHT);
-    ctx.stroke();
-
-    // Player 2 Viewport
-    ctx.save();
-    ctx.translate(halfW, 0);
-    ctx.beginPath();
-    ctx.rect(0, 0, halfW, VIRTUAL_HEIGHT);
-    ctx.clip();
-
-    ctx.fillStyle = "#76C6F2";
-    ctx.fillRect(0, 0, halfW, VIRTUAL_HEIGHT);
-
-    drawKadangScenery(halfW);
-
-    ctx.fillStyle = "#B88A52";
-    ctx.fillRect(0, VIRTUAL_HEIGHT * 0.6, halfW, VIRTUAL_HEIGHT * 0.4);
-    ctx.fillStyle = "#D4A66C";
-    ctx.beginPath();
-    ctx.moveTo(halfW * 0.35, VIRTUAL_HEIGHT * 0.6);
-    ctx.lineTo(halfW * 0.65, VIRTUAL_HEIGHT * 0.6);
-    ctx.lineTo(halfW * 0.95, VIRTUAL_HEIGHT * 0.95);
-    ctx.lineTo(halfW * 0.05, VIRTUAL_HEIGHT * 0.95);
-    ctx.closePath();
-    ctx.fill();
-    drawKadangFinishLine(halfW);
-
-    const p2Prog = Math.min(kadang.p2.distance / kadang.targetDistance, 1);
-    const p2Y = startY - p2Prog * (startY - finishPosY);
-
-    drawTraditionalPlayer(ctx, kadang.p2, halfW * 0.5, p2Y, true);
-    drawKadangBalanceHUD(kadang.p2, 30, 30, "PLAYER 2", "◄ / ►");
-    drawKadangTouchControllers(ctx);
-
-    ctx.restore();
-
-    drawGameTopBar("KADANG-KADANG | STILT RACE", `TIME ${formatTime(kadang.elapsedTime)}`);
+    drawGameTopBar(
+        `KADANG-KADANG | ${kadang.mode.replace(/_/g, " ")}`,
+        kadang.practiceMode
+            ? "UNTIMED PRACTICE"
+            : kadang.challengeType
+                ? `LEFT ${formatTime(Math.max(0, kadang.soloTimeLimit - kadang.elapsedTime))}`
+                : `TIME ${formatTime(kadang.elapsedTime)}`
+    );
     drawInGamePauseButton();
 
     if (kadang.isCountingDown) {
@@ -2556,27 +2739,75 @@ function renderKadang() {
         ctx.fillStyle = "rgba(18, 15, 13, 0.88)";
         ctx.fillRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
         drawResultPanel();
-        drawResultEffect(true, kadang.resultStartedAt, 460, 270);
-        drawResultEffect(false, kadang.resultStartedAt, 820, 330);
+        const didComplete = kadang.resultOutcome === "WIN";
+        drawResultEffect(didComplete, kadang.resultStartedAt, 640, 290);
+        if (kadang.activePlayersCount > 1 && didComplete) {
+            drawResultEffect(false, kadang.resultStartedAt, 820, 330);
+        }
 
         ctx.textAlign = "center";
-        ctx.fillStyle = "#E5A93C";
-        ctx.font = "bold 46px sans-serif";
-        ctx.shadowColor = "#E5A93C";
+        ctx.fillStyle = didComplete ? "#E5A93C" : "#D4775D";
+        ctx.font = "bold 38px sans-serif";
+        ctx.shadowColor = didComplete ? "#E5A93C" : "#A34836";
         ctx.shadowBlur = 12;
-        ctx.fillText(`${kadang.winner.toUpperCase()} WINS! (${formatTime(kadang.elapsedTime)})`, VIRTUAL_WIDTH / 2, 250);
+        const resultTitle = kadang.practiceMode
+            ? "PRACTICE COMPLETE"
+            : didComplete
+                ? kadang.activePlayersCount === 1 ? "CHALLENGE COMPLETE" : `${kadang.winner.toUpperCase()} WINS!`
+                : kadang.resultReason === "TIME_UP" ? "TIME'S UP" : "FALL DETECTED";
+        ctx.fillText(resultTitle, VIRTUAL_WIDTH / 2, 195);
         ctx.shadowBlur = 0;
+        ctx.fillStyle = "#C7B79E";
+        ctx.font = "bold 12px sans-serif";
+        const recapSubtitle = kadang.activePlayersCount === 1
+            ? kadang.practiceMode ? "SOLO PRACTICE RECAP" : "SOLO CHALLENGE RECAP"
+            : "KADANG-KADANG RACE RECAP";
+        ctx.fillText(recapSubtitle, VIRTUAL_WIDTH / 2, 219);
 
-        ctx.font = "bold 40px sans-serif";
-        ctx.fillStyle = "#A34836";
-        ctx.shadowColor = "#A34836";
-        ctx.shadowBlur = 12;
-        ctx.fillText(`${kadang.loser.toUpperCase()} LOSE`, VIRTUAL_WIDTH / 2, 330);
-        ctx.shadowBlur = 0;
+        const tileW = 190;
+        const tileGap = 12;
+        const tileStartX = (VIRTUAL_WIDTH - (tileW * 4 + tileGap * 3)) / 2;
+        if (kadang.activePlayersCount === 1) {
+            const soloModeLabel = kadang.practiceMode
+                ? "SOLO PRACTICE"
+                : kadang.challengeType === "NO_FALL" ? "NO-FALL" : "TIME TRIAL";
+            const soloResultLabel = kadang.practiceMode
+                ? "FINISHED"
+                : didComplete ? "COMPLETED" : kadang.resultReason === "TIME_UP" ? "TIME UP" : "FALL";
+            const timeValue = kadang.practiceMode
+                ? "NOT TIMED"
+                : `LEFT ${formatTime(Math.max(0, kadang.soloTimeLimit - kadang.elapsedTime))}`;
+            drawResultStatTile(tileStartX, 237, tileW, "MODE", soloModeLabel, "#6BA2B5");
+            drawResultStatTile(tileStartX + tileW + tileGap, 237, tileW, "RESULT", soloResultLabel, didComplete ? "#6F9B72" : "#D4775D");
+            drawResultStatTile(tileStartX + (tileW + tileGap) * 2, 237, tileW, "TIME", timeValue, "#E5A93C");
+            drawResultStatTile(tileStartX + (tileW + tileGap) * 3, 237, tileW, "ROUTE", `${Math.round(kadang.p1.distance)} / ${kadang.targetDistance}`, "#C28245");
 
-        ctx.font = "20px sans-serif";
-        ctx.fillStyle = "#E5A93C";
-        ctx.fillText(`${kadang.newPersonalBest ? "NEW PERSONAL BEST" : "FASTEST WIN"}: ${formatTime(personalBestTimes.kadang)}`, VIRTUAL_WIDTH / 2, 380);
+            const performanceTileW = 350;
+            const performanceGap = 24;
+            const performanceStartX = (VIRTUAL_WIDTH - (performanceTileW * 2 + performanceGap)) / 2;
+            drawResultStatTile(performanceStartX, 326, performanceTileW, "STEPS", `${kadang.p1.stepCount}`, "#C28245");
+            drawResultStatTile(performanceStartX + performanceTileW + performanceGap, 326, performanceTileW, "STUMBLES", `${kadang.p1.stumbleCount}`, "#D4775D");
+        } else {
+            drawResultStatTile(tileStartX, 237, tileW, "MODE", kadang.practiceMode ? "PRACTICE" : "RACE", "#6BA2B5");
+            drawResultStatTile(tileStartX + tileW + tileGap, 237, tileW, "TIME", kadang.practiceMode ? "NOT TIMED" : formatTime(kadang.elapsedTime), "#E5A93C");
+            drawResultStatTile(tileStartX + (tileW + tileGap) * 2, 237, tileW, "WINNER", kadang.winner.toUpperCase(), "#6F9B72");
+            drawResultStatTile(tileStartX + (tileW + tileGap) * 3, 237, tileW, "LOSER", kadang.loser.toUpperCase(), "#D4775D");
+
+            const performanceTileW = 350;
+            const performanceGap = 24;
+            const performanceStartX = (VIRTUAL_WIDTH - (performanceTileW * 2 + performanceGap)) / 2;
+            drawResultStatTile(performanceStartX, 326, performanceTileW, "PLAYER 1 PERFORMANCE", `${kadang.p1.stepCount} STEPS / ${kadang.p1.stumbleCount} STUMBLES`, "#C28245");
+            drawResultStatTile(performanceStartX + performanceTileW + performanceGap, 326, performanceTileW, "PLAYER 2 PERFORMANCE", `${kadang.p2.stepCount} STEPS / ${kadang.p2.stumbleCount} STUMBLES`, "#C28245");
+        }
+
+        const recordText = kadang.practiceMode
+            ? "Personal bests and progression are not affected by practice."
+            : kadang.activePlayersCount === 1
+                ? "Solo challenges do not change the two-player race record."
+                : `${kadang.newPersonalBest ? "NEW PERSONAL BEST" : "FASTEST WIN"}: ${formatTime(personalBestTimes.kadang)}`;
+        ctx.fillStyle = kadang.practiceMode || kadang.activePlayersCount === 1 ? "#6BA2B5" : "#E5A93C";
+        ctx.font = "bold 14px sans-serif";
+        ctx.fillText(recordText, VIRTUAL_WIDTH / 2, 444);
         drawResultActions();
     }
 }
@@ -3338,9 +3569,9 @@ function renderBadgesScreen() {
             icon: "mountain",
             desc: "Mastery of speed and balance in the high mountain stilt race.",
             requirement: "Win a Kadang-Kadang race",
-            count: (kadang.isGameOver && kadang.winner !== null) ? 1 : 0,
+            count: kadang.hasCompetitiveWin ? 1 : 0,
             max: 1,
-            unlocked: kadang.isGameOver && kadang.winner !== null
+            unlocked: kadang.hasCompetitiveWin
         }
     ];
 

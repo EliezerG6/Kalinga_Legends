@@ -602,6 +602,14 @@ body.landscape-mode canvas {
     --difficulty-accent: #C66A50;
 }
 
+.difficulty-challenge {
+    --difficulty-accent: #E5A93C;
+}
+
+.difficulty-practice {
+    --difficulty-accent: #6BA2B5;
+}
+
 .difficulty-mark {
     display: grid;
     place-items: center;
