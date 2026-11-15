@@ -114,11 +114,11 @@ player3Img.src = "res/minigames/player3.png";
 // Kadang-Kadang Character Back-View Sprites (.jpg format matching folder)
 const kadangPlayer1Img = new Image();
 kadangPlayer1Img.onerror = () => console.warn("player8 image not found, falling back.");
-kadangPlayer1Img.src = "res/minigames/player8.jpg";
+kadangPlayer1Img.src = "res/minigames/player8.png";
 
 const kadangPlayer2Img = new Image();
 kadangPlayer2Img.onerror = () => console.warn("player9 image not found, falling back.");
-kadangPlayer2Img.src = "res/minigames/player9.jpg";
+kadangPlayer2Img.src = "res/minigames/player9.png";
 
 const playerRunImg = new Image();
 playerRunImg.onerror = () => console.warn("player_run.png not found, falling back to static player.");
@@ -126,8 +126,8 @@ playerRunImg.src = "res/minigames/player_run.png";
 
 const loadingImg = new Image();
 loadingImg.onerror = () => {
-    if (!loadingImg.src.endsWith("loading.jpg")) {
-        loadingImg.src = "loading.jpg";
+    if (!loadingImg.src.endsWith("loading.png")) {
+        loadingImg.src = "loading.png";
     } else {
         console.warn("loading.jpg missing, using dark color fallback.");
     }
