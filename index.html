@@ -77,12 +77,15 @@
     <div id="auth-modal"
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; z-index: 99999;">
         <div
-            style="background: #2B1A0E; border: 3px solid #E5A93C; padding: 30px; width: 420px; border-radius: 8px; text-align: center; color: #E2D7C5;">
+            style="background: #2B1A0E; border: 3px solid #E5A93C; padding: 30px; width: 420px; border-radius: 8px; text-align: center; color: #E2D7C5; position: relative;">
+            <button id="auth-close-x-btn"
+                style="position: absolute; top: 12px; right: 15px; background: transparent; border: none; color: #E5A93C; font-size: 24px; cursor: pointer;">&times;</button>
             <h2 id="auth-title" style="color: #E5A93C; margin-bottom: 20px;">ACCOUNT LOGIN</h2>
             <div id="auth-msg" style="color: #A34836; margin-bottom: 15px; font-size: 14px;"></div>
-            <input type="text" id="auth-username" placeholder="Username"
+            <input type="text" id="auth-username" placeholder="Username" autocomplete="off" spellcheck="false"
                 style="width: 100%; padding: 12px; margin-bottom: 15px; background: #120F0D; border: 1px solid #C28245; color: #FFF; border-radius: 4px; box-sizing: border-box;">
-            <input type="password" id="auth-password" placeholder="Password"
+            <input type="password" id="auth-password" placeholder="Password" autocomplete="new-password"
+                spellcheck="false"
                 style="width: 100%; padding: 12px; margin-bottom: 20px; background: #120F0D; border: 1px solid #C28245; color: #FFF; border-radius: 4px; box-sizing: border-box;">
 
             <button id="auth-submit-btn"

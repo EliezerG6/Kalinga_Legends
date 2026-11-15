@@ -111,14 +111,23 @@ const player3Img = new Image();
 player3Img.onerror = () => console.warn("player3.png not found, falling back to shape.");
 player3Img.src = "res/minigames/player3.png";
 
+// Kadang-Kadang Character Back-View Sprites (.jpg format matching folder)
+const kadangPlayer1Img = new Image();
+kadangPlayer1Img.onerror = () => console.warn("player8 image not found, falling back.");
+kadangPlayer1Img.src = "res/minigames/player8.png";
+
+const kadangPlayer2Img = new Image();
+kadangPlayer2Img.onerror = () => console.warn("player9 image not found, falling back.");
+kadangPlayer2Img.src = "res/minigames/player9.png";
+
 const playerRunImg = new Image();
 playerRunImg.onerror = () => console.warn("player_run.png not found, falling back to static player.");
 playerRunImg.src = "res/minigames/player_run.png";
 
 const loadingImg = new Image();
 loadingImg.onerror = () => {
-    if (!loadingImg.src.endsWith("loading.jpg")) {
-        loadingImg.src = "loading.jpg";
+    if (!loadingImg.src.endsWith("loading.png")) {
+        loadingImg.src = "loading.png";
     } else {
         console.warn("loading.jpg missing, using dark color fallback.");
     }
@@ -356,31 +365,18 @@ function openMinigameInfoModal(gameType) {
         });
     } else if (gameType === "KADANG") {
         titleElem.textContent = "KADANG-KADANG (2-PLAYER STILT RACE)";
-        if (currentDeviceMode === "PHONE") {
-            bodyElem.innerHTML = `
-                <p><strong>Objective:</strong> Race head-to-head on bamboo stilts across the track without losing balance.</p>
-                <p style="color: #E5A93C; font-weight: bold; margin-top: 8px;">📱 PHONE MODE INSTRUCTIONS:</p>
-                <ul>
-                    <li>Tap the on-screen buttons at bottom-left (Player 1: <code>L</code> / <code>R</code>) and bottom-right (Player 2: <code>L</code> / <code>R</code>) alternately to race!</li>
-                    <li>Maintain steady rhythm so your player stays balanced on stilts.</li>
-                </ul>
-                <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">READY TO RACE?</p>
-                <button class="modal-btn-action" id="modal-start-kadang">START GAME</button>
-                <button class="modal-btn-action" id="modal-home-lobby-kadang" style="background: #4E3629; margin-top: 5px;">RETURN TO LOBBY</button>
-            `;
-        } else {
-            bodyElem.innerHTML = `
-                <p><strong>Objective:</strong> Race head-to-head on bamboo stilts across the track without losing balance.</p>
-                <p style="color: #E5A93C; font-weight: bold; margin-top: 8px;">💻 PC MODE INSTRUCTIONS:</p>
-                <ul>
-                    <li><strong>Player 1 Controls:</strong> Alternate tapping <code>A</code> and <code>D</code>.</li>
-                    <li><strong>Player 2 Controls:</strong> Alternate tapping <code>Left</code> and <code>Right</code> Arrow keys.</li>
-                </ul>
-                <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">READY TO RACE?</p>
-                <button class="modal-btn-action" id="modal-start-kadang">START GAME</button>
-                <button class="modal-btn-action" id="modal-home-lobby-kadang" style="background: #4E3629; margin-top: 5px;">RETURN TO LOBBY</button>
-            `;
-        }
+        bodyElem.innerHTML = `
+            <p><strong>Objective:</strong> Race head-to-head on bamboo stilts across the track without losing balance. Face forward away from the screen like Temple Run!</p>
+            <p style="color: #E5A93C; font-weight: bold; margin-top: 8px;">INSTRUCTIONS:</p>
+            <ul>
+                <li><strong>Player 1 Controls:</strong> Alternate tapping <code>A</code> and <code>D</code>.</li>
+                <li><strong>Player 2 Controls:</strong> Alternate tapping <code>Left</code> and <code>Right</code> Arrow keys.</li>
+                <li>Mashing the same foot causes imbalance/stumble! Keep a steady rhythm.</li>
+            </ul>
+            <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">READY TO RACE?</p>
+            <button class="modal-btn-action" id="modal-start-kadang" style="background: #C28245; color:#fff; padding:12px; border:none; border-radius:4px; font-weight:bold; cursor:pointer; width:100%;">START GAME</button>
+            <button class="modal-btn-action" id="modal-home-lobby-kadang" style="background: #4E3629; margin-top: 8px; color:#fff; padding:10px; border:none; border-radius:4px; cursor:pointer; width:100%;">RETURN TO LOBBY</button>
+        `;
 
         document.getElementById("modal-start-kadang").addEventListener("click", () => {
             closeAllModals();
@@ -454,6 +450,11 @@ function closeAllModals() {
     minigameInfoModal.classList.add("hidden");
     settingsModal.classList.add("hidden");
     exitModal.classList.add("hidden");
+    const authModal = document.getElementById("auth-modal");
+    if (authModal) {
+        authModal.classList.add("hidden");
+        authModal.style.display = "none";
+    }
     modalBackdrop.classList.add("hidden");
 }
 
@@ -525,13 +526,13 @@ const dualTouchState = {
 function handleKeyDownOnce(code) {
     if (currentState === STATE_KADANG && !kadang.isGameOver) {
         if (code === "KeyA") {
-            kadang.registerStep(1, "LEFT");
+            kadang.registerStep(1, "left");
         } else if (code === "KeyD") {
-            kadang.registerStep(1, "RIGHT");
+            kadang.registerStep(1, "right");
         } else if (code === "ArrowLeft") {
-            kadang.registerStep(2, "LEFT");
+            kadang.registerStep(2, "left");
         } else if (code === "ArrowRight") {
-            kadang.registerStep(2, "RIGHT");
+            kadang.registerStep(2, "right");
         }
     }
 }
@@ -586,7 +587,6 @@ const dokdokma = {
         stamina: 100,
         frameIndex: 0,
         totalFrames: 4,
-        tickCount: 0,
         ticksPerFrame: 6
     },
     pig: {
@@ -673,118 +673,162 @@ const dokdokma = {
     }
 };
 
+// =============================================
+// IMPROVED KADANG-KADANG (DUO STILT RACE - TEMPLE RUN BACK VIEW)
+// =============================================
 const kadang = {
-    targetDistance: 1000,
+    targetDistance: 100,
+    maxSpeed: 4.5,
+    stepDistance: 1.2,
     isGameOver: false,
+    isCountingDown: true,
+    countdownTimer: 3,
+    countdownInterval: null,
     winner: null,
+    loser: null,
     startTime: 0,
     elapsedTime: 0,
     p1: {
+        name: "Player 1",
         distance: 0,
-        balance: 0,
+        balance: 50,
         speed: 0,
-        animCycle: 0,
-        lastSide: null,
-        lastTime: 0,
-        btnL: { cx: 90, cy: 580, r: 42 },
-        btnR: { cx: 190, cy: 580, r: 42 }
+        lastFoot: null,
+        stumbleCooldown: 0,
+        isStumbling: false,
+        animTime: 0,
+        stepCount: 0,
+        wobbleTime: 0
     },
     p2: {
+        name: "Player 2",
         distance: 0,
-        balance: 0,
+        balance: 50,
         speed: 0,
-        animCycle: 0,
-        lastSide: null,
-        lastTime: 0,
-        btnL: { cx: 1090, cy: 580, r: 42 },
-        btnR: { cx: 1190, cy: 580, r: 42 }
+        lastFoot: null,
+        stumbleCooldown: 0,
+        isStumbling: false,
+        animTime: 0,
+        stepCount: 0,
+        wobbleTime: 0
     },
 
     reset() {
         audioManager.playBgm();
-        this.targetDistance = 1000;
         this.isGameOver = false;
+        this.isCountingDown = true;
+        this.countdownTimer = 3;
         this.winner = null;
-        this.startTime = Date.now();
+        this.loser = null;
         this.elapsedTime = 0;
 
-        this.p1.distance = 0;
-        this.p1.balance = 0;
-        this.p1.speed = 0;
-        this.p1.animCycle = 0;
-        this.p1.lastSide = null;
-        this.p1.lastTime = Date.now();
+        [this.p1, this.p2].forEach(p => {
+            p.distance = 0;
+            p.balance = 50;
+            p.speed = 0;
+            p.lastFoot = null;
+            p.stumbleCooldown = 0;
+            p.isStumbling = false;
+            p.animTime = 0;
+            p.stepCount = 0;
+            p.wobbleTime = 0;
+        });
 
-        this.p2.distance = 0;
-        this.p2.balance = 0;
-        this.p2.speed = 0;
-        this.p2.animCycle = 0;
-        this.p2.lastSide = null;
-        this.p2.lastTime = Date.now();
+        if (this.countdownInterval) clearInterval(this.countdownInterval);
+        this.countdownInterval = setInterval(() => {
+            this.countdownTimer--;
+            if (this.countdownTimer <= 0) {
+                clearInterval(this.countdownInterval);
+                this.isCountingDown = false;
+                this.startTime = Date.now();
+            }
+        }, 1000);
     },
 
-    registerStep(playerNum, side) {
-        if (this.isGameOver) return;
+    registerStep(playerNum, foot) {
+        if (this.isGameOver || this.isCountingDown) return;
         const p = (playerNum === 1) ? this.p1 : this.p2;
-        const now = Date.now();
-        const interval = now - p.lastTime;
-        p.lastTime = now;
+        if (p.isStumbling) return;
 
-        if (p.lastSide === side) {
-            p.balance += (side === "LEFT") ? -18 : 18;
-            p.speed = Math.max(0, p.speed - 1.5);
+        p.animTime += 1;
+        p.stepCount += 1;
+
+        if (p.lastFoot === foot) {
+            p.balance += (foot === "left") ? -25 : 25;
+            p.speed = Math.max(0, p.speed - 0.5);
+            p.wobbleTime = 20;
         } else {
-            p.speed = Math.min(12, p.speed + 2.2);
-            p.lastSide = side;
-
-            if (interval >= 150 && interval <= 400) {
-                p.balance *= 0.5;
-            } else if (interval < 150) {
-                p.balance += (Math.random() > 0.5 ? 8 : -8);
-            }
+            p.balance += (foot === "left") ? -4 : 4;
+            p.balance = Math.max(0, Math.min(100, p.balance));
+            p.speed = Math.min(this.maxSpeed, p.speed + 0.65);
+            p.distance += this.stepDistance;
+            p.wobbleTime = Math.max(0, p.wobbleTime - 2);
         }
+
+        p.lastFoot = foot;
+
+        if (p.balance <= 0 || p.balance >= 100) {
+            this.triggerStumble(p);
+        }
+
         audioManager.playSfx("step");
+
+        if (p.distance >= this.targetDistance) {
+            p.distance = this.targetDistance;
+            this.endRace(p);
+        }
+    },
+
+    triggerStumble(p) {
+        p.balance = 50;
+        p.speed = 0;
+        p.stumbleCooldown = 60;
+        p.isStumbling = true;
+    },
+
+    recoverFromStumble(p) {
+        if (!p.isStumbling) return;
+        p.stumbleCooldown--;
+        if (p.stumbleCooldown <= 0) {
+            p.isStumbling = false;
+            p.stumbleCooldown = 0;
+            p.balance = 50;
+            p.lastFoot = null;
+            p.distance = 0;
+        }
     },
 
     update() {
-        if (this.isGameOver) return;
-
+        if (this.isGameOver || this.isCountingDown) return;
         this.elapsedTime = Math.floor((Date.now() - this.startTime) / 1000);
 
-        this.p1.distance += this.p1.speed;
-        this.p1.speed = Math.max(0, this.p1.speed - 0.08);
-        this.p1.balance += (Math.random() - 0.5) * 0.8;
-        this.p1.animCycle += this.p1.speed * 0.25;
+        [this.p1, this.p2].forEach(p => {
+            p.animTime += 0.2;
+            if (p.isStumbling) {
+                this.recoverFromStumble(p);
+                return;
+            }
+            p.speed = Math.max(0, p.speed - 0.015);
+            p.distance += p.speed * 0.08;
 
-        this.p2.distance += this.p2.speed;
-        this.p2.speed = Math.max(0, this.p2.speed - 0.08);
-        this.p2.balance += (Math.random() - 0.5) * 0.8;
-        this.p2.animCycle += this.p2.speed * 0.25;
+            if (p.distance >= this.targetDistance) {
+                p.distance = this.targetDistance;
+                this.endRace(p);
+            }
+        });
+    },
 
-        if (Math.abs(this.p1.balance) >= 50) {
-            this.isGameOver = true;
-            this.winner = "Player 2";
-            audioManager.playSfx("lose");
-            return;
-        }
-        if (Math.abs(this.p2.balance) >= 50) {
-            this.isGameOver = true;
-            this.winner = "Player 1";
+    endRace(p) {
+        if (this.isGameOver) return;
+        this.isGameOver = true;
+        this.winner = p.name;
+        this.loser = (p === this.p1) ? this.p2.name : this.p1.name;
+        if (p === this.p1) {
             audioManager.playSfx("win");
-            return;
-        }
-
-        if (this.p1.distance >= this.targetDistance) {
-            this.p1.distance = this.targetDistance;
-            this.isGameOver = true;
-            this.winner = "Player 1";
-            audioManager.playSfx("win");
-        } else if (this.p2.distance >= this.targetDistance) {
-            this.p2.distance = this.targetDistance;
-            this.isGameOver = true;
-            this.winner = "Player 2";
+        } else {
             audioManager.playSfx("lose");
         }
+        syncProgressToServer();
     }
 };
 
@@ -802,7 +846,7 @@ async function requestFullscreenAndLandscape() {
             await screen.orientation.lock("landscape");
         }
     } catch (err) {
-        // Handled silently for browsers without full support
+        // Handled silently
     }
 }
 
@@ -851,11 +895,7 @@ canvas.addEventListener("pointerdown", e => {
     }
 
     if (currentState === STATE_BADGES) {
-        const badgesData = [
-            { rank: "Chon-gyog", unlocked: playerAchievements.EASY.length > 0 },
-            { rank: "Mansasag", unlocked: playerAchievements.MEDIUM.length > 0 },
-            { rank: "Maingel", unlocked: playerAchievements.HARD.length > 0 }
-        ];
+        const badgesDataCount = 6;
 
         if (badgeInterface.selectedBadgeIndex !== null) {
             const modalW = 540;
@@ -863,22 +903,33 @@ canvas.addEventListener("pointerdown", e => {
             const modalX = (VIRTUAL_WIDTH - modalW) / 2;
             const modalY = (VIRTUAL_HEIGHT - modalH) / 2;
             const btnCloseX = modalX + modalW / 2 - 100;
-            const btnCloseY = modalY + modalH - 65;
+            const btnCloseY = modalY + modalH - 70;
 
             if (clickX >= btnCloseX && clickX <= btnCloseX + 200 && clickY >= btnCloseY && clickY <= btnCloseY + 45) {
                 badgeInterface.selectedBadgeIndex = null;
                 return;
             }
         } else {
-            badgesData.forEach((b, idx) => {
-                const x = 160 + idx * 340;
-                const y = 180;
-                const w = 280;
-                const h = 380;
+            const cardW = 310;
+            const cardH = 250;
+            const gapX = 25;
+            const gapY = 20;
+            const startX = (VIRTUAL_WIDTH - (3 * cardW + 2 * gapX)) / 2;
+            const startY = 95;
+
+            for (let idx = 0; idx < badgesDataCount; idx++) {
+                const col = idx % 3;
+                const row = Math.floor(idx / 3);
+                const x = startX + col * (cardW + gapX);
+                const y = startY + row * (cardH + gapY);
+                const w = cardW;
+                const h = cardH;
+
                 if (clickX >= x && clickX <= x + w && clickY >= y && clickY <= y + h) {
                     badgeInterface.selectedBadgeIndex = idx;
+                    break;
                 }
-            });
+            }
         }
     }
 
@@ -947,196 +998,15 @@ canvas.addEventListener("touchstart", e => {
         const tx = (touch.clientX - rect.left) * scaleX;
         const ty = (touch.clientY - rect.top) * scaleY;
 
-        if (currentState === STATE_DOKDOKMA && dokdokma.isPaused) {
-            const modalW = 440;
-            const modalH = 260;
-            const modalX = (VIRTUAL_WIDTH - modalW) / 2;
-            const modalY = (VIRTUAL_HEIGHT - modalH) / 2;
-
-            const btnResumeX = modalX + 40;
-            const btnResumeY = modalY + 150;
-            const btnW = 165;
-            const btnH = 55;
-
-            const btnQuitX = modalX + 235;
-            const btnQuitY = modalY + 150;
-
-            if (tx >= btnResumeX && tx <= btnResumeX + btnW && ty >= btnResumeY && ty <= btnResumeY + btnH) {
-                dokdokma.isPaused = false;
-                return;
-            }
-            if (tx >= btnQuitX && tx <= btnQuitX + btnW && ty >= btnQuitY && ty <= btnQuitY + btnH) {
-                openMinigameInfoModal("DOKDOKMA");
-                return;
-            }
-        }
-
-        if (currentState === STATE_BADGES) {
-            const badgesData = [
-                { rank: "Chon-gyog", unlocked: playerAchievements.EASY.length > 0 },
-                { rank: "Mansasag", unlocked: playerAchievements.MEDIUM.length > 0 },
-                { rank: "Maingel", unlocked: playerAchievements.HARD.length > 0 }
-            ];
-
-            if (badgeInterface.selectedBadgeIndex !== null) {
-                const modalW = 540;
-                const modalH = 360;
-                const modalX = (VIRTUAL_WIDTH - modalW) / 2;
-                const modalY = (VIRTUAL_HEIGHT - modalH) / 2;
-                const btnCloseX = modalX + modalW / 2 - 100;
-                const btnCloseY = modalY + modalH - 65;
-
-                if (tx >= btnCloseX && tx <= btnCloseX + 200 && ty >= btnCloseY && ty <= btnCloseY + 45) {
-                    badgeInterface.selectedBadgeIndex = null;
-                    return;
-                }
+        if (currentState === STATE_KADANG) {
+            if (tx < VIRTUAL_WIDTH / 2) {
+                kadang.registerStep(1, ty < VIRTUAL_HEIGHT / 2 ? "left" : "right");
             } else {
-                badgesData.forEach((b, idx) => {
-                    const x = 160 + idx * 340;
-                    const y = 180;
-                    const w = 280;
-                    const h = 380;
-                    if (tx >= x && tx <= x + w && ty >= y && ty <= y + h) {
-                        badgeInterface.selectedBadgeIndex = idx;
-                    }
-                });
-            }
-        }
-
-        if (currentState !== STATE_LOBBY) {
-            const distExit = Math.hypot(tx - btnExitGame.cx, ty - btnExitGame.cy);
-            if (distExit <= btnExitGame.r + 10) {
-                if (badgeInterface.selectedBadgeIndex !== null) {
-                    badgeInterface.selectedBadgeIndex = null;
-                    return;
-                }
-                if (currentState === STATE_DOKDOKMA) {
-                    dokdokma.isPaused = true;
-                } else if (currentState === STATE_KADANG) {
-                    openModal(exitModal);
-                } else {
-                    currentState = STATE_LOBBY;
-                    audioManager.playBgm();
-                }
-                return;
-            }
-        }
-
-        if (currentState === STATE_DOKDOKMA) {
-            if (dokdokma.activePlayersCount >= 2 && currentDeviceMode === "PHONE") {
-                if (Math.hypot(tx - dokdokma.p1GrabBtnDual.cx, ty - dokdokma.p1GrabBtnDual.cy) <= dokdokma.p1GrabBtnDual.r + 15) {
-                    p1GrabTapped = true;
-                    continue;
-                }
-                if (Math.hypot(tx - dokdokma.p2GrabBtnDual.cx, ty - dokdokma.p2GrabBtnDual.cy) <= dokdokma.p2GrabBtnDual.r + 15) {
-                    p2GrabTapped = true;
-                    continue;
-                }
-            } else {
-                if (Math.hypot(tx - dokdokma.p1GrabBtnSingle.cx, ty - dokdokma.p1GrabBtnSingle.cy) <= dokdokma.p1GrabBtnSingle.r + 15) {
-                    p1GrabTapped = true;
-                    continue;
-                }
-            }
-
-            if (dokdokma.activePlayersCount >= 2) {
-                if (tx < VIRTUAL_WIDTH / 2 && !dualTouchState.p1JoystickActive) {
-                    dualTouchState.p1JoystickActive = true;
-                    dualTouchState.p1TouchId = touch.identifier;
-                    dualTouchState.p1BaseX = tx; dualTouchState.p1BaseY = ty;
-                    dualTouchState.p1KnobX = tx; dualTouchState.p1KnobY = ty;
-                } else if (tx >= VIRTUAL_WIDTH / 2 && !dualTouchState.p2JoystickActive) {
-                    dualTouchState.p2JoystickActive = true;
-                    dualTouchState.p2TouchId = touch.identifier;
-                    dualTouchState.p2BaseX = tx; dualTouchState.p2BaseY = ty;
-                    dualTouchState.p2KnobX = tx; dualTouchState.p2KnobY = ty;
-                }
-            } else {
-                if (!dualTouchState.p1JoystickActive) {
-                    dualTouchState.p1JoystickActive = true;
-                    dualTouchState.p1TouchId = touch.identifier;
-                    dualTouchState.p1BaseX = tx; dualTouchState.p1BaseY = ty;
-                    dualTouchState.p1KnobX = tx; dualTouchState.p1KnobY = ty;
-                }
-            }
-        } else if (currentState === STATE_KADANG) {
-            if (Math.hypot(tx - kadang.p1.btnL.cx, ty - kadang.p1.btnL.cy) <= kadang.p1.btnL.r + 15) {
-                kadang.registerStep(1, "LEFT");
-            } else if (Math.hypot(tx - kadang.p1.btnR.cx, ty - kadang.p1.btnR.cy) <= kadang.p1.btnR.r + 15) {
-                kadang.registerStep(1, "RIGHT");
-            } else if (Math.hypot(tx - kadang.p2.btnL.cx, ty - kadang.p2.btnL.cy) <= kadang.p2.btnL.r + 15) {
-                kadang.registerStep(2, "LEFT");
-            } else if (Math.hypot(tx - kadang.p2.btnR.cx, ty - kadang.p2.btnR.cy) <= kadang.p2.btnR.r + 15) {
-                kadang.registerStep(2, "RIGHT");
+                kadang.registerStep(2, ty < VIRTUAL_HEIGHT / 2 ? "left" : "right");
             }
         }
     }
 }, { passive: false });
-
-canvas.addEventListener("touchmove", e => {
-    if (!modalBackdrop.classList.contains("hidden") || currentState === STATE_LOADING) return;
-
-    if (e.target === canvas && currentState === STATE_DOKDOKMA && dokdokma.difficulty) {
-        e.preventDefault();
-    } else {
-        return;
-    }
-
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = VIRTUAL_WIDTH / rect.width;
-    const scaleY = VIRTUAL_HEIGHT / rect.height;
-
-    for (let i = 0; i < e.changedTouches.length; i++) {
-        const touch = e.changedTouches[i];
-        const tx = (touch.clientX - rect.left) * scaleX;
-        const ty = (touch.clientY - rect.top) * scaleY;
-
-        if (touch.identifier === dualTouchState.p1TouchId && dualTouchState.p1JoystickActive) {
-            const dx = tx - dualTouchState.p1BaseX;
-            const dy = ty - dualTouchState.p1BaseY;
-            const dist = Math.hypot(dx, dy);
-            if (dist <= dualTouchState.maxRadius) {
-                dualTouchState.p1KnobX = tx; dualTouchState.p1KnobY = ty;
-            } else {
-                const angle = Math.atan2(dy, dx);
-                dualTouchState.p1KnobX = dualTouchState.p1BaseX + Math.cos(angle) * dualTouchState.maxRadius;
-                dualTouchState.p1KnobY = dualTouchState.p1BaseY + Math.sin(angle) * dualTouchState.maxRadius;
-            }
-        } else if (touch.identifier === dualTouchState.p2TouchId && dualTouchState.p2JoystickActive) {
-            const dx = tx - dualTouchState.p2BaseX;
-            const dy = ty - dualTouchState.p2BaseY;
-            const dist = Math.hypot(dx, dy);
-            if (dist <= dualTouchState.maxRadius) {
-                dualTouchState.p2KnobX = tx; dualTouchState.p2KnobY = ty;
-            } else {
-                const angle = Math.atan2(dy, dx);
-                dualTouchState.p2KnobX = dualTouchState.p2BaseX + Math.cos(angle) * dualTouchState.maxRadius;
-                dualTouchState.p2KnobY = dualTouchState.p2BaseY + Math.sin(angle) * dualTouchState.maxRadius;
-            }
-        }
-    }
-}, { passive: false });
-
-function handleTouchEnd(e) {
-    for (let i = 0; i < e.changedTouches.length; i++) {
-        const touch = e.changedTouches[i];
-        if (touch.identifier === dualTouchState.p1TouchId) {
-            dualTouchState.p1JoystickActive = false;
-            dualTouchState.p1TouchId = null;
-            dualTouchState.p1KnobX = dualTouchState.p1BaseX;
-            dualTouchState.p1KnobY = dualTouchState.p1BaseY;
-        }
-        if (touch.identifier === dualTouchState.p2TouchId) {
-            dualTouchState.p2JoystickActive = false;
-            dualTouchState.p2TouchId = null;
-            dualTouchState.p2KnobX = dualTouchState.p2BaseX;
-            dualTouchState.p2KnobY = dualTouchState.p2BaseY;
-        }
-    }
-}
-
-canvas.addEventListener("touchend", handleTouchEnd);
-canvas.addEventListener("touchcancel", handleTouchEnd);
 
 function updateDokdokma() {
     if (!dokdokma.difficulty || dokdokma.isGameOver || dokdokma.isPaused) return;
@@ -1771,69 +1641,210 @@ function renderDokdokma() {
     }
 }
 
-function drawStiltRunner(p, groundY, trackX, trackW, isPlayer1) {
-    const progressRatio = p.distance / kadang.targetDistance;
-    const x = trackX + progressRatio * trackW;
-
-    const stiltHeight = 90;
-    const footRestY = groundY - stiltHeight;
-    const tiltAngle = (p.balance / 50) * 0.35;
-
-    const legStride = Math.sin(p.animCycle) * Math.min(22, p.speed * 3);
-    const sprintBounce = Math.abs(Math.sin(p.animCycle)) * Math.min(10, p.speed * 1.5);
-    const forwardLean = (p.speed / 12) * 0.25;
+// =============================================
+// KADANG-KADANG CANVAS RENDERING (WITH DYNAMIC TILT & STUMBLE)
+// =============================================
+function drawTraditionalPlayer(ctx, player, x, y, isPlayerTwo = false) {
+    const walking = player.animTime;
+    const moving = player.speed > 0.1 && !player.isStumbling;
 
     ctx.save();
-    ctx.translate(x, footRestY - sprintBounce);
-    ctx.rotate(tiltAngle + forwardLean);
+    ctx.translate(x, y);
 
-    ctx.lineWidth = 7;
-    ctx.strokeStyle = "#8C6D3B";
+    const balanceOffset = player.balance - 50;
 
-    ctx.beginPath();
-    ctx.moveTo(-12 + legStride * 0.4, -40);
-    ctx.lineTo(-14 + legStride, stiltHeight + sprintBounce);
-    ctx.stroke();
+    if (player.isStumbling) {
+        const stumbleProgress = 1 - (player.stumbleCooldown / 60);
 
-    ctx.beginPath();
-    ctx.moveTo(12 - legStride * 0.4, -40);
-    ctx.lineTo(14 - legStride, stiltHeight + sprintBounce);
-    ctx.stroke();
-
-    ctx.fillStyle = "#C28245";
-    ctx.fillRect(-18 + legStride * 0.4, -3, 14, 6);
-    ctx.fillRect(4 - legStride * 0.4, -3, 14, 6);
-
-    ctx.save();
-    ctx.translate(0, -35);
-    if (isPlayer1) {
-        if (player3Img.complete && player3Img.naturalWidth !== 0) {
-            ctx.drawImage(player3Img, -48, -48, 96, 96);
+        if (stumbleProgress < 0.35) {
+            const wobbleAngle = Math.sin(stumbleProgress * 30) * 0.25;
+            ctx.rotate(wobbleAngle);
         } else {
-            ctx.fillStyle = "#3A6351";
-            ctx.beginPath(); ctx.arc(0, -10, 18, 0, Math.PI * 2); ctx.fill();
-            ctx.strokeStyle = "#2B473A";
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.moveTo(-6, 8); ctx.lineTo(-10 + legStride * 0.4, 32);
-            ctx.moveTo(6, 8); ctx.lineTo(10 - legStride * 0.4, 32);
-            ctx.stroke();
+            const fallProgress = (stumbleProgress - 0.35) / 0.65;
+            const targetRotation = (balanceOffset > 0 ? Math.PI / 2.2 : -Math.PI / 2.2) * Math.min(1, fallProgress * 1.5);
+            ctx.rotate(targetRotation);
+            ctx.translate(fallProgress * 12, fallProgress * 18);
         }
     } else {
-        if (player2Img.complete && player2Img.naturalWidth !== 0) {
-            ctx.drawImage(player2Img, -48, -48, 96, 96);
-        } else {
-            ctx.fillStyle = "#A34836";
-            ctx.beginPath(); ctx.arc(0, -10, 18, 0, Math.PI * 2); ctx.fill();
-            ctx.strokeStyle = "#722F22";
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.moveTo(-6, 8); ctx.lineTo(-10 + legStride * 0.4, 32);
-            ctx.moveTo(6, 8); ctx.lineTo(10 - legStride * 0.4, 32);
-            ctx.stroke();
+        let leanTilt = 0;
+        if (player.balance !== 50) {
+            leanTilt = (balanceOffset / 50) * 0.35;
+        }
+
+        const wobbleShake = player.wobbleTime > 0 ? Math.sin(player.wobbleTime * 1.5) * 0.15 : 0;
+        ctx.rotate(leanTilt + wobbleShake);
+    }
+
+    const stiltTilt = moving ? Math.cos(walking * 0.5) * 0.04 : 0;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    ctx.save();
+    ctx.rotate(stiltTilt);
+    const leftX = -12;
+    const rightX = 12;
+
+    ctx.strokeStyle = "#8C713B";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(leftX, 6); ctx.lineTo(leftX, -80);
+    ctx.moveTo(rightX, 6); ctx.lineTo(rightX, -80);
+    ctx.stroke();
+
+    ctx.fillStyle = "#A8844E";
+    ctx.fillRect(leftX - 5, -22, 10, 4);
+    ctx.fillRect(rightX - 5, -22, 10, 4);
+    ctx.restore();
+
+    const spriteImg = isPlayerTwo ? kadangPlayer2Img : kadangPlayer1Img;
+    const spriteWidth = 50;
+    const spriteHeight = 64;
+
+    if (spriteImg && spriteImg.complete && spriteImg.naturalWidth !== 0) {
+        ctx.drawImage(spriteImg, -spriteWidth / 2, -spriteHeight - 22, spriteWidth, spriteHeight);
+    } else {
+        ctx.fillStyle = isPlayerTwo ? "#2D4263" : "#C84B31";
+        ctx.beginPath();
+        ctx.ellipse(0, -38, 15, 26, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#1E1812";
+        ctx.beginPath();
+        ctx.arc(0, -56, 9, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    ctx.restore();
+}
+
+function drawKadangFinishLine(halfTrackWidth) {
+    const finishY = VIRTUAL_HEIGHT * 0.62;
+    const roadTopY = VIRTUAL_HEIGHT * 0.60;
+    const roadBottomY = VIRTUAL_HEIGHT * 0.95;
+
+    const progress = (finishY - roadTopY) / (roadBottomY - roadTopY);
+
+    const leftEdge = halfTrackWidth * 0.35 +
+        (halfTrackWidth * 0.05 - halfTrackWidth * 0.35) * progress;
+
+    const rightEdge = halfTrackWidth * 0.65 +
+        (halfTrackWidth * 0.95 - halfTrackWidth * 0.65) * progress;
+
+    ctx.save();
+
+    ctx.beginPath();
+    ctx.moveTo(halfTrackWidth * 0.35, roadTopY);
+    ctx.lineTo(halfTrackWidth * 0.65, roadTopY);
+    ctx.lineTo(halfTrackWidth * 0.95, roadBottomY);
+    ctx.lineTo(halfTrackWidth * 0.05, roadBottomY);
+    ctx.closePath();
+    ctx.clip();
+
+    const squareSize = 16;
+    const lineHeight = 18;
+    const lineTop = finishY - lineHeight / 2;
+
+    for (let x = leftEdge; x < rightEdge; x += squareSize) {
+        const column = Math.floor((x - leftEdge) / squareSize);
+
+        for (let y = lineTop; y < lineTop + lineHeight; y += squareSize / 2) {
+            const row = Math.floor((y - lineTop) / (squareSize / 2));
+
+            ctx.fillStyle = (column + row) % 2 === 0
+                ? "#FFFFFF"
+                : "#171717";
+
+            ctx.fillRect(
+                x,
+                y,
+                Math.min(squareSize, rightEdge - x),
+                Math.min(squareSize / 2, lineTop + lineHeight - y)
+            );
         }
     }
+
     ctx.restore();
+
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = "bold 22px sans-serif";
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = "#171717";
+
+    ctx.strokeText(
+        "FINISH",
+        (leftEdge + rightEdge) / 2,
+        finishY - 25
+    );
+
+    ctx.fillStyle = "#FFFFFF";
+
+    ctx.fillText(
+        "FINISH",
+        (leftEdge + rightEdge) / 2,
+        finishY - 25
+    );
+
+    ctx.restore();
+}
+
+function drawKadangBalanceHUD(player, x, y, playerName, controls) {
+    const width = 260;
+    const height = 88;
+
+    const stability = Math.max(
+        0,
+        Math.min(100, 100 - Math.abs(player.balance - 50) * 2)
+    );
+
+    let barColor = "#43A66B";
+    if (player.isStumbling) {
+        barColor = "#D94343";
+    } else if (stability < 70) {
+        barColor = "#E5A93C";
+    }
+
+    ctx.save();
+
+    ctx.fillStyle = "rgba(15, 23, 42, 0.92)";
+    ctx.fillRect(x, y, width, height);
+
+    ctx.strokeStyle = barColor;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x, y, width, height);
+
+    ctx.textAlign = "left";
+    ctx.textBaseline = "alphabetic";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "bold 16px sans-serif";
+    ctx.fillText(playerName, x + 12, y + 20);
+
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#C5C5C5";
+    ctx.font = "12px sans-serif";
+    ctx.fillText(controls, x + width - 12, y + 20);
+
+    ctx.textAlign = "left";
+    ctx.fillStyle = "#E5A93C";
+    ctx.font = "bold 12px sans-serif";
+    ctx.fillText("BALANCE STABILITY", x + 12, y + 40);
+
+    const barX = x + 12;
+    const barY = y + 47;
+    const barW = width - 24;
+    const barH = 12;
+
+    ctx.fillStyle = "#303846";
+    ctx.fillRect(barX, barY, barW, barH);
+
+    ctx.fillStyle = barColor;
+    ctx.fillRect(barX, barY, barW * (stability / 100), barH);
+
+    ctx.strokeStyle = "#FFFFFF";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(barX, barY, barW, barH);
+
     ctx.restore();
 }
 
@@ -1841,45 +1852,91 @@ function renderKadang() {
     ctx.clearRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
     drawCanvasBackground();
 
-    ctx.fillStyle = "rgba(62, 39, 35, 0.85)";
-    ctx.fillRect(150, 180, 980, 320);
+    const halfW = VIRTUAL_WIDTH / 2;
 
-    ctx.strokeStyle = "#C28245";
-    ctx.lineWidth = 4;
-    ctx.setLineDash([15, 10]);
+    // Player 1 Viewport
+    ctx.save();
     ctx.beginPath();
-    ctx.moveTo(180, 340);
-    ctx.lineTo(1100, 340);
+    ctx.rect(0, 0, halfW, VIRTUAL_HEIGHT);
+    ctx.clip();
+
+    ctx.fillStyle = "#76C6F2";
+    ctx.fillRect(0, 0, halfW, VIRTUAL_HEIGHT);
+
+    ctx.fillStyle = "#B88A52";
+    ctx.fillRect(0, VIRTUAL_HEIGHT * 0.6, halfW, VIRTUAL_HEIGHT * 0.4);
+    ctx.fillStyle = "#D4A66C";
+    ctx.beginPath();
+    ctx.moveTo(halfW * 0.35, VIRTUAL_HEIGHT * 0.6);
+    ctx.lineTo(halfW * 0.65, VIRTUAL_HEIGHT * 0.6);
+    ctx.lineTo(halfW * 0.95, VIRTUAL_HEIGHT * 0.95);
+    ctx.lineTo(halfW * 0.05, VIRTUAL_HEIGHT * 0.95);
+    ctx.closePath();
+    ctx.fill();
+    drawKadangFinishLine(halfW);
+
+    const p1Prog = Math.min(kadang.p1.distance / kadang.targetDistance, 1);
+    const startY = VIRTUAL_HEIGHT * 0.90;
+    const finishPosY = VIRTUAL_HEIGHT * 0.65;
+    const p1Y = startY - p1Prog * (startY - finishPosY);
+
+    drawTraditionalPlayer(ctx, kadang.p1, halfW * 0.5, p1Y, false);
+    drawKadangBalanceHUD(kadang.p1, 30, 30, "PLAYER 1", "A / D");
+
+    ctx.restore();
+
+    ctx.strokeStyle = "#E5A93C";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(halfW, 0);
+    ctx.lineTo(halfW, VIRTUAL_HEIGHT);
     ctx.stroke();
-    ctx.setLineDash([]);
 
-    ctx.fillStyle = "#332319";
-    ctx.fillRect(180, 325, 920, 12);
-    ctx.fillRect(180, 485, 920, 12);
+    // Player 2 Viewport
+    ctx.save();
+    ctx.translate(halfW, 0);
+    ctx.beginPath();
+    ctx.rect(0, 0, halfW, VIRTUAL_HEIGHT);
+    ctx.clip();
 
-    ctx.fillStyle = "#E2D7C5";
-    ctx.fillRect(180, 180, 10, 320);
-    ctx.fillStyle = "#E5A93C";
-    ctx.fillRect(1100, 180, 10, 320);
+    ctx.fillStyle = "#76C6F2";
+    ctx.fillRect(0, 0, halfW, VIRTUAL_HEIGHT);
 
-    const trackStartX = 200;
-    const trackW = 880;
+    ctx.fillStyle = "#B88A52";
+    ctx.fillRect(0, VIRTUAL_HEIGHT * 0.6, halfW, VIRTUAL_HEIGHT * 0.4);
+    ctx.fillStyle = "#D4A66C";
+    ctx.beginPath();
+    ctx.moveTo(halfW * 0.35, VIRTUAL_HEIGHT * 0.6);
+    ctx.lineTo(halfW * 0.65, VIRTUAL_HEIGHT * 0.6);
+    ctx.lineTo(halfW * 0.95, VIRTUAL_HEIGHT * 0.95);
+    ctx.lineTo(halfW * 0.05, VIRTUAL_HEIGHT * 0.95);
+    ctx.closePath();
+    ctx.fill();
+    drawKadangFinishLine(halfW);
 
-    drawStiltRunner(kadang.p1, 325, trackStartX, trackW, true);
-    drawStiltRunner(kadang.p2, 485, trackStartX, trackW, false);
+    const p2Prog = Math.min(kadang.p2.distance / kadang.targetDistance, 1);
+    const p2Y = startY - p2Prog * (startY - finishPosY);
 
-    drawStepBtn(kadang.p1.btnL.cx, kadang.p1.btnL.cy, kadang.p1.btnL.r, "P1 L");
-    drawStepBtn(kadang.p1.btnR.cx, kadang.p1.btnR.cy, kadang.p1.btnR.r, "P1 R");
-    drawStepBtn(kadang.p2.btnL.cx, kadang.p2.btnL.cy, kadang.p2.btnL.r, "P2 L");
-    drawStepBtn(kadang.p2.btnR.cx, kadang.p2.btnR.cy, kadang.p2.btnR.r, "P2 R");
+    drawTraditionalPlayer(ctx, kadang.p2, halfW * 0.5, p2Y, true);
+    drawKadangBalanceHUD(kadang.p2, 30, 30, "PLAYER 2", "◄ / ►");
+
+    ctx.restore();
+
     drawInGameExitButton();
 
-    ctx.fillStyle = "#E5A93C";
-    ctx.font = "bold 24px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(`KADANG-KADANG (2-PLAYER STILT RACE - ${currentDeviceMode})`, VIRTUAL_WIDTH / 2, 45);
-    ctx.font = "18px sans-serif";
-    ctx.fillText(`P1 Dist: ${Math.floor(kadang.p1.distance)}m | P2 Dist: ${Math.floor(kadang.p2.distance)}m`, VIRTUAL_WIDTH / 2, 75);
+    if (kadang.isCountingDown) {
+        ctx.fillStyle = "rgba(18, 15, 13, 0.75)";
+        ctx.fillRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#E5A93C";
+        ctx.font = "bold 90px sans-serif";
+
+        let displayText = kadang.countdownTimer > 0 ? kadang.countdownTimer : "GO!";
+        ctx.fillText(displayText, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
+        ctx.textBaseline = "alphabetic";
+    }
 
     if (kadang.isGameOver) {
         ctx.fillStyle = "rgba(18, 15, 13, 0.88)";
@@ -1887,32 +1944,17 @@ function renderKadang() {
 
         ctx.textAlign = "center";
         ctx.fillStyle = "#E5A93C";
-        ctx.font = "bold 56px sans-serif";
-        ctx.fillText(`${kadang.winner} WINS!`, VIRTUAL_WIDTH / 2, 280);
-        ctx.font = "24px sans-serif";
+        ctx.font = "bold 46px sans-serif";
+        ctx.fillText(`${kadang.winner.toUpperCase()} WINS! (${formatTime(kadang.elapsedTime)})`, VIRTUAL_WIDTH / 2, 250);
+
+        ctx.font = "bold 40px sans-serif";
+        ctx.fillStyle = "#A34836";
+        ctx.fillText(`${kadang.loser.toUpperCase()} LOSE`, VIRTUAL_WIDTH / 2, 330);
+
+        ctx.font = "18px sans-serif";
         ctx.fillStyle = "#E2D7C5";
-        ctx.fillText(`Race completed in ${formatTime(kadang.elapsedTime)}`, VIRTUAL_WIDTH / 2, 340);
-        ctx.font = "20px sans-serif";
-        ctx.fillText("Tap screen to view game info & restart.", VIRTUAL_WIDTH / 2, 400);
+        ctx.fillText("Tap screen to view game info & restart.", VIRTUAL_WIDTH / 2, 410);
     }
-}
-
-function drawStepBtn(cx, cy, r, label) {
-    ctx.save();
-    ctx.fillStyle = "#4E3629";
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = "#E5A93C";
-    ctx.lineWidth = 3;
-    ctx.stroke();
-
-    ctx.fillStyle = "#FFFFFF";
-    ctx.font = "bold 15px sans-serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(label, cx, cy);
-    ctx.restore();
 }
 
 function renderLobby() {
@@ -2000,9 +2042,19 @@ function renderAchievementsScreen() {
         ctx.font = "14px sans-serif";
         ctx.fillText(card.desc, x + w / 2, y + 110);
 
+        let statusText = "LOCKED";
+        let statusColor = "#A34836";
+        if (card.count === 10) {
+            statusText = "COMPLETED";
+            statusColor = "#3A6351";
+        } else if (card.count > 0) {
+            statusText = "ONGOING";
+            statusColor = "#E5A93C";
+        }
+
         ctx.font = "bold 28px sans-serif";
-        ctx.fillStyle = card.count > 0 ? "#3A6351" : "#A34836";
-        ctx.fillText(card.count > 0 ? "COMPLETED" : "LOCKED", x + w / 2, y + 220);
+        ctx.fillStyle = statusColor;
+        ctx.fillText(statusText, x + w / 2, y + 220);
 
         ctx.font = "16px sans-serif";
         ctx.fillStyle = "#E2D7C5";
@@ -2014,78 +2066,163 @@ function renderBadgesScreen() {
     ctx.clearRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
     drawCanvasBackground();
 
-    ctx.fillStyle = "rgba(18, 15, 13, 0.85)";
+    ctx.fillStyle = "rgba(18, 15, 13, 0.90)";
     ctx.fillRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 
     drawInGameExitButton();
 
-    ctx.fillStyle = "#E5A93C";
-    ctx.font = "bold 36px sans-serif";
+    ctx.fillStyle = "#F3BA4F";
+    ctx.font = "bold 32px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("WARRIOR BADGES", VIRTUAL_WIDTH / 2, 75);
+    ctx.fillText("WARRIOR BADGES", VIRTUAL_WIDTH / 2, 45);
 
     ctx.fillStyle = "#E2D7C5";
-    ctx.font = "16px sans-serif";
-    ctx.fillText("Inspect tribal insignias and unlock requirements", VIRTUAL_WIDTH / 2, 105);
+    ctx.font = "14px sans-serif";
+    ctx.fillText("Inspect tribal insignias and unlock requirements", VIRTUAL_WIDTH / 2, 68);
 
     const badges = [
-        { rank: "Chon-gyog", sub: "Fast Runner", desc: "Awarded for completing the Easy Kalinga hunt.", requirement: "Win 1 Easy Dokdokma game", unlocked: playerAchievements.EASY.length > 0 },
-        { rank: "Mansasag", sub: "Agile Tracker", desc: "Awarded for exceptional reflexes in Medium trials.", requirement: "Win 1 Medium Dokdokma game", unlocked: playerAchievements.MEDIUM.length > 0 },
-        { rank: "Maingel", sub: "Brave Warrior", desc: "The highest tribal honor for conquering Hard trials.", requirement: "Win 1 Hard Dokdokma game", unlocked: playerAchievements.HARD.length > 0 }
+        {
+            rank: "Chon-gyog",
+            sub: "Fast Runner",
+            desc: "Awarded for completing the Easy Kalinga hunt.",
+            requirement: "Collect all 10 Easy Artifacts (10/10)",
+            count: playerAchievements.EASY.length,
+            max: 10,
+            unlocked: playerAchievements.EASY.length === 10
+        },
+        {
+            rank: "Mansasag",
+            sub: "Agile Tracker",
+            desc: "Awarded for exceptional reflexes in Medium trials.",
+            requirement: "Collect all 10 Medium Artifacts (10/10)",
+            count: playerAchievements.MEDIUM.length,
+            max: 10,
+            unlocked: playerAchievements.MEDIUM.length === 10
+        },
+        {
+            rank: "Maingel",
+            sub: "Brave Warrior",
+            desc: "The highest tribal honor for conquering Hard trials.",
+            requirement: "Collect all 10 Hard Artifacts (10/10)",
+            count: playerAchievements.HARD.length,
+            max: 10,
+            unlocked: playerAchievements.HARD.length === 10
+        },
+        {
+            rank: "Pasil Potter",
+            sub: "Archivist",
+            desc: "Uncover every single cultural relic.",
+            requirement: "Collect all 30/30 Artifacts",
+            count: playerAchievements.EASY.length + playerAchievements.MEDIUM.length + playerAchievements.HARD.length,
+            max: 30,
+            unlocked: (playerAchievements.EASY.length + playerAchievements.MEDIUM.length + playerAchievements.HARD.length) === 30
+        },
+        {
+            rank: "Stilt Acrobat",
+            sub: "Balanced Stride",
+            desc: "Win a stilt race without a single stumble.",
+            requirement: "Finish Kadang-Kadang with 0 stumbles",
+            count: 0,
+            max: 1,
+            unlocked: false
+        },
+        {
+            rank: "Kabunian",
+            sub: "Mountain Sprinter",
+            desc: "Mastery of speed and balance in the high mountain stilt race.",
+            requirement: "Win a Kadang-Kadang race",
+            count: (kadang.isGameOver && kadang.winner !== null) ? 1 : 0,
+            max: 1,
+            unlocked: kadang.isGameOver && kadang.winner !== null
+        }
     ];
 
-    badges.forEach((b, idx) => {
-        const x = 160 + idx * 340;
-        const y = 140;
-        const w = 280;
-        const h = 420;
+    const cardW = 310;
+    const cardH = 250;
+    const gapX = 25;
+    const gapY = 20;
+    const startX = (VIRTUAL_WIDTH - (3 * cardW + 2 * gapX)) / 2;
+    const startY = 95;
 
-        ctx.fillStyle = "#2B1A0E";
+    badges.forEach((b, idx) => {
+        const col = idx % 3;
+        const row = Math.floor(idx / 3);
+
+        const x = startX + col * (cardW + gapX);
+        const y = startY + row * (cardH + gapY);
+        const w = cardW;
+        const h = cardH;
+
+        let statusText = "STATUS: LOCKED";
+        let statusColor = "#B84A39";
+        let circleSymbol = "🔒";
+
+        if (b.unlocked) {
+            statusText = "STATUS: COMPLETED";
+            statusColor = "#4A8C6F";
+            circleSymbol = "★";
+        } else if (b.count > 0 && b.count < b.max) {
+            statusText = "STATUS: ONGOING";
+            statusColor = "#E5A93C";
+            circleSymbol = "🔒";
+        }
+
+        ctx.fillStyle = "#22130A";
         ctx.fillRect(x, y, w, h);
-        ctx.strokeStyle = b.unlocked ? "#E5A93C" : "#5C4028";
-        ctx.lineWidth = 3;
+        ctx.strokeStyle = b.unlocked ? "#F3BA4F" : "#4A3322";
+        ctx.lineWidth = b.unlocked ? 3 : 2;
         ctx.strokeRect(x, y, w, h);
 
-        ctx.fillStyle = b.unlocked ? "#C28245" : "#3C281E";
-        ctx.beginPath();
-        ctx.arc(x + w / 2, y + 80, 45, 0, Math.PI * 2);
-        ctx.fill();
+        const circleX = x + w / 2;
+        const circleY = y + 42;
+        const circleRadius = 26;
 
-        ctx.strokeStyle = "#E5A93C";
-        ctx.lineWidth = 3;
+        ctx.fillStyle = b.unlocked ? "#C28245" : "#2B1A0E";
+        ctx.beginPath();
+        ctx.arc(circleX, circleY, circleRadius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = b.unlocked ? "#F3BA4F" : "#6E4C33";
+        ctx.lineWidth = 2;
         ctx.stroke();
 
         ctx.fillStyle = "#FFFFFF";
-        ctx.font = "bold 32px sans-serif";
+        ctx.font = "bold 20px sans-serif";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText(b.unlocked ? "★" : "🔒", x + w / 2, y + 80);
+        ctx.fillText(circleSymbol, circleX, circleY);
         ctx.textBaseline = "alphabetic";
 
-        ctx.fillStyle = b.unlocked ? "#E5A93C" : "#8C5A32";
-        ctx.font = "bold 22px sans-serif";
-        ctx.fillText(b.rank, x + w / 2, y + 160);
-
-        ctx.fillStyle = "#C28245";
-        ctx.font = "15px sans-serif";
-        ctx.fillText(`(${b.sub})`, x + w / 2, y + 185);
-
-        ctx.fillStyle = "#E2D7C5";
-        ctx.font = "14px sans-serif";
-        ctx.fillText(b.desc, x + w / 2, y + 245, w - 20);
-
-        ctx.fillStyle = b.unlocked ? "#3A6351" : "#A34836";
+        ctx.fillStyle = b.unlocked ? "#F3BA4F" : "#A67C52";
         ctx.font = "bold 15px sans-serif";
-        ctx.fillText(b.unlocked ? "STATUS: UNLOCKED" : "STATUS: LOCKED", x + w / 2, y + 330);
+        ctx.textAlign = "center";
+        ctx.fillText(b.rank, x + w / 2, y + 90);
 
-        ctx.fillStyle = "#4E3629";
-        ctx.fillRect(x + 20, y + 355, w - 40, 40);
-        ctx.strokeStyle = "#E5A93C";
-        ctx.strokeRect(x + 20, y + 355, w - 40, 40);
+        ctx.fillStyle = "#D49B57";
+        ctx.font = "11px sans-serif";
+        ctx.fillText(`(${b.sub})`, x + w / 2, y + 107);
+
+        ctx.fillStyle = "#F7F1E3";
+        ctx.font = "12px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(b.desc, x + w / 2, y + 138, w - 30);
+
+        ctx.fillStyle = statusColor;
+        ctx.font = "bold 11px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(statusText, x + w / 2, y + 172);
+
+        const btnH = 34;
+        const btnY = y + 192;
+        ctx.fillStyle = "#3D2617";
+        ctx.fillRect(x + 18, btnY, w - 36, btnH);
+        ctx.strokeStyle = b.unlocked ? "#F3BA4F" : "#6E4C33";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x + 18, btnY, w - 36, btnH);
 
         ctx.fillStyle = "#FFFFFF";
-        ctx.font = "bold 14px sans-serif";
-        ctx.fillText("INSPECT INSIGNIA", x + w / 2, y + 380);
+        ctx.font = "bold 11px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("INSPECT INSIGNIA", x + w / 2, btnY + 22);
     });
 
     if (badgeInterface.selectedBadgeIndex !== null) {
@@ -2100,11 +2237,11 @@ function renderBadgesScreen() {
 
         ctx.fillStyle = "#2B1A0E";
         ctx.fillRect(modalX, modalY, modalW, modalH);
-        ctx.strokeStyle = "#E5A93C";
+        ctx.strokeStyle = "#F3BA4F";
         ctx.lineWidth = 4;
         ctx.strokeRect(modalX, modalY, modalW, modalH);
 
-        ctx.fillStyle = "#E5A93C";
+        ctx.fillStyle = "#F3BA4F";
         ctx.font = "bold 26px sans-serif";
         ctx.textAlign = "center";
         ctx.fillText(`INSIGNIA: ${b.rank.toUpperCase()}`, VIRTUAL_WIDTH / 2, modalY + 50);
@@ -2117,7 +2254,7 @@ function renderBadgesScreen() {
         ctx.font = "16px sans-serif";
         ctx.fillText(b.desc, VIRTUAL_WIDTH / 2, modalY + 135, modalW - 40);
 
-        ctx.fillStyle = "#E5A93C";
+        ctx.fillStyle = "#F3BA4F";
         ctx.font = "bold 16px sans-serif";
         ctx.fillText(`Unlock Requirement: ${b.requirement}`, VIRTUAL_WIDTH / 2, modalY + 200);
 
@@ -2128,7 +2265,7 @@ function renderBadgesScreen() {
 
         ctx.fillStyle = "#C28245";
         ctx.fillRect(btnCloseX, btnCloseY, btnCloseW, btnCloseH);
-        ctx.strokeStyle = "#E5A93C";
+        ctx.strokeStyle = "#F3BA4F";
         ctx.strokeRect(btnCloseX, btnCloseY, btnCloseW, btnCloseH);
 
         ctx.fillStyle = "#FFFFFF";
@@ -2226,83 +2363,124 @@ let isRegisterMode = false;
 
     authBtn.addEventListener("click", () => {
         closeDrawer();
-        const authModal = document.getElementById("auth-modal");
-        if (authModal) {
-            authModal.classList.remove("hidden");
-            authModal.style.display = "flex";
-        }
+        openAuthModal();
     });
 
     drawerList.insertBefore(authBtn, drawerList.firstChild);
 })();
 
-const authToggleBtn = document.getElementById("auth-toggle-btn");
-if (authToggleBtn) {
-    authToggleBtn.addEventListener("click", () => {
-        isRegisterMode = !isRegisterMode;
-        document.getElementById("auth-title").textContent = isRegisterMode ? "REGISTER ACCOUNT" : "ACCOUNT LOGIN";
-        document.getElementById("auth-submit-btn").textContent = isRegisterMode ? "REGISTER" : "LOGIN";
-        document.getElementById("auth-toggle-btn").textContent = isRegisterMode ? "Already have an account? Login" : "Need an account? Register";
-    });
-}
+function openAuthModal() {
+    let authModal = document.getElementById("auth-modal");
+    if (!authModal) {
+        authModal = document.createElement("div");
+        authModal.id = "auth-modal";
+        authModal.className = "custom-modal";
+        authModal.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;z-index:9999;";
+        document.body.appendChild(authModal);
+    }
 
-const authCloseBtn = document.getElementById("auth-close-btn");
-if (authCloseBtn) {
-    authCloseBtn.addEventListener("click", () => {
-        const authModal = document.getElementById("auth-modal");
-        if (authModal) {
-            authModal.classList.add("hidden");
-            authModal.style.display = "none";
-        }
-    });
-}
+    if (currentUser) {
+        // Logout Interface when already logged in
+        authModal.innerHTML = `
+            <div style="background:#2B1A0E;border:3px solid #E5A93C;padding:30px;border-radius:8px;width:380px;text-align:center;position:relative;box-sizing:border-box;">
+                <button id="auth-close-btn" style="position:absolute;top:12px;right:15px;background:none;border:none;color:#E5A93C;font-size:22px;cursor:pointer;font-weight:bold;">✕</button>
+                <h2 style="color:#E5A93C;margin-top:0;font-family:sans-serif;">ACCOUNT PROFILE</h2>
+                <p style="color:#E2D7C5;font-size:18px;margin:20px 0;">Logged in as: <strong style="color:#E5A93C;">${currentUser.username}</strong></p>
+                <button id="auth-logout-btn" style="background:#A34836;color:#FFF;border:2px solid #E5A93C;padding:12px 20px;border-radius:4px;width:100%;font-weight:bold;cursor:pointer;font-size:16px;margin-bottom:12px;">LOGOUT</button>
+                <button id="auth-guest-continue" style="background:#4E3629;color:#FFF;border:1px solid #C28245;padding:10px 20px;border-radius:4px;width:100%;cursor:pointer;font-size:14px;">CONTINUE AS GUEST</button>
+            </div>
+        `;
+        authModal.style.display = "flex";
+        authModal.classList.remove("hidden");
 
-const authSubmitBtn = document.getElementById("auth-submit-btn");
-if (authSubmitBtn) {
-    authSubmitBtn.addEventListener("click", async () => {
-        const username = document.getElementById("auth-username").value.trim();
-        const password = document.getElementById("auth-password").value.trim();
-        const msgElem = document.getElementById("auth-msg");
+        document.getElementById("auth-logout-btn").addEventListener("click", () => {
+            currentUser = null;
+            const authMenuBtn = document.getElementById("btn-menu-auth");
+            if (authMenuBtn) authMenuBtn.textContent = "Account Login";
+            closeAllModals();
+            alert("Successfully logged out.");
+        });
 
-        if (!username || !password) {
-            msgElem.textContent = "Please fill in all fields.";
-            return;
-        }
+        document.getElementById("auth-guest-continue").addEventListener("click", () => {
+            closeAllModals();
+        });
+    } else {
+        // Login / Register Interface when guest
+        authModal.innerHTML = `
+            <div style="background:#2B1A0E;border:3px solid #E5A93C;padding:30px;border-radius:8px;width:380px;text-align:center;position:relative;box-sizing:border-box;">
+                <button id="auth-close-btn" style="position:absolute;top:12px;right:15px;background:none;border:none;color:#E5A93C;font-size:22px;cursor:pointer;font-weight:bold;">✕</button>
+                <h2 id="auth-title" style="color:#E5A93C;margin-top:0;font-family:sans-serif;">ACCOUNT LOGIN</h2>
+                <input type="text" id="auth-username" placeholder="Username" style="width:100%;padding:12px;margin:10px 0;background:#18110D;border:1px solid #5C4333;color:#FFF;border-radius:4px;box-sizing:border-box;" />
+                <input type="password" id="auth-password" placeholder="Password" style="width:100%;padding:12px;margin:10px 0;background:#18110D;border:1px solid #5C4333;color:#FFF;border-radius:4px;box-sizing:border-box;" />
+                <button id="auth-submit-btn" style="background:#C28245;color:#FFF;border:2px solid #E5A93C;padding:12px 20px;border-radius:4px;width:100%;font-weight:bold;cursor:pointer;font-size:16px;margin-top:10px;">LOGIN</button>
+                <p id="auth-msg" style="color:#A34836;margin:10px 0;font-size:14px;min-height:20px;"></p>
+                <button id="auth-toggle-btn" style="background:none;border:none;color:#E5C396;cursor:pointer;text-decoration:underline;font-size:14px;margin-top:5px;">Need an account? Register</button>
+                <div style="margin-top:15px;border-top:1px solid #5C4333;padding-top:15px;">
+                    <button id="auth-guest-continue" style="background:#4E3629;color:#FFF;border:1px solid #C28245;padding:10px 20px;border-radius:4px;width:100%;cursor:pointer;font-size:14px;">CONTINUE AS GUEST</button>
+                </div>
+            </div>
+        `;
+        authModal.style.display = "flex";
+        authModal.classList.remove("hidden");
 
-        const pathSegments = window.location.pathname.split('/');
-        pathSegments.pop();
-        const folderBase = pathSegments.join('/');
-        const endpoint = window.location.origin + folderBase + (isRegisterMode ? "/register.php" : "/login.php");
+        let localIsRegisterMode = false;
+        document.getElementById("auth-toggle-btn").addEventListener("click", () => {
+            localIsRegisterMode = !localIsRegisterMode;
+            document.getElementById("auth-title").textContent = localIsRegisterMode ? "REGISTER ACCOUNT" : "ACCOUNT LOGIN";
+            document.getElementById("auth-submit-btn").textContent = localIsRegisterMode ? "REGISTER" : "LOGIN";
+            document.getElementById("auth-toggle-btn").textContent = localIsRegisterMode ? "Already have an account? Login" : "Need an account? Register";
+        });
 
-        try {
-            const response = await fetch(endpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password })
-            });
-            const result = await response.json();
+        document.getElementById("auth-submit-btn").addEventListener("click", async () => {
+            const username = document.getElementById("auth-username").value.trim();
+            const password = document.getElementById("auth-password").value.trim();
+            const msgElem = document.getElementById("auth-msg");
 
-            if (result.status === "success") {
-                currentUser = { id: result.user_id || result.user.id, username: result.username || result.user.username };
-                if (result.user && result.user.progress) {
-                    playerAchievements.EASY = result.user.progress.EASY || [];
-                    playerAchievements.MEDIUM = result.user.progress.MEDIUM || [];
-                    playerAchievements.HARD = result.user.progress.HARD || [];
-                }
-                const authModal = document.getElementById("auth-modal");
-                if (authModal) {
+            if (!username || !password) {
+                msgElem.textContent = "Please fill in all fields.";
+                return;
+            }
+
+            const pathSegments = window.location.pathname.split('/');
+            pathSegments.pop();
+            const folderBase = pathSegments.join('/');
+            const endpoint = window.location.origin + folderBase + (localIsRegisterMode ? "/register.php" : "/login.php");
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password })
+                });
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    currentUser = { id: result.user_id || result.user.id, username: result.username || result.user.username };
+                    if (result.user && result.user.progress) {
+                        playerAchievements.EASY = result.user.progress.EASY || [];
+                        playerAchievements.MEDIUM = result.user.progress.MEDIUM || [];
+                        playerAchievements.HARD = result.user.progress.HARD || [];
+                    }
                     authModal.classList.add("hidden");
                     authModal.style.display = "none";
+                    const authMenuBtn = document.getElementById("btn-menu-auth");
+                    if (authMenuBtn) authMenuBtn.textContent = `Account: ${currentUser.username}`;
+                    alert(`Welcome back, ${currentUser.username}! Your progress is synced.`);
+                } else {
+                    msgElem.textContent = result.message;
                 }
-                const authMenuBtn = document.getElementById("btn-menu-auth");
-                if (authMenuBtn) authMenuBtn.textContent = `Account: ${currentUser.username}`;
-                alert(`Welcome back, ${currentUser.username}! Your progress is synced.`);
-            } else {
-                msgElem.textContent = result.message;
+            } catch (err) {
+                msgElem.textContent = "Connection to server failed.";
             }
-        } catch (err) {
-            msgElem.textContent = "Connection to server failed.";
-        }
+        });
+
+        document.getElementById("auth-guest-continue").addEventListener("click", () => {
+            closeAllModals();
+        });
+    }
+
+    document.getElementById("auth-close-btn").addEventListener("click", () => {
+        closeAllModals();
     });
 }
 
