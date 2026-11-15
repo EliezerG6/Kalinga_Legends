@@ -19,26 +19,82 @@
     <!-- Responsive Game Canvas Viewport -->
     <div id="game-container">
         <canvas id="gameCanvas" width="1280" height="720"></canvas>
+        <section id="phone-lobby" class="phone-lobby hidden" aria-label="Game lobby">
+            <header class="phone-lobby-heading">
+                <p class="phone-lobby-eyebrow">WELCOME TO</p>
+                <h2>KALINGA LEGENDS</h2>
+                <p>Choose a traditional game to play</p>
+            </header>
+            <div class="phone-game-cards">
+                <article class="phone-game-card dokdokma-card">
+                    <div>
+                        <p class="phone-card-label">CO-OP CHALLENGE</p>
+                        <h3>DOKDOKMA</h3>
+                        <p>Chase and catch the escaped pig.</p>
+                    </div>
+                    <button id="phone-play-dokdokma" type="button">PLAY DOKDOKMA</button>
+                </article>
+                <article class="phone-game-card kadang-card">
+                    <div>
+                        <p class="phone-card-label">LOCAL RACE</p>
+                        <h3>KADANG-KADANG</h3>
+                        <p>Race together on traditional stilts.</p>
+                    </div>
+                    <button id="phone-play-kadang" type="button">PLAY KADANG-KADANG</button>
+                </article>
+            </div>
+            <nav class="phone-lobby-links" aria-label="More game options">
+                <button id="phone-how-to-play" type="button">HOW TO PLAY</button>
+                <button id="phone-achievements" type="button">ACHIEVEMENTS</button>
+                <button id="phone-artifacts" type="button">ARTIFACTS</button>
+            </nav>
+        </section>
+        <section id="phone-rotate-prompt" class="phone-rotate-prompt hidden" aria-live="polite">
+            <div class="rotate-phone-icon" aria-hidden="true">↻</div>
+            <h2>Rotate your phone</h2>
+            <p>Landscape layout keeps the game controls and content clear and easy to use.</p>
+            <button id="phone-return-lobby" type="button">RETURN TO GAME MENU</button>
+        </section>
+        <div id="phone-loading" class="phone-loading hidden">Preparing your game…</div>
     </div>
 
     <!-- Side Navigation Drawer -->
     <div id="side-drawer" class="drawer-closed">
         <div class="drawer-header">
-            <h2>MAIN MENU</h2>
+            <div class="drawer-brand">
+                <p>KALINGA LEGENDS</p>
+                <h2>GAME MENU</h2>
+                <span>Continue your journey</span>
+            </div>
             <button id="close-drawer-btn" aria-label="Close Menu">&times;</button>
         </div>
         <div class="drawer-menu">
-            <button id="btn-lobby" class="nav-item">Return to Lobby</button>
-            <button id="btn-settings" class="nav-item">Settings & Audio</button>
-
-            <!-- Display Mode Selector -->
-            <div class="mode-toggle-container">
-                <p class="mode-label">DISPLAY MODE</p>
-                <div class="mode-buttons">
-                    <button id="btn-mode-portrait" class="btn-mode active">Portrait</button>
-                    <button id="btn-mode-landscape" class="btn-mode">Landscape</button>
+            <section class="drawer-group">
+                <p class="drawer-section-title">QUICK ACCESS</p>
+                <button id="btn-lobby" class="nav-item drawer-btn drawer-primary">
+                    <span class="drawer-item-label">Return to Game</span>
+                    <span class="drawer-item-note">Back to the game hub</span>
+                </button>
+            </section>
+            <section class="drawer-group">
+                <p class="drawer-section-title">YOUR JOURNEY</p>
+                <div id="drawer-progress-actions" class="drawer-action-list"></div>
+            </section>
+            <section class="drawer-group">
+                <p class="drawer-section-title">SETTINGS</p>
+                <button id="btn-settings" class="nav-item drawer-btn">Settings &amp; Audio</button>
+                <div class="mode-toggle-container">
+                    <p class="mode-label">DISPLAY MODE</p>
+                    <div class="mode-buttons">
+                        <button id="btn-mode-portrait" class="btn-mode active">Phone Mode</button>
+                        <button id="btn-mode-landscape" class="btn-mode">PC Mode</button>
+                    </div>
                 </div>
-            </div>
+            </section>
+            <section class="drawer-group drawer-account-group">
+                <p class="drawer-section-title">ACCOUNT</p>
+                <div id="drawer-account-actions" class="drawer-action-list"></div>
+            </section>
         </div>
     </div>
 

@@ -27,40 +27,40 @@ let currentDeviceMode = (window.innerWidth <= 800 || 'ontouchstart' in window) ?
 // Cultural Artifact & Achievement Database for Rewards
 const CULTURAL_ARTIFACTS = {
     EASY: [
-        { name: "Banga", desc: "A traditional earthenware clay pot handcrafted in Pasil, Kalinga, used for cooking and storing water." },
-        { name: "Lingling-o", desc: "An indigenous fertility amulet and pendant crafted from brass, bronze, or jade." },
-        { name: "Winnowing Basket", desc: "A flat, circular woven bamboo tray used to separate grain husks from rice." },
-        { name: "Agaw-ed", desc: "A traditional woven sleeping mat made from reed or palm leaves." },
-        { name: "Kalinga Headband", desc: "A woven cotton band adorned with traditional red, black, and white threads." },
-        { name: "Banga Rattan Ring", desc: "A woven ring cushion placed underneath clay pots for stability." },
-        { name: "Kallaleng", desc: "A bamboo nose flute played during courtship or quiet mountain moments." },
-        { name: "Inabel Pouch", desc: "A small hand-woven textile bag used to carry personal items." },
-        { name: "Siok", desc: "A hand-carved wooden utensil featuring intricate tribal motifs." },
-        { name: "Coconut Ladle", desc: "A traditional wooden-handled spoon made from polished coconut shells." }
+        { name: "Banga", icon: "pottery", desc: "A traditional earthenware clay pot handcrafted in Pasil, Kalinga, used for cooking and storing water." },
+        { name: "Lingling-o", icon: "pendant", desc: "An indigenous fertility amulet and pendant crafted from brass, bronze, or jade." },
+        { name: "Winnowing Basket", icon: "basket", desc: "A flat, circular woven bamboo tray used to separate grain husks from rice." },
+        { name: "Agaw-ed", icon: "woven", desc: "A traditional woven sleeping mat made from reed or palm leaves." },
+        { name: "Kalinga Headband", icon: "headband", desc: "A woven cotton band adorned with traditional red, black, and white threads." },
+        { name: "Banga Rattan Ring", icon: "ring", desc: "A woven ring cushion placed underneath clay pots for stability." },
+        { name: "Kallaleng", icon: "flute", desc: "A bamboo nose flute played during courtship or quiet mountain moments." },
+        { name: "Inabel Pouch", icon: "pouch", desc: "A small hand-woven textile bag used to carry personal items." },
+        { name: "Siok", icon: "utensil", desc: "A hand-carved wooden utensil featuring intricate tribal motifs." },
+        { name: "Coconut Ladle", icon: "ladle", desc: "A traditional wooden-handled spoon made from polished coconut shells." }
     ],
     MEDIUM: [
-        { name: "Pasiking", desc: "An indigenous backpack intricately woven from split rattan and bamboo." },
-        { name: "Ilik (Bolo)", desc: "A sturdy single-edged machete used for clearing paths and farming." },
-        { name: "Gansa", desc: "A flat bronze musical instrument beaten during regional celebrations." },
-        { name: "Ukop (Rain Cape)", desc: "A traditional weather garment woven from dried palm fronds." },
-        { name: "Akil (Bamboo Pipe)", desc: "A cylindrical bamboo container used to carry spring water or wine." },
-        { name: "Dinalag Stool", desc: "A sturdy low chair carved from a single piece of hardwood." },
-        { name: "Batek Case", desc: "A carved wooden cylinder used by traditional tattoo practitioners." },
-        { name: "Rattan Fire Kit", desc: "A traditional friction-based fire starter bundle in a woven case." },
-        { name: "Bobo (Fishing Trap)", desc: "A funnel-shaped bamboo trap placed in rivers to catch mountain fish." },
-        { name: "Kalasag Hat", desc: "A reinforced woven sun hat worn during long hours of farming." }
+        { name: "Pasiking", icon: "backpack", desc: "An indigenous backpack intricately woven from split rattan and bamboo." },
+        { name: "Ilik (Bolo)", icon: "bolo", desc: "A sturdy single-edged machete used for clearing paths and farming." },
+        { name: "Gansa", icon: "gong", desc: "A flat bronze musical instrument beaten during regional celebrations." },
+        { name: "Ukop (Rain Cape)", icon: "cape", desc: "A traditional weather garment woven from dried palm fronds." },
+        { name: "Akil (Bamboo Pipe)", icon: "bamboo", desc: "A cylindrical bamboo container used to carry spring water or wine." },
+        { name: "Dinalag Stool", icon: "stool", desc: "A sturdy low chair carved from a single piece of hardwood." },
+        { name: "Batek Case", icon: "cylinder", desc: "A carved wooden cylinder used by traditional tattoo practitioners." },
+        { name: "Rattan Fire Kit", icon: "firekit", desc: "A traditional friction-based fire starter bundle in a woven case." },
+        { name: "Bobo (Fishing Trap)", icon: "fishtrap", desc: "A funnel-shaped bamboo trap placed in rivers to catch mountain fish." },
+        { name: "Kalasag Hat", icon: "hat", desc: "A reinforced woven sun hat worn during long hours of farming." }
     ],
     HARD: [
-        { name: "Chilan (Spear)", desc: "A forged metal blade with a carved wooden shaft representing tribal protection." },
-        { name: "Kalasag Shield", desc: "A rectangular carved wooden shield featuring geometric relief patterns." },
-        { name: "Kone-ad Beads", desc: "Precious heirloom necklaces made of agate, shell, and brass beads." },
-        { name: "Aliwa (Battle Axe)", desc: "A defensive weapon featuring a crescent-shaped steel blade and hooked pick." },
-        { name: "Ba-ag (G-String)", desc: "A hand-woven traditional loincloth dyed with sacred ancestral motifs." },
-        { name: "Kallong Armlet", desc: "Heavy metallic arm rings worn by respected community leaders." },
-        { name: "Pundung Token", desc: "A sacred heirloom artifact exchanged to seal a formal Bodong peace pact." },
-        { name: "Kaping Headdress", desc: "An ornate ceremonial crown adorned with wild boar tusks and feathers." },
-        { name: "Tupil Quiver", desc: "An intricately carved bamboo tube case designed to hold hunting darts." },
-        { name: "Ancestral Guardian", desc: "A miniature carved wooden guardian figure placed near doorways to ward off spirits." }
+        { name: "Chilan (Spear)", icon: "spear", desc: "A forged metal blade with a carved wooden shaft representing tribal protection." },
+        { name: "Kalasag Shield", icon: "shield", desc: "A rectangular carved wooden shield featuring geometric relief patterns." },
+        { name: "Kone-ad Beads", icon: "beads", desc: "Precious heirloom necklaces made of agate, shell, and brass beads." },
+        { name: "Aliwa (Battle Axe)", icon: "axe", desc: "A defensive weapon featuring a crescent-shaped steel blade and hooked pick." },
+        { name: "Ba-ag (G-String)", icon: "textile", desc: "A hand-woven traditional loincloth dyed with sacred ancestral motifs." },
+        { name: "Kallong Armlet", icon: "armlet", desc: "Heavy metallic arm rings worn by respected community leaders." },
+        { name: "Pundung Token", icon: "token", desc: "A sacred heirloom artifact exchanged to seal a formal Bodong peace pact." },
+        { name: "Kaping Headdress", icon: "headdress", desc: "An ornate ceremonial crown adorned with wild boar tusks and feathers." },
+        { name: "Tupil Quiver", icon: "quiver", desc: "An intricately carved bamboo tube case designed to hold hunting darts." },
+        { name: "Ancestral Guardian", icon: "figurine", desc: "A miniature carved wooden guardian figure placed near doorways to ward off spirits." }
     ]
 };
 
@@ -70,6 +70,62 @@ const playerAchievements = {
     MEDIUM: [],
     HARD: []
 };
+
+const PERSONAL_BESTS_STORAGE_KEY = "kalingaLegendsPersonalBestTimes";
+const personalBestTimes = loadPersonalBestTimes();
+
+function loadPersonalBestTimes() {
+    const bests = {
+        dokdokma: { EASY: null, MEDIUM: null, HARD: null },
+        kadang: null
+    };
+
+    try {
+        const saved = localStorage.getItem(PERSONAL_BESTS_STORAGE_KEY);
+        if (!saved) return bests;
+
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === "object") {
+            for (const difficulty of Object.keys(bests.dokdokma)) {
+                const time = parsed.dokdokma && parsed.dokdokma[difficulty];
+                if (Number.isInteger(time) && time >= 0) bests.dokdokma[difficulty] = time;
+            }
+
+            if (Number.isInteger(parsed.kadang) && parsed.kadang >= 0) {
+                bests.kadang = parsed.kadang;
+            }
+        }
+    } catch (error) {
+        console.warn("Could not load personal best times.", error);
+    }
+
+    return bests;
+}
+
+function recordDokdokmaBest(seconds, difficulty) {
+    const previousBest = personalBestTimes.dokdokma[difficulty];
+    if (previousBest !== null && seconds >= previousBest) return false;
+
+    personalBestTimes.dokdokma[difficulty] = seconds;
+    savePersonalBestTimes();
+    return true;
+}
+
+function recordKadangBest(seconds) {
+    if (personalBestTimes.kadang !== null && seconds >= personalBestTimes.kadang) return false;
+
+    personalBestTimes.kadang = seconds;
+    savePersonalBestTimes();
+    return true;
+}
+
+function savePersonalBestTimes() {
+    try {
+        localStorage.setItem(PERSONAL_BESTS_STORAGE_KEY, JSON.stringify(personalBestTimes));
+    } catch (error) {
+        console.warn("Could not save personal best times.", error);
+    }
+}
 
 let currentRunArtifact = null;
 
@@ -176,6 +232,10 @@ const toggleBgmBtn = document.getElementById("btn-toggle-bgm");
 
 const btnModePortrait = document.getElementById("btn-mode-portrait");
 const btnModeLandscape = document.getElementById("btn-mode-landscape");
+const phoneLobby = document.getElementById("phone-lobby");
+const phoneRotatePrompt = document.getElementById("phone-rotate-prompt");
+const phoneLoading = document.getElementById("phone-loading");
+const narrowPortraitQuery = window.matchMedia("(orientation: portrait) and (max-width: 800px)");
 
 // Setup Device Mode Buttons (Phone vs PC)
 if (btnModePortrait) {
@@ -204,16 +264,89 @@ function setDeviceMode(mode) {
             btnModePortrait.classList.remove("active");
         }
     }
-    document.body.classList.add("landscape-mode");
-    document.body.classList.remove("portrait-mode", "phone-mode");
+    document.body.classList.remove("portrait-mode", "phone-mode", "landscape-mode");
+    document.body.classList.add(mode === "PHONE" ? "phone-mode" : "landscape-mode");
 }
 setDeviceMode(currentDeviceMode);
+
+function syncPhoneLayout() {
+    const narrowPortrait = narrowPortraitQuery.matches;
+    const showPhoneLobby = narrowPortrait &&
+        (currentState === STATE_LOBBY || currentState === STATE_WELCOME);
+    const showRotatePrompt = narrowPortrait &&
+        currentState !== STATE_LOADING &&
+        currentState !== STATE_LOBBY &&
+        currentState !== STATE_WELCOME;
+    const showLoading = narrowPortrait && currentState === STATE_LOADING;
+
+    if (showPhoneLobby && currentState === STATE_WELCOME) {
+        currentState = STATE_LOBBY;
+    }
+
+    const activeGame = currentState === STATE_DOKDOKMA
+        ? dokdokma
+        : currentState === STATE_KADANG ? kadang : null;
+    if (activeGame && narrowPortrait) {
+        if (activeGame.isCountingDown && !activeGame.phoneOrientationCountdownPaused) {
+            if (activeGame.countdownInterval) clearInterval(activeGame.countdownInterval);
+            activeGame.countdownInterval = null;
+            activeGame.phoneOrientationCountdownPaused = true;
+        } else if (!activeGame.isCountingDown &&
+            !activeGame.isGameOver &&
+            !activeGame.isPaused &&
+            !activeGame.phoneOrientationPaused) {
+            activeGame.isPaused = true;
+            activeGame.pauseStartedAt = Date.now();
+            activeGame.phoneOrientationPaused = true;
+            if (currentState === STATE_DOKDOKMA) releaseDokTouchControls();
+        }
+    } else if (activeGame) {
+        if (activeGame.phoneOrientationCountdownPaused) {
+            activeGame.phoneOrientationCountdownPaused = false;
+            if (activeGame.isCountingDown) activeGame.startCountdown();
+        }
+        if (activeGame.phoneOrientationPaused) {
+            activeGame.startTime += Date.now() - activeGame.pauseStartedAt;
+            activeGame.pauseStartedAt = 0;
+            activeGame.isPaused = false;
+            activeGame.phoneOrientationPaused = false;
+        }
+    }
+
+    if (phoneLobby) phoneLobby.classList.toggle("hidden", !showPhoneLobby);
+    if (phoneRotatePrompt) phoneRotatePrompt.classList.toggle("hidden", !showRotatePrompt);
+    if (phoneLoading) phoneLoading.classList.toggle("hidden", !showLoading);
+}
+
+document.getElementById("phone-play-dokdokma").addEventListener("click", () => {
+    requestFullscreenAndLandscape();
+    openMinigameInfoModal("DOKDOKMA");
+});
+document.getElementById("phone-play-kadang").addEventListener("click", () => {
+    requestFullscreenAndLandscape();
+    openMinigameInfoModal("KADANG");
+});
+document.getElementById("phone-how-to-play").addEventListener("click", () => {
+    requestFullscreenAndLandscape();
+    openHowToPlaySelector();
+});
+document.getElementById("phone-achievements").addEventListener("click", () => {
+    currentState = STATE_ACHIEVEMENTS;
+});
+document.getElementById("phone-artifacts").addEventListener("click", () => {
+    currentState = STATE_ARTIFACTS;
+});
+document.getElementById("phone-return-lobby").addEventListener("click", () => {
+    currentState = STATE_LOBBY;
+    audioManager.playBgm();
+});
 
 // Inject side drawer menu buttons
 (function injectSideDrawerMenuButtons() {
     if (!sideDrawer) return;
 
     const drawerList = sideDrawer.querySelector(".drawer-menu") || sideDrawer;
+    const progressActions = document.getElementById("drawer-progress-actions");
 
     const navItems = [
         { id: "btn-menu-achievements", text: "Achievements", state: STATE_ACHIEVEMENTS },
@@ -229,39 +362,12 @@ setDeviceMode(currentDeviceMode);
             btn.className = "drawer-btn";
             btn.textContent = item.text;
 
-            if (btnSettings && btnSettings.parentNode) {
-                btnSettings.parentNode.insertBefore(btn, btnSettings.nextSibling);
+            if (progressActions) {
+                progressActions.appendChild(btn);
             } else {
                 drawerList.appendChild(btn);
             }
         }
-
-        btn.style.backgroundColor = "#2E241E";
-        btn.style.color = "#E5C396";
-        btn.style.border = "1px solid #5C4333";
-        btn.style.borderRadius = "6px";
-        btn.style.padding = "14px 16px";
-        btn.style.width = "100%";
-        btn.style.textAlign = "center";
-        btn.style.fontFamily = "sans-serif";
-        btn.style.fontSize = "17px";
-        btn.style.fontWeight = "500";
-        btn.style.cursor = "pointer";
-        btn.style.marginTop = "8px";
-        btn.style.marginBottom = "4px";
-        btn.style.boxSizing = "border-box";
-        btn.style.transition = "background-color 0.2s, border-color 0.2s, color 0.2s";
-
-        btn.onmouseover = () => {
-            btn.style.backgroundColor = "#3D2F27";
-            btn.style.borderColor = "#E5A93C";
-            btn.style.color = "#E5A93C";
-        };
-        btn.onmouseout = () => {
-            btn.style.backgroundColor = "#2E241E";
-            btn.style.borderColor = "#5C4333";
-            btn.style.color = "#E5C396";
-        };
 
         btn.addEventListener("click", () => {
             currentState = item.state;
@@ -284,6 +390,71 @@ if (toggleBgmBtn) {
 }
 
 const btnExitGame = { cx: 1220, cy: 45, r: 22 };
+const LOBBY_CARDS = {
+    dokdokma: { x: 290, y: 240, w: 280, h: 320 },
+    kadang: { x: 710, y: 240, w: 280, h: 320 }
+};
+const LOBBY_ACTIONS = {
+    howToPlay: { x: 290, y: 604, w: 210, h: 70 },
+    achievements: { x: 535, y: 604, w: 210, h: 70 },
+    artifacts: { x: 780, y: 604, w: 210, h: 70 }
+};
+const RESULT_ACTIONS = {
+    replay: { x: 410, y: 492, w: 210, h: 84 },
+    lobby: { x: 660, y: 492, w: 210, h: 84 }
+};
+const PAUSE_PANEL = { x: 420, y: 230, w: 440, h: 260 };
+const PAUSE_ACTIONS = {
+    resume: { x: 460, y: 362, w: 165, h: 88 },
+    quit: { x: 655, y: 362, w: 165, h: 88 }
+};
+
+function isPointInRect(x, y, rect) {
+    return x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h;
+}
+
+function handleMinigameResultAction(x, y) {
+    if (isPointInRect(x, y, RESULT_ACTIONS.replay)) {
+        if (currentState === STATE_DOKDOKMA) {
+            const difficulty = dokdokma.difficulty;
+            const playerCount = dokdokma.activePlayersCount;
+            dokdokma.reset(difficulty, playerCount);
+        } else {
+            kadang.reset();
+        }
+        return true;
+    }
+
+    if (isPointInRect(x, y, RESULT_ACTIONS.lobby)) {
+        currentState = STATE_LOBBY;
+        audioManager.playBgm();
+        return true;
+    }
+
+    return false;
+}
+
+function handleMinigamePauseAction(x, y) {
+    const isPaused = currentState === STATE_DOKDOKMA
+        ? dokdokma.isPaused
+        : currentState === STATE_KADANG && kadang.isPaused;
+    if (!isPaused) return false;
+
+    if (isPointInRect(x, y, PAUSE_ACTIONS.resume)) {
+        const game = currentState === STATE_DOKDOKMA ? dokdokma : kadang;
+        if (game.startTime > 0) game.startTime += Date.now() - game.pauseStartedAt;
+        game.pauseStartedAt = 0;
+        game.isPaused = false;
+        return true;
+    }
+
+    if (isPointInRect(x, y, PAUSE_ACTIONS.quit)) {
+        openMinigameInfoModal(currentState === STATE_DOKDOKMA ? "DOKDOKMA" : "KADANG");
+        return true;
+    }
+
+    return true;
+}
 
 function openMinigameInfoModal(gameType) {
     const titleElem = document.getElementById("info-modal-title");
@@ -374,17 +545,67 @@ function openMinigameInfoModal(gameType) {
     openModal(minigameInfoModal);
 }
 
+function openHowToPlaySelector() {
+    const titleElem = document.getElementById("info-modal-title");
+    const bodyElem = document.getElementById("info-modal-body");
+    titleElem.textContent = "HOW TO PLAY";
+    bodyElem.innerHTML = `
+        <p>Choose a game to see its goal, controls, and player modes.</p>
+        <button class="modal-btn-action" id="how-to-play-dokdokma" style="background:#3A6351;">DOKDOKMA</button>
+        <button class="modal-btn-action" id="how-to-play-kadang" style="background:#2E5A78;">KADANG-KADANG</button>
+    `;
+    document.getElementById("how-to-play-dokdokma").addEventListener("click", () => {
+        openMinigameInfoModal("DOKDOKMA");
+    });
+    document.getElementById("how-to-play-kadang").addEventListener("click", () => {
+        openMinigameInfoModal("KADANG");
+    });
+    openModal(minigameInfoModal);
+}
+
 function showDifficultySelector(numPlayers) {
     const titleElem = document.getElementById("info-modal-title");
     const bodyElem = document.getElementById("info-modal-body");
 
-    titleElem.textContent = `DOKDOKMA (${numPlayers} PLAYER${numPlayers > 1 ? 'S' : ''})`;
+    titleElem.textContent = `DOKDOKMA | ${numPlayers} PLAYER${numPlayers > 1 ? 'S' : ''}`;
     bodyElem.innerHTML = `
-        <p style="color: #E5A93C; font-weight: bold;">CHOOSE DIFFICULTY:</p>
-        <button class="modal-btn-action" id="modal-diff-easy">EASY MODE</button>
-        <button class="modal-btn-action" id="modal-diff-medium">MEDIUM MODE</button>
-        <button class="modal-btn-action" id="modal-diff-hard">HARD MODE</button>
-        <button class="modal-btn-action" id="modal-back-players" style="background: #4E3629; margin-top: 10px;">BACK</button>
+        <div class="difficulty-intro">
+            <p class="difficulty-eyebrow">CHOOSE YOUR CHALLENGE</p>
+            <p class="difficulty-help">Catch the pig before your stamina runs out.</p>
+        </div>
+        <div class="difficulty-options">
+            <button class="difficulty-card difficulty-easy" id="modal-diff-easy" type="button" aria-label="Easy: slower pig and slower stamina drain">
+                <span class="difficulty-mark" aria-hidden="true">01</span>
+                <span class="difficulty-copy">
+                    <span class="difficulty-name">Easy</span>
+                    <span class="difficulty-description">A relaxed chase with a slower pig.</span>
+                    <span class="difficulty-tag">BEGINNER</span>
+                </span>
+                <span class="difficulty-meter" aria-hidden="true"><i class="is-active"></i><i></i><i></i></span>
+                <span class="difficulty-chevron" aria-hidden="true"></span>
+            </button>
+            <button class="difficulty-card difficulty-medium" id="modal-diff-medium" type="button" aria-label="Medium: faster pig and moderate stamina drain">
+                <span class="difficulty-mark" aria-hidden="true">02</span>
+                <span class="difficulty-copy">
+                    <span class="difficulty-name">Medium</span>
+                    <span class="difficulty-description">A quicker chase that tests your timing.</span>
+                    <span class="difficulty-tag">BALANCED</span>
+                </span>
+                <span class="difficulty-meter" aria-hidden="true"><i class="is-active"></i><i class="is-active"></i><i></i></span>
+                <span class="difficulty-chevron" aria-hidden="true"></span>
+            </button>
+            <button class="difficulty-card difficulty-hard" id="modal-diff-hard" type="button" aria-label="Hard: fastest pig and rapid stamina drain">
+                <span class="difficulty-mark" aria-hidden="true">03</span>
+                <span class="difficulty-copy">
+                    <span class="difficulty-name">Hard</span>
+                    <span class="difficulty-description">The fastest pig and toughest pursuit.</span>
+                    <span class="difficulty-tag">EXPERT</span>
+                </span>
+                <span class="difficulty-meter" aria-hidden="true"><i class="is-active"></i><i class="is-active"></i><i class="is-active"></i></span>
+                <span class="difficulty-chevron" aria-hidden="true"></span>
+            </button>
+        </div>
+        <button class="difficulty-back" id="modal-back-players" type="button">BACK TO PLAYER MODE</button>
     `;
 
     document.getElementById("modal-diff-easy").addEventListener("click", () => {
@@ -480,6 +701,11 @@ const keys = {};
 window.addEventListener("keydown", e => {
     audioManager.playBgm();
 
+    if (currentState === STATE_DOKDOKMA && dokdokma.isCountingDown) {
+        if (e.code === "Space") e.preventDefault();
+        return;
+    }
+
     if (!keys[e.code]) {
         handleKeyDownOnce(e.code);
     }
@@ -505,7 +731,7 @@ const dualTouchState = {
 };
 
 function handleKeyDownOnce(code) {
-    if (currentState === STATE_KADANG && !kadang.isGameOver) {
+    if (currentState === STATE_KADANG && !kadang.isGameOver && !kadang.isPaused && !kadang.isCountingDown) {
         if (code === "KeyA") {
             kadang.registerStep(1, "left");
         } else if (code === "KeyD") {
@@ -584,7 +810,15 @@ const dokdokma = {
     catchRadius: 105,
     isGameOver: false,
     hasWon: false,
+    resultStartedAt: 0,
+    newPersonalBest: false,
+    isCountingDown: false,
+    countdownTimer: 3,
+    countdownInterval: null,
     isPaused: false,
+    pauseStartedAt: 0,
+    phoneOrientationPaused: false,
+    phoneOrientationCountdownPaused: false,
     spaceWasPressed: false,
     startTime: 0,
     elapsedTime: 0,
@@ -595,6 +829,7 @@ const dokdokma = {
 
     reset(selectedDifficulty = null, numPlayers = 1) {
         audioManager.playBgm();
+        if (this.countdownInterval) clearInterval(this.countdownInterval);
         this.difficulty = selectedDifficulty;
         this.activePlayersCount = numPlayers;
 
@@ -641,16 +876,49 @@ const dokdokma = {
         this.gripProgress = 0;
         this.isGameOver = false;
         this.hasWon = false;
+        this.resultStartedAt = 0;
+        this.newPersonalBest = false;
+        this.isCountingDown = Boolean(selectedDifficulty);
+        this.countdownTimer = 3;
         this.isPaused = false;
+        this.pauseStartedAt = 0;
+        this.phoneOrientationPaused = false;
+        this.phoneOrientationCountdownPaused = false;
         this.spaceWasPressed = false;
         dualTouchState.p1JoystickActive = false;
         dualTouchState.p1TouchId = null;
+        dualTouchState.p1BaseX = 100;
+        dualTouchState.p1BaseY = 580;
+        dualTouchState.p1KnobX = 100;
+        dualTouchState.p1KnobY = 580;
         dualTouchState.p2JoystickActive = false;
         dualTouchState.p2TouchId = null;
+        dualTouchState.p2BaseX = 1180;
+        dualTouchState.p2BaseY = 580;
+        dualTouchState.p2KnobX = 1180;
+        dualTouchState.p2KnobY = 580;
         p1GrabTapped = false;
         p2GrabTapped = false;
-        this.startTime = Date.now();
+        ["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "KeyI", "KeyJ", "KeyK", "KeyL", "Space"].forEach(code => {
+            keys[code] = false;
+        });
+        this.startTime = 0;
         this.elapsedTime = 0;
+
+        if (this.isCountingDown) this.startCountdown();
+    },
+
+    startCountdown() {
+        if (this.countdownInterval) clearInterval(this.countdownInterval);
+        this.countdownInterval = setInterval(() => {
+            this.countdownTimer--;
+            if (this.countdownTimer < 0) {
+                clearInterval(this.countdownInterval);
+                this.countdownInterval = null;
+                this.isCountingDown = false;
+                this.startTime = Date.now();
+            }
+        }, 1000);
     }
 };
 
@@ -662,11 +930,17 @@ const kadang = {
     maxSpeed: 4.5,
     stepDistance: 1.2,
     isGameOver: false,
+    isPaused: false,
+    pauseStartedAt: 0,
+    phoneOrientationPaused: false,
+    phoneOrientationCountdownPaused: false,
     isCountingDown: true,
     countdownTimer: 3,
     countdownInterval: null,
     winner: null,
     loser: null,
+    resultStartedAt: 0,
+    newPersonalBest: false,
     startTime: 0,
     elapsedTime: 0,
     p1: {
@@ -697,10 +971,16 @@ const kadang = {
     reset() {
         audioManager.playBgm();
         this.isGameOver = false;
+        this.isPaused = false;
+        this.pauseStartedAt = 0;
+        this.phoneOrientationPaused = false;
+        this.phoneOrientationCountdownPaused = false;
         this.isCountingDown = true;
         this.countdownTimer = 3;
         this.winner = null;
         this.loser = null;
+        this.resultStartedAt = 0;
+        this.newPersonalBest = false;
         this.elapsedTime = 0;
 
         [this.p1, this.p2].forEach(p => {
@@ -715,11 +995,16 @@ const kadang = {
             p.wobbleTime = 0;
         });
 
+        this.startCountdown();
+    },
+
+    startCountdown() {
         if (this.countdownInterval) clearInterval(this.countdownInterval);
         this.countdownInterval = setInterval(() => {
             this.countdownTimer--;
-            if (this.countdownTimer <= 0) {
+            if (this.countdownTimer < 0) {
                 clearInterval(this.countdownInterval);
+                this.countdownInterval = null;
                 this.isCountingDown = false;
                 this.startTime = Date.now();
             }
@@ -727,11 +1012,10 @@ const kadang = {
     },
 
     registerStep(playerNum, foot) {
-        if (this.isGameOver || this.isCountingDown) return;
+        if (this.isGameOver || this.isPaused || this.isCountingDown) return;
         const p = (playerNum === 1) ? this.p1 : this.p2;
         if (p.isStumbling) return;
 
-        p.animTime += 1;
         p.stepCount += 1;
 
         if (p.lastFoot === foot) {
@@ -778,11 +1062,16 @@ const kadang = {
     },
 
     update() {
-        if (this.isGameOver || this.isCountingDown) return;
+        if (this.isGameOver || this.isPaused || this.isCountingDown) return;
         this.elapsedTime = Math.floor((Date.now() - this.startTime) / 1000);
 
         [this.p1, this.p2].forEach(p => {
-            p.animTime += 0.2;
+            if (p.speed > 0.1) {
+                p.animTime += 0.12 + Math.min(p.speed / this.maxSpeed, 1) * 0.1;
+            } else {
+                p.animTime *= 0.85;
+            }
+
             if (p.isStumbling) {
                 this.recoverFromStumble(p);
                 return;
@@ -802,6 +1091,8 @@ const kadang = {
         this.isGameOver = true;
         this.winner = p.name;
         this.loser = (p === this.p1) ? this.p2.name : this.p1.name;
+        this.resultStartedAt = Date.now();
+        this.newPersonalBest = recordKadangBest(this.elapsedTime);
         syncProgressToServer();
     }
 };
@@ -824,6 +1115,108 @@ async function requestFullscreenAndLandscape() {
     }
 }
 
+function getCanvasPoint(clientX, clientY) {
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return null;
+    return {
+        x: (clientX - rect.left) * VIRTUAL_WIDTH / rect.width,
+        y: (clientY - rect.top) * VIRTUAL_HEIGHT / rect.height
+    };
+}
+
+function handleDokdokmaTouchStart(event, x, y) {
+    if (currentDeviceMode !== "PHONE" ||
+        currentState !== STATE_DOKDOKMA ||
+        dokdokma.isGameOver ||
+        dokdokma.isPaused ||
+        dokdokma.isCountingDown) {
+        return false;
+    }
+
+    const dualPlayerMode = dokdokma.activePlayersCount >= 2;
+    const p1Grab = dualPlayerMode ? dokdokma.p1GrabBtnDual : dokdokma.p1GrabBtnSingle;
+    const p2Grab = dokdokma.p2GrabBtnDual;
+
+    if (Math.hypot(x - p1Grab.cx, y - p1Grab.cy) <= p1Grab.r + 10) {
+        p1GrabTapped = true;
+        event.preventDefault();
+        return true;
+    }
+    if (dualPlayerMode && Math.hypot(x - p2Grab.cx, y - p2Grab.cy) <= p2Grab.r + 10) {
+        p2GrabTapped = true;
+        event.preventDefault();
+        return true;
+    }
+
+    const playerNum = dualPlayerMode && x >= VIRTUAL_WIDTH / 2 ? 2 : 1;
+    const joystick = playerNum === 1
+        ? { x: 100, y: 580, activeKey: "p1JoystickActive", touchKey: "p1TouchId", baseXKey: "p1BaseX", baseYKey: "p1BaseY", knobXKey: "p1KnobX", knobYKey: "p1KnobY" }
+        : { x: 1180, y: 580, activeKey: "p2JoystickActive", touchKey: "p2TouchId", baseXKey: "p2BaseX", baseYKey: "p2BaseY", knobXKey: "p2KnobX", knobYKey: "p2KnobY" };
+    const distance = Math.hypot(x - joystick.x, y - joystick.y);
+
+    if (distance > dualTouchState.maxRadius + 45 || dualTouchState[joystick.activeKey]) return false;
+
+    dualTouchState[joystick.activeKey] = true;
+    dualTouchState[joystick.touchKey] = event.pointerId;
+    dualTouchState[joystick.baseXKey] = joystick.x;
+    dualTouchState[joystick.baseYKey] = joystick.y;
+    dualTouchState[joystick.knobXKey] = joystick.x;
+    dualTouchState[joystick.knobYKey] = joystick.y;
+    canvas.setPointerCapture(event.pointerId);
+    event.preventDefault();
+    return true;
+}
+
+function updateDokdokmaJoystick(event) {
+    const playerNum = event.pointerId === dualTouchState.p1TouchId
+        ? 1
+        : event.pointerId === dualTouchState.p2TouchId ? 2 : 0;
+    if (!playerNum) return;
+
+    const point = getCanvasPoint(event.clientX, event.clientY);
+    if (!point) return;
+    const baseXKey = playerNum === 1 ? "p1BaseX" : "p2BaseX";
+    const baseYKey = playerNum === 1 ? "p1BaseY" : "p2BaseY";
+    const knobXKey = playerNum === 1 ? "p1KnobX" : "p2KnobX";
+    const knobYKey = playerNum === 1 ? "p1KnobY" : "p2KnobY";
+    const dx = point.x - dualTouchState[baseXKey];
+    const dy = point.y - dualTouchState[baseYKey];
+    const distance = Math.hypot(dx, dy);
+    const scale = distance > dualTouchState.maxRadius
+        ? dualTouchState.maxRadius / distance
+        : 1;
+
+    dualTouchState[knobXKey] = dualTouchState[baseXKey] + dx * scale;
+    dualTouchState[knobYKey] = dualTouchState[baseYKey] + dy * scale;
+    event.preventDefault();
+}
+
+function endDokdokmaJoystick(pointerId) {
+    if (pointerId === dualTouchState.p1TouchId) {
+        dualTouchState.p1JoystickActive = false;
+        dualTouchState.p1TouchId = null;
+        dualTouchState.p1BaseX = 100;
+        dualTouchState.p1BaseY = 580;
+        dualTouchState.p1KnobX = 100;
+        dualTouchState.p1KnobY = 580;
+    }
+    if (pointerId === dualTouchState.p2TouchId) {
+        dualTouchState.p2JoystickActive = false;
+        dualTouchState.p2TouchId = null;
+        dualTouchState.p2BaseX = 1180;
+        dualTouchState.p2BaseY = 580;
+        dualTouchState.p2KnobX = 1180;
+        dualTouchState.p2KnobY = 580;
+    }
+}
+
+function releaseDokTouchControls() {
+    endDokdokmaJoystick(dualTouchState.p1TouchId);
+    endDokdokmaJoystick(dualTouchState.p2TouchId);
+    p1GrabTapped = false;
+    p2GrabTapped = false;
+}
+
 // Canvas Pointer Input Handling
 canvas.addEventListener("pointerdown", e => {
     audioManager.playBgm();
@@ -844,8 +1237,10 @@ canvas.addEventListener("pointerdown", e => {
     const clickX = (e.clientX - rect.left) * scaleX;
     const clickY = (e.clientY - rect.top) * scaleY;
 
+    if (handleDokdokmaTouchStart(e, clickX, clickY)) return;
+
     // Kadang-Kadang on-screen touch controller buttons
-    if (currentState === STATE_KADANG && !kadang.isGameOver && !kadang.isCountingDown) {
+    if (currentState === STATE_KADANG && !kadang.isGameOver && !kadang.isPaused && !kadang.isCountingDown) {
         const halfW = VIRTUAL_WIDTH / 2;
         // Left viewport: Player 1 controls (Left Button vs Right Button)
         if (clickX < halfW) {
@@ -874,28 +1269,10 @@ canvas.addEventListener("pointerdown", e => {
         }
     }
 
-    if (currentState === STATE_DOKDOKMA && dokdokma.isPaused) {
-        const modalW = 440;
-        const modalH = 260;
-        const modalX = (VIRTUAL_WIDTH - modalW) / 2;
-        const modalY = (VIRTUAL_HEIGHT - modalH) / 2;
-
-        const btnResumeX = modalX + 40;
-        const btnResumeY = modalY + 150;
-        const btnW = 165;
-        const btnH = 55;
-
-        const btnQuitX = modalX + 235;
-        const btnQuitY = modalY + 150;
-
-        if (clickX >= btnResumeX && clickX <= btnResumeX + btnW && clickY >= btnResumeY && clickY <= btnResumeY + btnH) {
-            dokdokma.isPaused = false;
-            return;
-        }
-        if (clickX >= btnQuitX && clickX <= btnQuitX + btnW && clickY >= btnQuitY && clickY <= btnQuitY + btnH) {
-            openMinigameInfoModal("DOKDOKMA");
-            return;
-        }
+    if ((currentState === STATE_DOKDOKMA && dokdokma.isPaused) ||
+        (currentState === STATE_KADANG && kadang.isPaused)) {
+        handleMinigamePauseAction(clickX, clickY);
+        return;
     }
 
     if (currentState === STATE_BADGES) {
@@ -939,15 +1316,25 @@ canvas.addEventListener("pointerdown", e => {
 
     if (currentState !== STATE_LOBBY) {
         const distExit = Math.hypot(clickX - btnExitGame.cx, clickY - btnExitGame.cy);
-        if (distExit <= btnExitGame.r) {
+        const exitHitRadius = currentDeviceMode === "PHONE"
+            ? Math.max(btnExitGame.r, 46)
+            : btnExitGame.r;
+        if (distExit <= exitHitRadius) {
             if (badgeInterface.selectedBadgeIndex !== null) {
                 badgeInterface.selectedBadgeIndex = null;
                 return;
             }
             if (currentState === STATE_DOKDOKMA) {
-                dokdokma.isPaused = true;
+                if (!dokdokma.isCountingDown && !dokdokma.isGameOver) {
+                    dokdokma.isPaused = true;
+                    dokdokma.pauseStartedAt = Date.now();
+                    releaseDokTouchControls();
+                }
             } else if (currentState === STATE_KADANG) {
-                openModal(exitModal);
+                if (!kadang.isCountingDown && !kadang.isGameOver) {
+                    kadang.isPaused = true;
+                    kadang.pauseStartedAt = Date.now();
+                }
             } else {
                 currentState = STATE_LOBBY;
                 audioManager.playBgm();
@@ -957,73 +1344,39 @@ canvas.addEventListener("pointerdown", e => {
     }
 
     if (currentState === STATE_DOKDOKMA && dokdokma.isGameOver) {
+        if (handleMinigameResultAction(clickX, clickY)) return;
         openMinigameInfoModal("DOKDOKMA");
         return;
     }
 
     if (currentState === STATE_KADANG && kadang.isGameOver) {
+        if (handleMinigameResultAction(clickX, clickY)) return;
         openMinigameInfoModal("KADANG");
         return;
     }
 
     if (currentState === STATE_LOBBY) {
-        if (clickX >= 290 && clickX <= 570 && clickY >= 240 && clickY <= 560) {
+        if (isPointInRect(clickX, clickY, LOBBY_CARDS.dokdokma)) {
             openMinigameInfoModal("DOKDOKMA");
-        } else if (clickX >= 710 && clickX <= 990 && clickY >= 240 && clickY <= 560) {
+        } else if (isPointInRect(clickX, clickY, LOBBY_CARDS.kadang)) {
             openMinigameInfoModal("KADANG");
+        } else if (isPointInRect(clickX, clickY, LOBBY_ACTIONS.howToPlay)) {
+            openHowToPlaySelector();
+        } else if (isPointInRect(clickX, clickY, LOBBY_ACTIONS.achievements)) {
+            currentState = STATE_ACHIEVEMENTS;
+        } else if (isPointInRect(clickX, clickY, LOBBY_ACTIONS.artifacts)) {
+            currentState = STATE_ARTIFACTS;
         }
     }
 });
 
-canvas.addEventListener("touchstart", e => {
-    audioManager.playBgm();
-    requestFullscreenAndLandscape();
-
-    if (!modalBackdrop.classList.contains("hidden") || currentState === STATE_LOADING) return;
-
-    if (currentState === STATE_WELCOME) {
-        currentState = STATE_LOBBY;
-        audioManager.playBgm();
-        return;
-    }
-
-    if (e.target === canvas && currentState !== STATE_LOBBY) {
-        e.preventDefault();
-    } else {
-        return;
-    }
-
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = VIRTUAL_WIDTH / rect.width;
-    const scaleY = VIRTUAL_HEIGHT / rect.height;
-
-    for (let i = 0; i < e.changedTouches.length; i++) {
-        const touch = e.changedTouches[i];
-        const tx = (touch.clientX - rect.left) * scaleX;
-        const ty = (touch.clientY - rect.top) * scaleY;
-
-        if (currentState === STATE_KADANG && !kadang.isGameOver && !kadang.isCountingDown) {
-            const halfW = VIRTUAL_WIDTH / 2;
-            if (tx < halfW) {
-                if (tx >= 40 && tx <= 300 && ty >= 520 && ty <= 670) {
-                    kadang.registerStep(1, "left");
-                } else if (tx >= 340 && tx <= 600 && ty >= 520 && ty <= 670) {
-                    kadang.registerStep(1, "right");
-                }
-            } else {
-                const rx = tx - halfW;
-                if (rx >= 40 && rx <= 300 && ty >= 520 && ty <= 670) {
-                    kadang.registerStep(2, "left");
-                } else if (rx >= 340 && rx <= 600 && ty >= 520 && ty <= 670) {
-                    kadang.registerStep(2, "right");
-                }
-            }
-        }
-    }
-}, { passive: false });
+canvas.addEventListener("pointermove", updateDokdokmaJoystick);
+canvas.addEventListener("pointerup", e => endDokdokmaJoystick(e.pointerId));
+canvas.addEventListener("pointercancel", e => endDokdokmaJoystick(e.pointerId));
+canvas.addEventListener("lostpointercapture", e => endDokdokmaJoystick(e.pointerId));
 
 function updateDokdokma() {
-    if (!dokdokma.difficulty || dokdokma.isGameOver || dokdokma.isPaused) return;
+    if (!dokdokma.difficulty || dokdokma.isGameOver || dokdokma.isPaused || dokdokma.isCountingDown) return;
 
     dokdokma.elapsedTime = Math.floor((Date.now() - dokdokma.startTime) / 1000);
 
@@ -1212,10 +1565,13 @@ function updateDokdokma() {
         dokdokma.gripProgress = 100;
         dokdokma.isGameOver = true;
         dokdokma.hasWon = true;
+        dokdokma.resultStartedAt = Date.now();
+        dokdokma.newPersonalBest = recordDokdokmaBest(dokdokma.elapsedTime, dokdokma.difficulty.name);
         syncProgressToServer();
     } else if (allStaminaDepleted) {
         dokdokma.isGameOver = true;
         dokdokma.hasWon = false;
+        dokdokma.resultStartedAt = Date.now();
     }
 }
 
@@ -1226,8 +1582,35 @@ function formatTime(seconds) {
 }
 
 function drawFence() {
-    ctx.fillStyle = "#4A3525";
+    const groundGradient = ctx.createLinearGradient(0, cage.y, 0, cage.y + cage.h);
+    groundGradient.addColorStop(0, "#927447");
+    groundGradient.addColorStop(1, "#715532");
+    ctx.fillStyle = groundGradient;
     ctx.fillRect(cage.x, cage.y, cage.w, cage.h);
+
+    const soilMarks = [
+        [270, 125], [390, 195], [525, 140], [685, 230], [850, 130],
+        [315, 390], [470, 455], [615, 360], [790, 440], [980, 330]
+    ];
+    ctx.fillStyle = "rgba(55, 39, 23, 0.22)";
+    soilMarks.forEach(([x, y], index) => {
+        ctx.beginPath();
+        ctx.ellipse(x, y, 5 + (index % 3), 2, 0, 0, Math.PI * 2);
+        ctx.fill();
+    });
+
+    ctx.strokeStyle = "rgba(124, 145, 71, 0.72)";
+    ctx.lineWidth = 2;
+    [[250, 210], [360, 330], [570, 155], [735, 285], [920, 205], [1010, 485]].forEach(([x, y]) => {
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x - 4, y - 8);
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + 2, y - 10);
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + 6, y - 7);
+        ctx.stroke();
+    });
 
     ctx.fillStyle = "#5C4028";
     ctx.fillRect(cage.x - 10, cage.y - 12, cage.w + 20, 10);
@@ -1244,6 +1627,15 @@ function drawFence() {
         ctx.fillRect(cage.x - 18, y, 24, 14);
         ctx.fillRect(cage.x + cage.w - 6, y, 24, 14);
     }
+
+    ctx.strokeStyle = "rgba(210, 165, 104, 0.75)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cage.x - 8, cage.y - 7);
+    ctx.lineTo(cage.x + cage.w + 8, cage.y - 7);
+    ctx.moveTo(cage.x - 8, cage.y + cage.h - 3);
+    ctx.lineTo(cage.x + cage.w + 8, cage.y + cage.h - 3);
+    ctx.stroke();
 
     ctx.strokeStyle = "#2B1A0E";
     ctx.lineWidth = 2;
@@ -1332,6 +1724,153 @@ function drawInGameExitButton() {
     ctx.textBaseline = "middle";
     ctx.fillText("✕", btnExitGame.cx, btnExitGame.cy);
     ctx.restore();
+}
+
+function drawInGamePauseButton() {
+    const radius = currentDeviceMode === "PHONE" ? 32 : btnExitGame.r;
+    ctx.save();
+    ctx.fillStyle = "#4E3629";
+    ctx.beginPath();
+    ctx.arc(btnExitGame.cx, btnExitGame.cy, radius, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = "#C28245";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = "#E5A93C";
+    ctx.fillRect(btnExitGame.cx - 6, btnExitGame.cy - 8, 4, 16);
+    ctx.fillRect(btnExitGame.cx + 2, btnExitGame.cy - 8, 4, 16);
+    ctx.restore();
+}
+
+function drawGameTopBar(title, timeLabel) {
+    ctx.save();
+    ctx.fillStyle = "rgba(18, 15, 13, 0.94)";
+    ctx.fillRect(0, 0, VIRTUAL_WIDTH, 30);
+    ctx.strokeStyle = "#C28245";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, 29);
+    ctx.lineTo(VIRTUAL_WIDTH, 29);
+    ctx.stroke();
+
+    ctx.fillStyle = "#E5A93C";
+    ctx.font = "bold 16px sans-serif";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "middle";
+    ctx.fillText(title, 24, 15);
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#E2D7C5";
+    ctx.fillText(timeLabel, VIRTUAL_WIDTH - 72, 15);
+    ctx.restore();
+}
+
+function drawResultPanel() {
+    const panel = { x: 230, y: 135, w: 820, h: 455 };
+    ctx.fillStyle = "rgba(36, 27, 21, 0.96)";
+    ctx.fillRect(panel.x, panel.y, panel.w, panel.h);
+    ctx.strokeStyle = "#E5A93C";
+    ctx.lineWidth = 3;
+    ctx.strokeRect(panel.x, panel.y, panel.w, panel.h);
+}
+
+function drawResultEffect(isWin, startedAt, centerX = VIRTUAL_WIDTH / 2, centerY = 280) {
+    if (!startedAt) return;
+
+    const elapsed = (Date.now() - startedAt) / 1000;
+    const pulse = (Math.sin(elapsed * 3.2) + 1) / 2;
+    const color = isWin ? "229, 169, 60" : "163, 72, 54";
+    const glow = ctx.createRadialGradient(centerX, centerY, 20, centerX, centerY, 330);
+    glow.addColorStop(0, `rgba(${color}, ${0.08 + pulse * 0.08})`);
+    glow.addColorStop(1, `rgba(${color}, 0)`);
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+
+    ctx.save();
+    for (let i = 0; i < 28; i++) {
+        const cycle = (elapsed * 0.42 + i / 28) % 1;
+        const baseX = centerX + ((i * 83) % 520) - 260;
+        const drift = Math.sin(elapsed * 2 + i * 1.7) * 18;
+        const y = isWin
+            ? centerY - 150 + cycle * 360
+            : centerY + 150 - cycle * 300;
+        const x = baseX + drift;
+        const alpha = Math.sin(Math.PI * cycle) * 0.65;
+
+        ctx.globalAlpha = alpha;
+        if (isWin) {
+            const colors = ["#E5A93C", "#F5E5C8", "#6F9B72"];
+            ctx.fillStyle = colors[i % colors.length];
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(elapsed * 2 + i);
+            ctx.fillRect(-4, -7, 8, 14);
+            ctx.restore();
+        } else {
+            ctx.fillStyle = i % 2 ? "#A34836" : "#C28245";
+            ctx.beginPath();
+            ctx.arc(x, y, 2 + (i % 3), 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    ctx.restore();
+}
+
+function drawResultActions() {
+    const actions = [
+        { rect: RESULT_ACTIONS.replay, label: "PLAY AGAIN", color: "#3A6351" },
+        { rect: RESULT_ACTIONS.lobby, label: "RETURN TO LOBBY", color: "#4E3629" }
+    ];
+
+    actions.forEach(({ rect, label, color }) => {
+        ctx.fillStyle = color;
+        ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
+        ctx.strokeStyle = "#E5A93C";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(rect.x, rect.y, rect.w, rect.h);
+        ctx.fillStyle = "#FFFFFF";
+        ctx.font = "bold 16px sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(label, rect.x + rect.w / 2, rect.y + rect.h / 2);
+    });
+
+    ctx.textBaseline = "alphabetic";
+}
+
+function drawGamePausePanel() {
+    ctx.fillStyle = "rgba(18, 15, 13, 0.85)";
+    ctx.fillRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+    ctx.fillStyle = "#2B1A0E";
+    ctx.fillRect(PAUSE_PANEL.x, PAUSE_PANEL.y, PAUSE_PANEL.w, PAUSE_PANEL.h);
+    ctx.strokeStyle = "#E5A93C";
+    ctx.lineWidth = 3;
+    ctx.strokeRect(PAUSE_PANEL.x, PAUSE_PANEL.y, PAUSE_PANEL.w, PAUSE_PANEL.h);
+
+    ctx.fillStyle = "#E5A93C";
+    ctx.font = "bold 28px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("GAME PAUSED", VIRTUAL_WIDTH / 2, PAUSE_PANEL.y + 55);
+    ctx.fillStyle = "#E2D7C5";
+    ctx.font = "16px sans-serif";
+    ctx.fillText("Choose an option to continue:", VIRTUAL_WIDTH / 2, PAUSE_PANEL.y + 95);
+
+    const actions = [
+        { rect: PAUSE_ACTIONS.resume, label: "RESUME", color: "#3A6351" },
+        { rect: PAUSE_ACTIONS.quit, label: "QUIT", color: "#A34836" }
+    ];
+    actions.forEach(({ rect, label, color }) => {
+        ctx.fillStyle = color;
+        ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
+        ctx.strokeStyle = "#E5A93C";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(rect.x, rect.y, rect.w, rect.h);
+        ctx.fillStyle = "#FFFFFF";
+        ctx.font = "bold 18px sans-serif";
+        ctx.textBaseline = "middle";
+        ctx.fillText(label, rect.x + rect.w / 2, rect.y + rect.h / 2);
+    });
+    ctx.textBaseline = "alphabetic";
 }
 
 function renderLoading() {
@@ -1507,7 +2046,7 @@ function renderDokdokma() {
     }
     ctx.restore();
 
-    drawDualJoysticksUI();
+    if (currentDeviceMode === "PHONE") drawDualJoysticksUI();
 
     if (dokdokma.activePlayersCount >= 2 && currentDeviceMode === "PHONE") {
         drawKalingaGrabBtn(dokdokma.p1GrabBtnDual.cx, dokdokma.p1GrabBtnDual.cy, dokdokma.p1GrabBtnDual.r, "P1 GRAB", dist1 <= dokdokma.catchRadius);
@@ -1519,15 +2058,11 @@ function renderDokdokma() {
         drawKalingaGrabBtn(dokdokma.p1GrabBtnSingle.cx, dokdokma.p1GrabBtnSingle.cy, dokdokma.p1GrabBtnSingle.r, "GRAB", grabInRange);
     }
 
-    drawInGameExitButton();
-
-    ctx.fillStyle = "#E5A93C";
-    ctx.font = "bold 22px sans-serif";
-    ctx.textAlign = "left";
-    ctx.fillText(`LEVEL: ${dokdokma.difficulty.name} (${dokdokma.activePlayersCount}P - ${currentDeviceMode})`, cage.x, cage.y - 20);
-
-    ctx.textAlign = "right";
-    ctx.fillText(`TIME: ${formatTime(dokdokma.elapsedTime)}`, cage.x + cage.w, cage.y - 20);
+    drawGameTopBar(
+        `DOKDOKMA | ${dokdokma.difficulty.name} | ${dokdokma.activePlayersCount} PLAYER${dokdokma.activePlayersCount > 1 ? "S" : ""}`,
+        `TIME ${formatTime(dokdokma.elapsedTime)}`
+    );
+    drawInGamePauseButton();
 
     const barW = 400;
     const barX = (VIRTUAL_WIDTH - barW) / 2;
@@ -1562,64 +2097,34 @@ function renderDokdokma() {
     ctx.strokeStyle = "#E2D7C5";
     ctx.strokeRect(barX, cage.y + cage.h + 45, barW, 14);
 
-    if (dokdokma.isPaused) {
-        const modalW = 440;
-        const modalH = 260;
-        const modalX = (VIRTUAL_WIDTH - modalW) / 2;
-        const modalY = (VIRTUAL_HEIGHT - modalH) / 2;
-
-        ctx.fillStyle = "rgba(18, 15, 13, 0.85)";
+    if (dokdokma.isCountingDown) {
+        ctx.fillStyle = "rgba(18, 15, 13, 0.75)";
         ctx.fillRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 
-        ctx.fillStyle = "#2B1A0E";
-        ctx.fillRect(modalX, modalY, modalW, modalH);
-        ctx.strokeStyle = "#E5A93C";
-        ctx.lineWidth = 3;
-        ctx.strokeRect(modalX, modalY, modalW, modalH);
-
-        ctx.fillStyle = "#E5A93C";
-        ctx.font = "bold 28px sans-serif";
         ctx.textAlign = "center";
-        ctx.fillText("GAME PAUSED", VIRTUAL_WIDTH / 2, modalY + 55);
-
-        ctx.fillStyle = "#E2D7C5";
-        ctx.font = "16px sans-serif";
-        ctx.fillText("Choose an option to continue:", VIRTUAL_WIDTH / 2, modalY + 95);
-
-        const btnW = 165;
-        const btnH = 55;
-        const btnResumeX = modalX + 40;
-        const btnResumeY = modalY + 150;
-        const btnQuitX = modalX + 235;
-        const btnQuitY = modalY + 150;
-
-        ctx.fillStyle = "#3A6351";
-        ctx.fillRect(btnResumeX, btnResumeY, btnW, btnH);
-        ctx.strokeStyle = "#E5A93C";
-        ctx.strokeRect(btnResumeX, btnResumeY, btnW, btnH);
-
-        ctx.fillStyle = "#FFFFFF";
-        ctx.font = "bold 18px sans-serif";
-        ctx.fillText("RESUME", btnResumeX + btnW / 2, btnResumeY + 34);
-
-        ctx.fillStyle = "#A34836";
-        ctx.fillRect(btnQuitX, btnQuitY, btnW, btnH);
-        ctx.strokeStyle = "#E5A93C";
-        ctx.strokeRect(btnQuitX, btnQuitY, btnW, btnH);
-
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillText("QUIT", btnQuitX + btnW / 2, btnQuitY + 34);
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#E5A93C";
+        ctx.font = "bold 90px sans-serif";
+        ctx.fillText(dokdokma.countdownTimer > 0 ? dokdokma.countdownTimer : "GO!", VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
+        ctx.textBaseline = "alphabetic";
     }
+
+    if (dokdokma.isPaused) drawGamePausePanel();
 
     if (dokdokma.isGameOver) {
         ctx.fillStyle = "rgba(18, 15, 13, 0.88)";
         ctx.fillRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        drawResultPanel();
+        drawResultEffect(dokdokma.hasWon, dokdokma.resultStartedAt);
 
         ctx.textAlign = "center";
         if (dokdokma.hasWon) {
             ctx.fillStyle = "#E5A93C";
             ctx.font = "bold 48px sans-serif";
+            ctx.shadowColor = "#E5A93C";
+            ctx.shadowBlur = 12;
             ctx.fillText("YOU WIN!", VIRTUAL_WIDTH / 2, 200);
+            ctx.shadowBlur = 0;
 
             if (currentRunArtifact) {
                 ctx.fillStyle = "#C28245";
@@ -1634,18 +2139,26 @@ function renderDokdokma() {
             ctx.fillStyle = "#E2D7C5";
             ctx.font = "20px sans-serif";
             ctx.fillText(`Captured in: ${formatTime(dokdokma.elapsedTime)} (${dokdokma.difficulty.name})`, VIRTUAL_WIDTH / 2, 360);
-            ctx.fillText("Tap screen to view game info & restart.", VIRTUAL_WIDTH / 2, 410);
+            ctx.fillStyle = "#E5A93C";
+            ctx.fillText(`${dokdokma.newPersonalBest ? "NEW PERSONAL BEST" : "PERSONAL BEST"}: ${formatTime(personalBestTimes.dokdokma[dokdokma.difficulty.name])}`, VIRTUAL_WIDTH / 2, 395);
         } else {
             ctx.fillStyle = "#A34836";
             ctx.font = "bold 56px sans-serif";
+            ctx.shadowColor = "#A34836";
+            ctx.shadowBlur = 14;
             ctx.fillText("GAME OVER", VIRTUAL_WIDTH / 2, 280);
+            ctx.shadowBlur = 0;
 
             ctx.fillStyle = "#E2D7C5";
             ctx.font = "24px sans-serif";
             ctx.fillText(`Stamina Drained after ${formatTime(dokdokma.elapsedTime)}`, VIRTUAL_WIDTH / 2, 340);
             ctx.font = "20px sans-serif";
-            ctx.fillText("Tap screen to view game info & restart.", VIRTUAL_WIDTH / 2, 400);
+            const bestTime = personalBestTimes.dokdokma[dokdokma.difficulty.name];
+            if (bestTime !== null) {
+                ctx.fillText(`PERSONAL BEST: ${formatTime(bestTime)}`, VIRTUAL_WIDTH / 2, 380);
+            }
         }
+        drawResultActions();
     }
 }
 
@@ -1655,6 +2168,9 @@ function renderDokdokma() {
 function drawTraditionalPlayer(ctx, player, x, y, isPlayerTwo = false) {
     const walking = player.animTime;
     const moving = player.speed > 0.1 && !player.isStumbling;
+    const stepSwing = moving ? Math.sin(walking) * 0.035 : 0;
+    const bodyBob = moving ? Math.abs(Math.sin(walking)) * Math.min(3, player.speed * 0.7) : 0;
+    const bodySway = moving ? Math.sin(walking) * 0.015 : 0;
 
     ctx.save();
     ctx.translate(x, y);
@@ -1665,7 +2181,7 @@ function drawTraditionalPlayer(ctx, player, x, y, isPlayerTwo = false) {
         const stumbleProgress = 1 - (player.stumbleCooldown / 60);
 
         if (stumbleProgress < 0.35) {
-            const wobbleAngle = Math.sin(stumbleProgress * 30) * 0.25;
+            const wobbleAngle = Math.sin(stumbleProgress * 30) * 0.12;
             ctx.rotate(wobbleAngle);
         } else {
             const fallProgress = (stumbleProgress - 0.35) / 0.65;
@@ -1676,38 +2192,41 @@ function drawTraditionalPlayer(ctx, player, x, y, isPlayerTwo = false) {
     } else {
         let leanTilt = 0;
         if (player.balance !== 50) {
-            leanTilt = (balanceOffset / 50) * 0.35;
+            leanTilt = (balanceOffset / 50) * 0.18;
         }
 
-        const wobbleShake = player.wobbleTime > 0 ? Math.sin(player.wobbleTime * 1.5) * 0.15 : 0;
+        const wobbleShake = player.wobbleTime > 0 ? Math.sin(player.wobbleTime * 1.5) * 0.06 : 0;
         ctx.rotate(leanTilt + wobbleShake);
     }
 
-    const stiltTilt = moving ? Math.cos(walking * 0.5) * 0.04 : 0;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
 
-    ctx.save();
-    ctx.rotate(stiltTilt);
     const leftX = -12;
     const rightX = 12;
 
-    ctx.strokeStyle = "#8C713B";
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(leftX, 6); ctx.lineTo(leftX, -80);
-    ctx.moveTo(rightX, 6); ctx.lineTo(rightX, -80);
-    ctx.stroke();
-
-    ctx.fillStyle = "#A8844E";
-    ctx.fillRect(leftX - 5, -22, 10, 4);
-    ctx.fillRect(rightX - 5, -22, 10, 4);
-    ctx.restore();
+    [leftX, rightX].forEach((stiltX, index) => {
+        ctx.save();
+        ctx.translate(stiltX, 6);
+        ctx.rotate(index === 0 ? stepSwing : -stepSwing);
+        ctx.strokeStyle = "#8C713B";
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -102);
+        ctx.stroke();
+        ctx.fillStyle = "#A8844E";
+        ctx.fillRect(-5, -28, 10, 4);
+        ctx.restore();
+    });
 
     const spriteImg = isPlayerTwo ? kadangPlayer2Img : kadangPlayer1Img;
-    const spriteWidth = 80;
-    const spriteHeight = 106;
+    const spriteWidth = 65;
+    const spriteHeight = 86;
 
+    ctx.save();
+    ctx.translate(Math.sin(walking) * (moving ? 1 : 0), -bodyBob);
+    ctx.rotate(bodySway);
     if (spriteImg && spriteImg.complete && spriteImg.naturalWidth !== 0) {
         ctx.drawImage(spriteImg, -spriteWidth / 2, -spriteHeight - 22, spriteWidth, spriteHeight);
     } else {
@@ -1721,6 +2240,7 @@ function drawTraditionalPlayer(ctx, player, x, y, isPlayerTwo = false) {
         ctx.arc(0, -56, 9, 0, Math.PI * 2);
         ctx.fill();
     }
+    ctx.restore();
 
     ctx.restore();
 }
@@ -1886,6 +2406,53 @@ function drawKadangTouchControllers(ctx) {
     ctx.textBaseline = "alphabetic";
 }
 
+function drawKadangCloud(x, y, scale) {
+    ctx.save();
+    ctx.fillStyle = "rgba(255, 255, 255, 0.82)";
+    ctx.beginPath();
+    ctx.ellipse(x, y, 42 * scale, 16 * scale, 0, 0, Math.PI * 2);
+    ctx.ellipse(x - 22 * scale, y - 7 * scale, 22 * scale, 17 * scale, 0, 0, Math.PI * 2);
+    ctx.ellipse(x + 2 * scale, y - 14 * scale, 28 * scale, 22 * scale, 0, 0, Math.PI * 2);
+    ctx.ellipse(x + 27 * scale, y - 5 * scale, 23 * scale, 16 * scale, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+}
+
+function drawKadangScenery(halfW) {
+    drawKadangCloud(115, 170, 0.9);
+    drawKadangCloud(500, 140, 0.7);
+
+    ctx.fillStyle = "#A5C3B6";
+    ctx.beginPath();
+    ctx.moveTo(0, 350);
+    ctx.lineTo(85, 255);
+    ctx.lineTo(150, 325);
+    ctx.lineTo(245, 205);
+    ctx.lineTo(345, 330);
+    ctx.lineTo(425, 235);
+    ctx.lineTo(520, 325);
+    ctx.lineTo(580, 270);
+    ctx.lineTo(halfW, 355);
+    ctx.lineTo(halfW, VIRTUAL_HEIGHT * 0.6);
+    ctx.lineTo(0, VIRTUAL_HEIGHT * 0.6);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = "#719783";
+    ctx.beginPath();
+    ctx.moveTo(0, 390);
+    ctx.lineTo(95, 305);
+    ctx.lineTo(185, 365);
+    ctx.lineTo(295, 270);
+    ctx.lineTo(390, 370);
+    ctx.lineTo(485, 300);
+    ctx.lineTo(halfW, 385);
+    ctx.lineTo(halfW, VIRTUAL_HEIGHT * 0.6);
+    ctx.lineTo(0, VIRTUAL_HEIGHT * 0.6);
+    ctx.closePath();
+    ctx.fill();
+}
+
 function renderKadang() {
     ctx.clearRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
     drawCanvasBackground();
@@ -1900,6 +2467,8 @@ function renderKadang() {
 
     ctx.fillStyle = "#76C6F2";
     ctx.fillRect(0, 0, halfW, VIRTUAL_HEIGHT);
+
+    drawKadangScenery(halfW);
 
     ctx.fillStyle = "#B88A52";
     ctx.fillRect(0, VIRTUAL_HEIGHT * 0.6, halfW, VIRTUAL_HEIGHT * 0.4);
@@ -1941,6 +2510,8 @@ function renderKadang() {
     ctx.fillStyle = "#76C6F2";
     ctx.fillRect(0, 0, halfW, VIRTUAL_HEIGHT);
 
+    drawKadangScenery(halfW);
+
     ctx.fillStyle = "#B88A52";
     ctx.fillRect(0, VIRTUAL_HEIGHT * 0.6, halfW, VIRTUAL_HEIGHT * 0.4);
     ctx.fillStyle = "#D4A66C";
@@ -1962,7 +2533,8 @@ function renderKadang() {
 
     ctx.restore();
 
-    drawInGameExitButton();
+    drawGameTopBar("KADANG-KADANG | STILT RACE", `TIME ${formatTime(kadang.elapsedTime)}`);
+    drawInGamePauseButton();
 
     if (kadang.isCountingDown) {
         ctx.fillStyle = "rgba(18, 15, 13, 0.75)";
@@ -1978,22 +2550,34 @@ function renderKadang() {
         ctx.textBaseline = "alphabetic";
     }
 
+    if (kadang.isPaused) drawGamePausePanel();
+
     if (kadang.isGameOver) {
         ctx.fillStyle = "rgba(18, 15, 13, 0.88)";
         ctx.fillRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        drawResultPanel();
+        drawResultEffect(true, kadang.resultStartedAt, 460, 270);
+        drawResultEffect(false, kadang.resultStartedAt, 820, 330);
 
         ctx.textAlign = "center";
         ctx.fillStyle = "#E5A93C";
         ctx.font = "bold 46px sans-serif";
+        ctx.shadowColor = "#E5A93C";
+        ctx.shadowBlur = 12;
         ctx.fillText(`${kadang.winner.toUpperCase()} WINS! (${formatTime(kadang.elapsedTime)})`, VIRTUAL_WIDTH / 2, 250);
+        ctx.shadowBlur = 0;
 
         ctx.font = "bold 40px sans-serif";
         ctx.fillStyle = "#A34836";
+        ctx.shadowColor = "#A34836";
+        ctx.shadowBlur = 12;
         ctx.fillText(`${kadang.loser.toUpperCase()} LOSE`, VIRTUAL_WIDTH / 2, 330);
+        ctx.shadowBlur = 0;
 
-        ctx.font = "18px sans-serif";
-        ctx.fillStyle = "#E2D7C5";
-        ctx.fillText("Tap screen to view game info & restart.", VIRTUAL_WIDTH / 2, 410);
+        ctx.font = "20px sans-serif";
+        ctx.fillStyle = "#E5A93C";
+        ctx.fillText(`${kadang.newPersonalBest ? "NEW PERSONAL BEST" : "FASTEST WIN"}: ${formatTime(personalBestTimes.kadang)}`, VIRTUAL_WIDTH / 2, 380);
+        drawResultActions();
     }
 }
 
@@ -2010,96 +2594,673 @@ function renderLobby() {
     ctx.fillRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 
     ctx.fillStyle = "#E5A93C";
-    ctx.font = "bold 36px sans-serif";
+    ctx.font = "bold 40px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("KALINGA LEGENDS LOBBY", VIRTUAL_WIDTH / 2, 110);
+    ctx.fillText("CHOOSE YOUR GAME", VIRTUAL_WIDTH / 2, 100);
 
     ctx.fillStyle = "#E2D7C5";
-    ctx.font = "20px sans-serif";
-    ctx.fillText(`Select a Minigame (${currentDeviceMode} MODE)`, VIRTUAL_WIDTH / 2, 150);
+    ctx.font = "18px sans-serif";
+    ctx.fillText("Traditional Kalinga games, ready to play", VIRTUAL_WIDTH / 2, 135);
+    ctx.font = "bold 14px sans-serif";
+    ctx.fillStyle = "#C28245";
+    ctx.fillText(`${currentDeviceMode} MODE`, VIRTUAL_WIDTH / 2, 170);
 
-    drawLobbyCard(290, 240, 280, 320, "DOKDOKMA", "Pig Catching Game", "#3A6351");
-    drawLobbyCard(710, 240, 280, 320, "KADANG-KADANG", "2-Player Stilt Race", "#3A6351");
+    const dokPlayers = currentDeviceMode === "PHONE" ? "1-2 PLAYERS | CO-OP" : "1-3 PLAYERS | CO-OP";
+    drawLobbyCard(
+        LOBBY_CARDS.dokdokma,
+        "DOKDOKMA",
+        "Catch the escaped pig",
+        dokPlayers,
+        "#3A6351",
+        pigImg,
+        true
+    );
+    drawLobbyCard(
+        LOBBY_CARDS.kadang,
+        "KADANG-KADANG",
+        "Race on traditional stilts",
+        "2 PLAYERS | LOCAL RACE",
+        "#2E5A78",
+        kadangPlayer1Img,
+        false
+    );
+
+    ctx.fillStyle = "#E2D7C5";
+    ctx.font = "bold 12px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("MORE TO EXPLORE", VIRTUAL_WIDTH / 2, 592);
+    drawLobbyAction(LOBBY_ACTIONS.howToPlay, "HOW TO PLAY");
+    drawLobbyAction(LOBBY_ACTIONS.achievements, "ACHIEVEMENTS");
+    drawLobbyAction(LOBBY_ACTIONS.artifacts, "CULTURAL ARTIFACTS");
 }
 
-function drawLobbyCard(x, y, w, h, title, sub, color) {
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, w, h);
-    ctx.strokeStyle = "#E2D7C5";
+function drawLobbyAction(rect, label) {
+    ctx.fillStyle = "rgba(36, 27, 21, 0.94)";
+    ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
+    ctx.strokeStyle = "#C28245";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(rect.x, rect.y, rect.w, rect.h);
+    ctx.fillStyle = "#E5C396";
+    ctx.font = "bold 13px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(label, rect.x + rect.w / 2, rect.y + rect.h / 2);
+    ctx.textBaseline = "alphabetic";
+}
+
+function drawLobbyCard(rect, title, description, playerMode, color, image, isSpriteSheet) {
+    ctx.fillStyle = "rgba(32, 24, 18, 0.94)";
+    ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
+    ctx.strokeStyle = color;
     ctx.lineWidth = 3;
-    ctx.strokeRect(x, y, w, h);
+    ctx.strokeRect(rect.x, rect.y, rect.w, rect.h);
+
+    ctx.fillStyle = color;
+    ctx.fillRect(rect.x, rect.y, rect.w, 8);
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.06)";
+    ctx.fillRect(rect.x + 14, rect.y + 16, rect.w - 28, 112);
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(rect.x + rect.w / 2, rect.y + 73, 43, 0, Math.PI * 2);
+    ctx.fill();
+
+    if (image.complete && image.naturalWidth > 0) {
+        if (isSpriteSheet) {
+            const frameWidth = image.naturalWidth / 4;
+            ctx.drawImage(image, 0, 0, frameWidth, image.naturalHeight, rect.x + 90, rect.y + 35, 100, 74);
+        } else {
+            ctx.drawImage(image, rect.x + 108, rect.y + 27, 64, 86);
+        }
+    } else {
+        ctx.fillStyle = "#E2D7C5";
+        ctx.beginPath();
+        ctx.arc(rect.x + rect.w / 2, rect.y + 57, 14, 0, Math.PI * 2);
+        ctx.ellipse(rect.x + rect.w / 2, rect.y + 91, 28, 16, 0, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    ctx.fillStyle = "#E5A93C";
+    ctx.font = "bold 21px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(title, rect.x + rect.w / 2, rect.y + 157);
 
     ctx.fillStyle = "#E2D7C5";
-    ctx.font = "bold 22px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(title, x + w / 2, y + 140);
-    ctx.font = "16px sans-serif";
-    ctx.fillText(sub, x + w / 2, y + 180);
+    ctx.font = "15px sans-serif";
+    ctx.fillText(description, rect.x + rect.w / 2, rect.y + 186);
+
+    ctx.fillStyle = "#C9B89C";
+    ctx.font = "bold 12px sans-serif";
+    ctx.fillText(playerMode, rect.x + rect.w / 2, rect.y + 216);
+
+    const button = { x: rect.x + 22, y: rect.y + rect.h - 52, w: rect.w - 44, h: 36 };
+    ctx.fillStyle = color;
+    ctx.fillRect(button.x, button.y, button.w, button.h);
+    ctx.strokeStyle = "#E5A93C";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(button.x, button.y, button.w, button.h);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "bold 14px sans-serif";
+    ctx.fillText("PLAY GAME", rect.x + rect.w / 2, button.y + 23);
+}
+
+function drawCulturalArtifactIcon(iconName, centerX, centerY, size, color) {
+    ctx.save();
+    ctx.translate(centerX - size / 2, centerY - size / 2);
+    ctx.scale(size / 48, size / 48);
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = 2.8;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    switch (iconName) {
+        case "pottery":
+            ctx.beginPath();
+            ctx.moveTo(18, 8); ctx.lineTo(30, 8); ctx.lineTo(30, 15);
+            ctx.quadraticCurveTo(35, 25, 37, 32);
+            ctx.quadraticCurveTo(36, 41, 24, 42);
+            ctx.quadraticCurveTo(12, 41, 11, 32);
+            ctx.quadraticCurveTo(13, 24, 18, 15); ctx.closePath();
+            ctx.moveTo(15, 29); ctx.quadraticCurveTo(24, 33, 34, 29);
+            ctx.stroke();
+            break;
+        case "pendant":
+            ctx.beginPath();
+            ctx.arc(24, 8, 4, 0, Math.PI * 2);
+            ctx.moveTo(24, 12); ctx.lineTo(35, 24); ctx.lineTo(24, 40);
+            ctx.lineTo(13, 24); ctx.closePath();
+            ctx.moveTo(18, 24); ctx.lineTo(30, 24);
+            ctx.stroke();
+            break;
+        case "basket":
+            ctx.beginPath();
+            ctx.ellipse(24, 13, 18, 7, 0, 0, Math.PI * 2);
+            ctx.moveTo(6, 13); ctx.lineTo(11, 36); ctx.quadraticCurveTo(24, 44, 37, 36); ctx.lineTo(42, 13);
+            ctx.moveTo(12, 18); ctx.lineTo(15, 37);
+            ctx.moveTo(20, 19); ctx.lineTo(21, 40);
+            ctx.moveTo(28, 19); ctx.lineTo(27, 40);
+            ctx.moveTo(36, 18); ctx.lineTo(33, 37);
+            ctx.moveTo(9, 23); ctx.quadraticCurveTo(24, 28, 39, 23);
+            ctx.moveTo(10, 30); ctx.quadraticCurveTo(24, 35, 38, 30);
+            ctx.stroke();
+            break;
+        case "woven":
+            ctx.beginPath();
+            ctx.rect(7, 9, 34, 30);
+            for (let x = 14; x < 40; x += 7) {
+                ctx.moveTo(x, 10); ctx.lineTo(x, 38);
+            }
+            for (let y = 16; y < 38; y += 7) {
+                ctx.moveTo(8, y); ctx.lineTo(40, y);
+            }
+            ctx.stroke();
+            break;
+        case "headband":
+            ctx.beginPath();
+            ctx.moveTo(7, 16); ctx.quadraticCurveTo(24, 5, 41, 16);
+            ctx.lineTo(39, 28); ctx.quadraticCurveTo(24, 19, 9, 28); ctx.closePath();
+            ctx.moveTo(10, 18); ctx.quadraticCurveTo(24, 10, 38, 18);
+            ctx.moveTo(12, 23); ctx.lineTo(36, 23);
+            ctx.stroke();
+            break;
+        case "ring":
+            ctx.beginPath();
+            ctx.ellipse(24, 25, 17, 12, 0, 0, Math.PI * 2);
+            ctx.ellipse(24, 25, 9, 5, 0, 0, Math.PI * 2);
+            ctx.moveTo(12, 15); ctx.lineTo(16, 11);
+            ctx.moveTo(32, 11); ctx.lineTo(36, 15);
+            ctx.stroke();
+            break;
+        case "flute":
+            ctx.beginPath();
+            ctx.moveTo(13, 40); ctx.lineTo(35, 8);
+            ctx.moveTo(18, 33); ctx.lineTo(23, 36);
+            ctx.moveTo(23, 25); ctx.lineTo(28, 28);
+            ctx.moveTo(28, 17); ctx.lineTo(33, 20);
+            ctx.stroke();
+            break;
+        case "pouch":
+            ctx.beginPath();
+            ctx.moveTo(15, 17); ctx.quadraticCurveTo(24, 22, 33, 17);
+            ctx.lineTo(37, 39); ctx.quadraticCurveTo(24, 44, 11, 39); ctx.closePath();
+            ctx.moveTo(16, 18); ctx.quadraticCurveTo(12, 7, 23, 7);
+            ctx.quadraticCurveTo(34, 7, 32, 18);
+            ctx.moveTo(13, 29); ctx.lineTo(35, 29);
+            ctx.stroke();
+            break;
+        case "utensil":
+            ctx.beginPath();
+            ctx.ellipse(18, 14, 8, 10, -0.5, 0, Math.PI * 2);
+            ctx.moveTo(24, 21); ctx.lineTo(37, 41);
+            ctx.stroke();
+            break;
+        case "ladle":
+            ctx.beginPath();
+            ctx.ellipse(16, 15, 9, 8, 0, 0, Math.PI * 2);
+            ctx.moveTo(22, 21); ctx.lineTo(38, 39);
+            ctx.stroke();
+            break;
+        case "backpack":
+            ctx.beginPath();
+            ctx.rect(11, 13, 26, 29);
+            ctx.moveTo(16, 15); ctx.quadraticCurveTo(16, 5, 24, 5);
+            ctx.quadraticCurveTo(32, 5, 32, 15);
+            ctx.moveTo(11, 22); ctx.lineTo(7, 34); ctx.moveTo(37, 22); ctx.lineTo(41, 34);
+            ctx.moveTo(16, 26); ctx.lineTo(32, 26); ctx.lineTo(32, 36); ctx.lineTo(16, 36); ctx.closePath();
+            ctx.stroke();
+            break;
+        case "bolo":
+            ctx.beginPath();
+            ctx.moveTo(11, 37); ctx.lineTo(17, 41); ctx.lineTo(22, 32);
+            ctx.moveTo(19, 34); ctx.lineTo(34, 9); ctx.quadraticCurveTo(42, 6, 40, 14);
+            ctx.lineTo(25, 37); ctx.stroke();
+            break;
+        case "gong":
+            ctx.beginPath();
+            ctx.arc(23, 24, 16, 0, Math.PI * 2);
+            ctx.arc(23, 24, 5, 0, Math.PI * 2);
+            ctx.moveTo(36, 10); ctx.lineTo(42, 5); ctx.lineTo(38, 17);
+            ctx.stroke();
+            break;
+        case "cape":
+            ctx.beginPath();
+            ctx.moveTo(16, 9); ctx.quadraticCurveTo(24, 15, 32, 9);
+            ctx.lineTo(41, 38); ctx.quadraticCurveTo(24, 44, 7, 38); ctx.closePath();
+            ctx.moveTo(14, 19); ctx.lineTo(34, 19);
+            ctx.moveTo(13, 27); ctx.lineTo(35, 27);
+            ctx.moveTo(14, 38); ctx.lineTo(14, 43);
+            ctx.moveTo(24, 40); ctx.lineTo(24, 45);
+            ctx.moveTo(34, 38); ctx.lineTo(34, 43);
+            ctx.stroke();
+            break;
+        case "bamboo":
+            ctx.beginPath();
+            ctx.rect(16, 7, 16, 34);
+            ctx.moveTo(16, 15); ctx.lineTo(32, 15);
+            ctx.moveTo(16, 33); ctx.lineTo(32, 33);
+            ctx.moveTo(22, 21); ctx.lineTo(22, 23);
+            ctx.moveTo(27, 26); ctx.lineTo(27, 28);
+            ctx.stroke();
+            break;
+        case "stool":
+            ctx.beginPath();
+            ctx.moveTo(10, 14); ctx.lineTo(38, 14); ctx.lineTo(35, 21); ctx.lineTo(13, 21); ctx.closePath();
+            ctx.moveTo(15, 22); ctx.lineTo(12, 41);
+            ctx.moveTo(33, 22); ctx.lineTo(36, 41);
+            ctx.moveTo(19, 22); ctx.lineTo(20, 39);
+            ctx.moveTo(29, 22); ctx.lineTo(28, 39);
+            ctx.stroke();
+            break;
+        case "cylinder":
+            ctx.beginPath();
+            ctx.ellipse(24, 10, 11, 4, 0, 0, Math.PI * 2);
+            ctx.moveTo(13, 10); ctx.lineTo(13, 37);
+            ctx.ellipse(24, 37, 11, 4, 0, 0, Math.PI);
+            ctx.lineTo(35, 10);
+            ctx.moveTo(14, 17); ctx.lineTo(34, 17);
+            ctx.moveTo(14, 31); ctx.lineTo(34, 31);
+            ctx.stroke();
+            break;
+        case "firekit":
+            ctx.beginPath();
+            ctx.moveTo(24, 35); ctx.quadraticCurveTo(13, 27, 24, 15);
+            ctx.quadraticCurveTo(23, 24, 31, 25);
+            ctx.quadraticCurveTo(38, 33, 29, 39);
+            ctx.quadraticCurveTo(17, 43, 13, 34);
+            ctx.moveTo(8, 42); ctx.lineTo(40, 42);
+            ctx.moveTo(13, 38); ctx.lineTo(19, 44);
+            ctx.moveTo(35, 38); ctx.lineTo(29, 44);
+            ctx.stroke();
+            break;
+        case "fishtrap":
+            ctx.beginPath();
+            ctx.moveTo(8, 10); ctx.lineTo(40, 10); ctx.lineTo(28, 40); ctx.lineTo(20, 40); ctx.closePath();
+            ctx.moveTo(14, 12); ctx.lineTo(23, 38);
+            ctx.moveTo(24, 12); ctx.lineTo(24, 39);
+            ctx.moveTo(34, 12); ctx.lineTo(26, 38);
+            ctx.moveTo(11, 19); ctx.lineTo(37, 19);
+            ctx.moveTo(14, 27); ctx.lineTo(34, 27);
+            ctx.moveTo(18, 34); ctx.lineTo(31, 34);
+            ctx.stroke();
+            break;
+        case "hat":
+            ctx.beginPath();
+            ctx.moveTo(6, 30); ctx.quadraticCurveTo(24, 37, 42, 30);
+            ctx.quadraticCurveTo(38, 25, 33, 25);
+            ctx.quadraticCurveTo(31, 11, 24, 10);
+            ctx.quadraticCurveTo(17, 11, 15, 25);
+            ctx.quadraticCurveTo(10, 25, 6, 30);
+            ctx.moveTo(15, 25); ctx.lineTo(33, 25);
+            ctx.stroke();
+            break;
+        case "spear":
+            ctx.beginPath();
+            ctx.moveTo(24, 5); ctx.lineTo(34, 19); ctx.lineTo(24, 16); ctx.lineTo(14, 19); ctx.closePath();
+            ctx.moveTo(24, 16); ctx.lineTo(24, 44);
+            ctx.moveTo(19, 34); ctx.lineTo(29, 34);
+            ctx.stroke();
+            break;
+        case "shield":
+            ctx.beginPath();
+            ctx.moveTo(24, 5); ctx.lineTo(39, 11); ctx.lineTo(37, 28);
+            ctx.quadraticCurveTo(34, 37, 24, 43);
+            ctx.quadraticCurveTo(14, 37, 11, 28);
+            ctx.lineTo(9, 11); ctx.closePath();
+            ctx.moveTo(17, 17); ctx.lineTo(31, 31);
+            ctx.moveTo(31, 17); ctx.lineTo(17, 31);
+            ctx.stroke();
+            break;
+        case "beads":
+            ctx.beginPath();
+            ctx.arc(24, 18, 15, Math.PI * 1.05, Math.PI * 1.95);
+            ctx.stroke();
+            for (let i = 0; i < 7; i++) {
+                const angle = Math.PI * 1.08 + i * (Math.PI * 0.84 / 6);
+                ctx.beginPath();
+                ctx.arc(24 + Math.cos(angle) * 15, 18 + Math.sin(angle) * 15, 2.4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.beginPath();
+            ctx.moveTo(24, 31); ctx.lineTo(30, 38); ctx.lineTo(24, 45); ctx.lineTo(18, 38); ctx.closePath();
+            ctx.stroke();
+            break;
+        case "axe":
+            ctx.beginPath();
+            ctx.moveTo(16, 40); ctx.lineTo(30, 13);
+            ctx.moveTo(28, 18); ctx.quadraticCurveTo(33, 7, 42, 13);
+            ctx.quadraticCurveTo(39, 25, 29, 27);
+            ctx.moveTo(18, 35); ctx.lineTo(25, 39);
+            ctx.stroke();
+            break;
+        case "textile":
+            ctx.beginPath();
+            ctx.moveTo(9, 9); ctx.lineTo(39, 9); ctx.lineTo(36, 37); ctx.lineTo(24, 42); ctx.lineTo(12, 37); ctx.closePath();
+            ctx.moveTo(14, 16); ctx.lineTo(34, 16);
+            ctx.moveTo(13, 23); ctx.lineTo(35, 23);
+            ctx.moveTo(13, 30); ctx.lineTo(35, 30);
+            ctx.moveTo(15, 12); ctx.lineTo(15, 34);
+            ctx.moveTo(24, 12); ctx.lineTo(24, 38);
+            ctx.moveTo(33, 12); ctx.lineTo(33, 34);
+            ctx.stroke();
+            break;
+        case "armlet":
+            ctx.beginPath();
+            ctx.ellipse(24, 24, 10, 18, -0.35, 0, Math.PI * 2);
+            ctx.ellipse(24, 24, 15, 18, -0.35, 0, Math.PI * 2);
+            ctx.moveTo(12, 13); ctx.lineTo(17, 17);
+            ctx.moveTo(32, 31); ctx.lineTo(37, 35);
+            ctx.stroke();
+            break;
+        case "token":
+            ctx.beginPath();
+            ctx.arc(24, 24, 17, 0, Math.PI * 2);
+            ctx.moveTo(24, 12); ctx.lineTo(34, 24); ctx.lineTo(24, 36); ctx.lineTo(14, 24); ctx.closePath();
+            ctx.moveTo(24, 17); ctx.lineTo(24, 31);
+            ctx.stroke();
+            break;
+        case "headdress":
+            ctx.beginPath();
+            ctx.moveTo(10, 37); ctx.quadraticCurveTo(24, 26, 38, 37);
+            ctx.lineTo(38, 41); ctx.lineTo(10, 41); ctx.closePath();
+            ctx.moveTo(14, 34); ctx.lineTo(9, 12);
+            ctx.moveTo(22, 30); ctx.lineTo(22, 7);
+            ctx.moveTo(30, 30); ctx.lineTo(35, 10);
+            ctx.moveTo(9, 12); ctx.quadraticCurveTo(14, 16, 15, 22);
+            ctx.moveTo(22, 7); ctx.quadraticCurveTo(28, 13, 27, 20);
+            ctx.moveTo(35, 10); ctx.quadraticCurveTo(40, 15, 38, 22);
+            ctx.stroke();
+            break;
+        case "quiver":
+            ctx.beginPath();
+            ctx.rect(14, 17, 19, 27);
+            ctx.moveTo(17, 19); ctx.lineTo(17, 7); ctx.lineTo(22, 15);
+            ctx.moveTo(24, 17); ctx.lineTo(24, 5); ctx.lineTo(29, 14);
+            ctx.moveTo(30, 19); ctx.lineTo(35, 8); ctx.lineTo(35, 18);
+            ctx.moveTo(14, 25); ctx.lineTo(33, 25);
+            ctx.stroke();
+            break;
+        case "figurine":
+            ctx.beginPath();
+            ctx.arc(24, 9, 5, 0, Math.PI * 2);
+            ctx.moveTo(24, 14); ctx.lineTo(24, 31);
+            ctx.moveTo(24, 18); ctx.lineTo(14, 25); ctx.lineTo(10, 22);
+            ctx.moveTo(24, 18); ctx.lineTo(34, 25); ctx.lineTo(38, 22);
+            ctx.moveTo(24, 31); ctx.lineTo(16, 41);
+            ctx.moveTo(24, 31); ctx.lineTo(32, 41);
+            ctx.moveTo(17, 25); ctx.lineTo(31, 25);
+            ctx.stroke();
+            break;
+    }
+
+    ctx.restore();
+}
+
+function drawArtifactStatus(isUnlocked, centerX, centerY, color) {
+    ctx.save();
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    if (isUnlocked) {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "#172019";
+        ctx.beginPath();
+        ctx.moveTo(centerX - 4, centerY);
+        ctx.lineTo(centerX - 1, centerY + 3);
+        ctx.lineTo(centerX + 4, centerY - 3);
+        ctx.stroke();
+    } else {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY - 2, 4, Math.PI, 0);
+        ctx.stroke();
+        ctx.fillRect(centerX - 5, centerY - 2, 10, 9);
+    }
+
+    ctx.restore();
+}
+
+function fitCanvasText(text, maxWidth) {
+    let fittedText = text;
+    while (fittedText.length > 4 && ctx.measureText(`${fittedText}...`).width > maxWidth) {
+        fittedText = fittedText.slice(0, -1);
+    }
+    return fittedText.length < text.length ? `${fittedText.trimEnd()}...` : fittedText;
 }
 
 function renderAchievementsScreen() {
     ctx.clearRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
     drawCanvasBackground();
 
-    ctx.fillStyle = "rgba(18, 15, 13, 0.85)";
+    ctx.fillStyle = "rgba(18, 15, 13, 0.88)";
     ctx.fillRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
-
     drawInGameExitButton();
 
-    ctx.fillStyle = "#E5A93C";
-    ctx.font = "bold 36px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("ACHIEVEMENTS", VIRTUAL_WIDTH / 2, 90);
-
-    const easyWins = playerAchievements.EASY.length;
-    const medWins = playerAchievements.MEDIUM.length;
-    const hardWins = playerAchievements.HARD.length;
-
     const cards = [
-        { title: "EASY MASTERY", desc: "Catch the pig in Easy Mode", count: easyWins },
-        { title: "MEDIUM MASTERY", desc: "Catch the pig in Medium Mode", count: medWins },
-        { title: "HARD MASTERY", desc: "Catch the pig in Hard Mode", count: hardWins }
+        {
+            title: "EASY MASTERY",
+            desc: "Catch the pig in Easy Mode",
+            count: playerAchievements.EASY.length,
+            icon: "runner",
+            accent: "#84A77A"
+        },
+        {
+            title: "MEDIUM MASTERY",
+            desc: "Catch the pig in Medium Mode",
+            count: playerAchievements.MEDIUM.length,
+            icon: "tracker",
+            accent: "#D49B48"
+        },
+        {
+            title: "HARD MASTERY",
+            desc: "Catch the pig in Hard Mode",
+            count: playerAchievements.HARD.length,
+            icon: "shield",
+            accent: "#C66A50"
+        }
     ];
+    const totalCollected = cards.reduce((total, card) => total + card.count, 0);
+
+    ctx.fillStyle = "#F3BA4F";
+    ctx.font = "bold 32px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("ACHIEVEMENTS", VIRTUAL_WIDTH / 2, 43);
+    ctx.fillStyle = "#C7B8A4";
+    ctx.font = "14px sans-serif";
+    ctx.fillText("Your Dokdokma journey, one artifact at a time", VIRTUAL_WIDTH / 2, 67);
+
+    const summaryX = 390;
+    const summaryY = 82;
+    const summaryW = 500;
+    ctx.fillStyle = "rgba(43, 26, 14, 0.92)";
+    ctx.fillRect(summaryX, summaryY, summaryW, 48);
+    ctx.strokeStyle = "#68492F";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(summaryX, summaryY, summaryW, 48);
+    ctx.textAlign = "left";
+    ctx.fillStyle = "#E2D7C5";
+    ctx.font = "bold 12px sans-serif";
+    ctx.fillText("TOTAL ARTIFACT COLLECTION", summaryX + 16, summaryY + 20);
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#F3BA4F";
+    ctx.fillText(`${totalCollected} / 30`, summaryX + summaryW - 16, summaryY + 20);
+    ctx.fillStyle = "#483728";
+    ctx.fillRect(summaryX + 16, summaryY + 30, summaryW - 32, 7);
+    ctx.fillStyle = "#C28245";
+    ctx.fillRect(summaryX + 16, summaryY + 30, (summaryW - 32) * Math.min(totalCollected / 30, 1), 7);
 
     cards.forEach((card, idx) => {
-        const x = 160 + idx * 340;
-        const y = 180;
-        const w = 280;
-        const h = 380;
+        const x = 90 + idx * 375;
+        const y = 150;
+        const w = 350;
+        const h = 505;
+        const centerX = x + w / 2;
 
-        ctx.fillStyle = "#2B1A0E";
+        ctx.fillStyle = "#241A13";
         ctx.fillRect(x, y, w, h);
-        ctx.strokeStyle = card.count > 0 ? "#E5A93C" : "#5C4028";
-        ctx.lineWidth = 3;
+        ctx.strokeStyle = card.count > 0 ? card.accent : "#59432F";
+        ctx.lineWidth = card.count > 0 ? 2 : 1;
         ctx.strokeRect(x, y, w, h);
+        ctx.fillStyle = card.accent;
+        ctx.fillRect(x, y, w, 6);
 
-        ctx.fillStyle = card.count > 0 ? "#E5A93C" : "#8C5A32";
-        ctx.font = "bold 20px sans-serif";
+        ctx.fillStyle = "rgba(0, 0, 0, 0.22)";
+        ctx.beginPath();
+        ctx.arc(centerX, y + 86, 38, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = card.accent;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        drawWarriorBadgeIcon(card.icon, centerX, y + 86, 46, card.accent);
+
         ctx.textAlign = "center";
-        ctx.fillText(card.title, x + w / 2, y + 60);
+        ctx.fillStyle = "#F3E9D7";
+        ctx.font = "bold 20px sans-serif";
+        ctx.fillText(card.title, centerX, y + 153);
+        ctx.fillStyle = "#C7B8A4";
+        ctx.font = "13px sans-serif";
+        ctx.fillText(card.desc, centerX, y + 177);
 
-        ctx.fillStyle = "#E2D7C5";
-        ctx.font = "14px sans-serif";
-        ctx.fillText(card.desc, x + w / 2, y + 110);
-
-        let statusText = "LOCKED";
-        let statusColor = "#A34836";
+        let statusText = "NOT STARTED";
+        let statusColor = "#9A5947";
         if (card.count === 10) {
-            statusText = "COMPLETED";
-            statusColor = "#3A6351";
+            statusText = "MASTERED";
+            statusColor = "#4A8C6F";
         } else if (card.count > 0) {
-            statusText = "ONGOING";
-            statusColor = "#E5A93C";
+            statusText = "IN PROGRESS";
+            statusColor = "#B98232";
         }
-
-        ctx.font = "bold 28px sans-serif";
+        const statusWidth = 138;
+        const statusX = centerX - statusWidth / 2;
+        const statusY = y + 199;
+        ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
+        ctx.fillRect(statusX, statusY, statusWidth, 27);
+        ctx.strokeStyle = statusColor;
+        ctx.strokeRect(statusX, statusY, statusWidth, 27);
         ctx.fillStyle = statusColor;
-        ctx.fillText(statusText, x + w / 2, y + 220);
+        ctx.font = "bold 11px sans-serif";
+        ctx.fillText(statusText, centerX, statusY + 18);
 
-        ctx.font = "16px sans-serif";
-        ctx.fillStyle = "#E2D7C5";
-        ctx.fillText(`Unlocked: ${card.count}/10`, x + w / 2, y + 280);
+        ctx.fillStyle = "#AFA18D";
+        ctx.font = "bold 11px sans-serif";
+        ctx.fillText("ARTIFACTS COLLECTED", centerX, y + 278);
+        ctx.fillStyle = "#F3E9D7";
+        ctx.font = "bold 28px sans-serif";
+        ctx.fillText(`${card.count} / 10`, centerX, y + 315);
+
+        const barX = x + 28;
+        const barY = y + 332;
+        const barW = w - 56;
+        ctx.fillStyle = "#483728";
+        ctx.fillRect(barX, barY, barW, 12);
+        ctx.fillStyle = card.accent;
+        ctx.fillRect(barX, barY, barW * Math.min(card.count / 10, 1), 12);
+
+        ctx.fillStyle = "#C7B8A4";
+        ctx.font = "12px sans-serif";
+        ctx.fillText("Win in this tier to discover a cultural artifact.", centerX, y + 384);
     });
+}
+
+function drawWarriorBadgeIcon(iconName, centerX, centerY, size, color) {
+    ctx.save();
+    ctx.translate(centerX - size / 2, centerY - size / 2);
+    ctx.scale(size / 48, size / 48);
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    switch (iconName) {
+        case "runner":
+            ctx.beginPath();
+            ctx.moveTo(4, 17); ctx.lineTo(13, 17);
+            ctx.moveTo(2, 23); ctx.lineTo(11, 23);
+            ctx.moveTo(5, 29); ctx.lineTo(14, 29);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(31, 9, 4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(28, 15); ctx.lineTo(23, 26); ctx.lineTo(31, 29);
+            ctx.moveTo(27, 17); ctx.lineTo(20, 21); ctx.lineTo(17, 18);
+            ctx.moveTo(29, 17); ctx.lineTo(36, 18); ctx.lineTo(41, 13);
+            ctx.moveTo(30, 28); ctx.lineTo(22, 35); ctx.lineTo(17, 42);
+            ctx.moveTo(31, 29); ctx.lineTo(37, 34); ctx.lineTo(44, 33);
+            ctx.stroke();
+            break;
+        case "tracker":
+            ctx.beginPath();
+            ctx.arc(24, 24, 16, 0, Math.PI * 2);
+            ctx.moveTo(24, 3); ctx.lineTo(24, 10);
+            ctx.moveTo(24, 38); ctx.lineTo(24, 45);
+            ctx.moveTo(3, 24); ctx.lineTo(10, 24);
+            ctx.moveTo(38, 24); ctx.lineTo(45, 24);
+            ctx.moveTo(17, 31); ctx.lineTo(31, 17);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(24, 24, 4, 0, Math.PI * 2);
+            ctx.fill();
+            break;
+        case "shield":
+            ctx.beginPath();
+            ctx.moveTo(24, 5); ctx.lineTo(39, 11); ctx.lineTo(37, 28);
+            ctx.quadraticCurveTo(34, 37, 24, 43);
+            ctx.quadraticCurveTo(14, 37, 11, 28);
+            ctx.lineTo(9, 11); ctx.closePath();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(15, 34); ctx.lineTo(34, 12);
+            ctx.moveTo(31, 10); ctx.lineTo(37, 7); ctx.lineTo(36, 14);
+            ctx.moveTo(16, 31); ctx.lineTo(20, 35);
+            ctx.stroke();
+            break;
+        case "pottery":
+            ctx.beginPath();
+            ctx.moveTo(18, 8); ctx.lineTo(30, 8); ctx.lineTo(30, 15);
+            ctx.quadraticCurveTo(34, 22, 37, 31);
+            ctx.quadraticCurveTo(36, 40, 24, 42);
+            ctx.quadraticCurveTo(12, 40, 11, 31);
+            ctx.quadraticCurveTo(14, 22, 18, 15);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(17, 15); ctx.lineTo(31, 15);
+            ctx.moveTo(13, 29); ctx.quadraticCurveTo(24, 34, 35, 29);
+            ctx.moveTo(16, 35); ctx.quadraticCurveTo(24, 38, 32, 35);
+            ctx.stroke();
+            break;
+        case "stilts":
+            ctx.beginPath();
+            ctx.arc(24, 7, 4, 0, Math.PI * 2);
+            ctx.moveTo(24, 11); ctx.lineTo(24, 23);
+            ctx.moveTo(24, 14); ctx.lineTo(15, 18);
+            ctx.moveTo(24, 14); ctx.lineTo(33, 18);
+            ctx.moveTo(24, 23); ctx.lineTo(17, 31);
+            ctx.moveTo(24, 23); ctx.lineTo(31, 31);
+            ctx.moveTo(16, 19); ctx.lineTo(16, 44);
+            ctx.moveTo(32, 19); ctx.lineTo(32, 44);
+            ctx.moveTo(12, 34); ctx.lineTo(20, 34);
+            ctx.moveTo(28, 34); ctx.lineTo(36, 34);
+            ctx.stroke();
+            break;
+        case "mountain":
+            ctx.beginPath();
+            ctx.moveTo(4, 39); ctx.lineTo(17, 18); ctx.lineTo(24, 29);
+            ctx.lineTo(33, 12); ctx.lineTo(45, 39); ctx.closePath();
+            ctx.moveTo(12, 39); ctx.lineTo(20, 27);
+            ctx.moveTo(28, 22); ctx.lineTo(33, 15); ctx.lineTo(38, 27);
+            ctx.moveTo(19, 38); ctx.quadraticCurveTo(27, 35, 24, 30);
+            ctx.stroke();
+            break;
+    }
+
+    ctx.restore();
 }
 
 function renderBadgesScreen() {
@@ -2124,6 +3285,7 @@ function renderBadgesScreen() {
         {
             rank: "Chon-gyog",
             sub: "Fast Runner",
+            icon: "runner",
             desc: "Awarded for completing the Easy Kalinga hunt.",
             requirement: "Collect all 10 Easy Artifacts (10/10)",
             count: playerAchievements.EASY.length,
@@ -2133,6 +3295,7 @@ function renderBadgesScreen() {
         {
             rank: "Mansasag",
             sub: "Agile Tracker",
+            icon: "tracker",
             desc: "Awarded for exceptional reflexes in Medium trials.",
             requirement: "Collect all 10 Medium Artifacts (10/10)",
             count: playerAchievements.MEDIUM.length,
@@ -2142,6 +3305,7 @@ function renderBadgesScreen() {
         {
             rank: "Maingel",
             sub: "Brave Warrior",
+            icon: "shield",
             desc: "The highest tribal honor for conquering Hard trials.",
             requirement: "Collect all 10 Hard Artifacts (10/10)",
             count: playerAchievements.HARD.length,
@@ -2151,6 +3315,7 @@ function renderBadgesScreen() {
         {
             rank: "Pasil Potter",
             sub: "Archivist",
+            icon: "pottery",
             desc: "Uncover every single cultural relic.",
             requirement: "Collect all 30/30 Artifacts",
             count: playerAchievements.EASY.length + playerAchievements.MEDIUM.length + playerAchievements.HARD.length,
@@ -2160,6 +3325,7 @@ function renderBadgesScreen() {
         {
             rank: "Stilt Acrobat",
             sub: "Balanced Stride",
+            icon: "stilts",
             desc: "Win a stilt race without a single stumble.",
             requirement: "Finish Kadang-Kadang with 0 stumbles",
             count: 0,
@@ -2169,6 +3335,7 @@ function renderBadgesScreen() {
         {
             rank: "Kabunian",
             sub: "Mountain Sprinter",
+            icon: "mountain",
             desc: "Mastery of speed and balance in the high mountain stilt race.",
             requirement: "Win a Kadang-Kadang race",
             count: (kadang.isGameOver && kadang.winner !== null) ? 1 : 0,
@@ -2195,16 +3362,13 @@ function renderBadgesScreen() {
 
         let statusText = "STATUS: LOCKED";
         let statusColor = "#B84A39";
-        let circleSymbol = "🔒";
 
         if (b.unlocked) {
             statusText = "STATUS: COMPLETED";
             statusColor = "#4A8C6F";
-            circleSymbol = "★";
         } else if (b.count > 0 && b.count < b.max) {
             statusText = "STATUS: ONGOING";
             statusColor = "#E5A93C";
-            circleSymbol = "🔒";
         }
 
         ctx.fillStyle = "#22130A";
@@ -2225,12 +3389,7 @@ function renderBadgesScreen() {
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        ctx.fillStyle = "#FFFFFF";
-        ctx.font = "bold 20px sans-serif";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(circleSymbol, circleX, circleY);
-        ctx.textBaseline = "alphabetic";
+        drawWarriorBadgeIcon(b.icon, circleX, circleY, 34, b.unlocked ? "#F3BA4F" : "#B08B64");
 
         ctx.fillStyle = b.unlocked ? "#F3BA4F" : "#A67C52";
         ctx.font = "bold 15px sans-serif";
@@ -2286,17 +3445,19 @@ function renderBadgesScreen() {
         ctx.textAlign = "center";
         ctx.fillText(`INSIGNIA: ${b.rank.toUpperCase()}`, VIRTUAL_WIDTH / 2, modalY + 50);
 
+        drawWarriorBadgeIcon(b.icon, VIRTUAL_WIDTH / 2, modalY + 98, 54, "#F3BA4F");
+
         ctx.fillStyle = "#C28245";
         ctx.font = "18px sans-serif";
-        ctx.fillText(b.sub, VIRTUAL_WIDTH / 2, modalY + 85);
+        ctx.fillText(b.sub, VIRTUAL_WIDTH / 2, modalY + 145);
 
         ctx.fillStyle = "#E2D7C5";
         ctx.font = "16px sans-serif";
-        ctx.fillText(b.desc, VIRTUAL_WIDTH / 2, modalY + 135, modalW - 40);
+        ctx.fillText(b.desc, VIRTUAL_WIDTH / 2, modalY + 195, modalW - 40);
 
         ctx.fillStyle = "#F3BA4F";
         ctx.font = "bold 16px sans-serif";
-        ctx.fillText(`Unlock Requirement: ${b.requirement}`, VIRTUAL_WIDTH / 2, modalY + 200);
+        ctx.fillText(`Unlock Requirement: ${b.requirement}`, VIRTUAL_WIDTH / 2, modalY + 250);
 
         const btnCloseW = 200;
         const btnCloseH = 45;
@@ -2318,56 +3479,101 @@ function renderArtifactsScreen() {
     ctx.clearRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
     drawCanvasBackground();
 
-    ctx.fillStyle = "rgba(18, 15, 13, 0.85)";
+    ctx.fillStyle = "rgba(18, 15, 13, 0.88)";
     ctx.fillRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
-
     drawInGameExitButton();
 
     ctx.fillStyle = "#E5A93C";
-    ctx.font = "bold 36px sans-serif";
+    ctx.font = "bold 30px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("CULTURAL ARTIFACT GALLERY", VIRTUAL_WIDTH / 2, 80);
+    ctx.fillText("CULTURAL ARTIFACTS", VIRTUAL_WIDTH / 2, 42);
+    ctx.fillStyle = "#C7B8A4";
+    ctx.font = "13px sans-serif";
+    ctx.fillText("Explore the treasures and stories of Kalinga", VIRTUAL_WIDTH / 2, 65);
 
     const totalCollected = playerAchievements.EASY.length + playerAchievements.MEDIUM.length + playerAchievements.HARD.length;
-    ctx.fillStyle = "#E2D7C5";
-    ctx.font = "18px sans-serif";
-    ctx.fillText(`Total Collected: ${totalCollected} / 30`, VIRTUAL_WIDTH / 2, 115);
+    const summaryX = 505;
+    const summaryY = 78;
+    const summaryW = 270;
+    ctx.fillStyle = "rgba(43, 26, 14, 0.92)";
+    ctx.fillRect(summaryX, summaryY, summaryW, 34);
+    ctx.strokeStyle = "#68492F";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(summaryX, summaryY, summaryW, 34);
+    ctx.fillStyle = "#F3BA4F";
+    ctx.font = "bold 12px sans-serif";
+    ctx.fillText(`COLLECTED  ${totalCollected} / 30`, VIRTUAL_WIDTH / 2, summaryY + 22);
 
     const tiers = [
-        { name: "EASY TIER", list: CULTURAL_ARTIFACTS.EASY, unlocked: playerAchievements.EASY },
-        { name: "MEDIUM TIER", list: CULTURAL_ARTIFACTS.MEDIUM, unlocked: playerAchievements.MEDIUM },
-        { name: "HARD TIER", list: CULTURAL_ARTIFACTS.HARD, unlocked: playerAchievements.HARD }
+        { name: "EASY COLLECTION", icon: "runner", list: CULTURAL_ARTIFACTS.EASY, unlocked: playerAchievements.EASY, accent: "#84A77A" },
+        { name: "MEDIUM COLLECTION", icon: "tracker", list: CULTURAL_ARTIFACTS.MEDIUM, unlocked: playerAchievements.MEDIUM, accent: "#D49B48" },
+        { name: "HARD COLLECTION", icon: "shield", list: CULTURAL_ARTIFACTS.HARD, unlocked: playerAchievements.HARD, accent: "#C66A50" }
     ];
 
     tiers.forEach((tier, tIdx) => {
-        const startX = 120 + tIdx * 360;
-        const startY = 150;
+        const x = 50 + tIdx * 400;
+        const y = 124;
+        const w = 380;
+        const h = 542;
+        const collectedCount = tier.unlocked.length;
 
-        ctx.fillStyle = "#2B1A0E";
-        ctx.fillRect(startX, startY, 320, 500);
-        ctx.strokeStyle = "#C28245";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(startX, startY, 320, 500);
+        ctx.fillStyle = "#241A13";
+        ctx.fillRect(x, y, w, h);
+        ctx.strokeStyle = "#59432F";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x, y, w, h);
+        ctx.fillStyle = tier.accent;
+        ctx.fillRect(x, y, w, 5);
 
-        ctx.fillStyle = "#E5A93C";
-        ctx.font = "bold 18px sans-serif";
-        ctx.textAlign = "center";
-        ctx.fillText(tier.name, startX + 160, startY + 35);
+        ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+        ctx.beginPath();
+        ctx.arc(x + 32, y + 34, 20, 0, Math.PI * 2);
+        ctx.fill();
+        drawWarriorBadgeIcon(tier.icon, x + 32, y + 34, 25, tier.accent);
+
+        ctx.textAlign = "left";
+        ctx.fillStyle = "#F3E9D7";
+        ctx.font = "bold 13px sans-serif";
+        ctx.fillText(tier.name, x + 60, y + 31);
+        ctx.textAlign = "right";
+        ctx.fillStyle = tier.accent;
+        ctx.font = "bold 12px sans-serif";
+        ctx.fillText(`${collectedCount} / 10`, x + w - 15, y + 31);
+
+        ctx.fillStyle = "#483728";
+        ctx.fillRect(x + 15, y + 45, w - 30, 7);
+        ctx.fillStyle = tier.accent;
+        ctx.fillRect(x + 15, y + 45, (w - 30) * Math.min(collectedCount / 10, 1), 7);
 
         tier.list.forEach((art, aIdx) => {
             const isUnlocked = tier.unlocked.some(u => u.name === art.name);
-            const itemY = startY + 60 + aIdx * 42;
+            const rowX = x + 9;
+            const rowY = y + 66 + aIdx * 47;
+            const rowW = w - 18;
+            const rowH = 44;
+            const iconColor = isUnlocked ? tier.accent : "#9B8061";
 
-            ctx.fillStyle = isUnlocked ? "rgba(58, 99, 81, 0.4)" : "rgba(43, 26, 14, 0.4)";
-            ctx.fillRect(startX + 10, itemY, 300, 36);
+            ctx.fillStyle = isUnlocked ? "rgba(58, 99, 81, 0.22)" : "rgba(0, 0, 0, 0.17)";
+            ctx.fillRect(rowX, rowY, rowW, rowH);
+            ctx.strokeStyle = isUnlocked ? "rgba(132, 167, 122, 0.55)" : "#493728";
+            ctx.lineWidth = 1;
+            ctx.strokeRect(rowX, rowY, rowW, rowH);
 
-            ctx.fillStyle = isUnlocked ? "#E5A93C" : "#722F22";
+            ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+            ctx.beginPath();
+            ctx.arc(rowX + 21, rowY + rowH / 2, 15, 0, Math.PI * 2);
+            ctx.fill();
+            drawCulturalArtifactIcon(art.icon, rowX + 21, rowY + rowH / 2, 25, iconColor);
+
             ctx.textAlign = "left";
-            ctx.font = "bold 14px sans-serif";
-            ctx.fillText(`${aIdx + 1}. ${art.name}`, startX + 20, itemY + 22);
+            ctx.fillStyle = isUnlocked ? "#F3E9D7" : "#D0C2AF";
+            ctx.font = "bold 10px sans-serif";
+            ctx.fillText(art.name, rowX + 43, rowY + 17);
+            ctx.fillStyle = "#9F917E";
+            ctx.font = "8px sans-serif";
+            ctx.fillText(fitCanvasText(art.desc, rowW - 76), rowX + 43, rowY + 32);
 
-            ctx.textAlign = "right";
-            ctx.fillText(isUnlocked ? "✓" : "🔒", startX + 300, itemY + 22);
+            drawArtifactStatus(isUnlocked, rowX + rowW - 16, rowY + rowH / 2, isUnlocked ? "#84A77A" : "#755F4A");
         });
     });
 }
@@ -2379,34 +3585,21 @@ let isRegisterMode = false;
 (function injectAuthDrawerButton() {
     const sideDrawer = document.getElementById("side-drawer");
     if (!sideDrawer) return;
-    const drawerList = sideDrawer.querySelector(".drawer-menu") || sideDrawer;
+    const accountActions = document.getElementById("drawer-account-actions")
+        || sideDrawer.querySelector(".drawer-menu")
+        || sideDrawer;
 
     const authBtn = document.createElement("button");
     authBtn.id = "btn-menu-auth";
     authBtn.className = "drawer-btn";
     authBtn.textContent = "Account Login";
 
-    authBtn.style.backgroundColor = "#2E241E";
-    authBtn.style.color = "#E5C396";
-    authBtn.style.border = "1px solid #5C4333";
-    authBtn.style.borderRadius = "6px";
-    authBtn.style.padding = "14px 16px";
-    authBtn.style.width = "100%";
-    authBtn.style.textAlign = "center";
-    authBtn.style.fontFamily = "sans-serif";
-    authBtn.style.fontSize = "17px";
-    authBtn.style.fontWeight = "500";
-    authBtn.style.cursor = "pointer";
-    authBtn.style.marginTop = "8px";
-    authBtn.style.marginBottom = "4px";
-    authBtn.style.boxSizing = "border-box";
-
     authBtn.addEventListener("click", () => {
         closeDrawer();
         openAuthModal();
     });
 
-    drawerList.insertBefore(authBtn, drawerList.firstChild);
+    accountActions.appendChild(authBtn);
 })();
 
 function openAuthModal() {
@@ -2551,6 +3744,7 @@ async function syncProgressToServer() {
 function gameLoop() {
     ctx.clearRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
     audioManager.playBgm();
+    syncPhoneLayout();
 
     if (currentState === STATE_LOADING) {
         renderLoading();
