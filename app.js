@@ -111,7 +111,7 @@ const player3Img = new Image();
 player3Img.onerror = () => console.warn("player3.png not found, falling back to shape.");
 player3Img.src = "res/minigames/player3.png";
 
-// Kadang-Kadang Character Back-View Sprites (.jpg format matching folder)
+// Kadang-Kadang character back-view sprites.
 const kadangPlayer1Img = new Image();
 kadangPlayer1Img.onerror = () => console.warn("player8 image not found, falling back.");
 kadangPlayer1Img.src = "res/minigames/player8.png";
@@ -1705,8 +1705,8 @@ function drawTraditionalPlayer(ctx, player, x, y, isPlayerTwo = false) {
     ctx.restore();
 
     const spriteImg = isPlayerTwo ? kadangPlayer2Img : kadangPlayer1Img;
-    const spriteWidth = 50;
-    const spriteHeight = 64;
+    const spriteWidth = 80;
+    const spriteHeight = 106;
 
     if (spriteImg && spriteImg.complete && spriteImg.naturalWidth !== 0) {
         ctx.drawImage(spriteImg, -spriteWidth / 2, -spriteHeight - 22, spriteWidth, spriteHeight);
