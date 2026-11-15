@@ -63,12 +63,9 @@
         <div class="modal-body">
             <div class="settings-container">
                 <div class="settings-option">
-                    <span>Sound Effects (SFX)</span>
-                    <button id="btn-toggle-sfx" class="audio-toggle-btn">SFX: ON</button>
-                </div>
-                <div class="settings-option">
                     <span>Background Music (BGM)</span>
-                    <button id="btn-toggle-bgm" class="audio-toggle-btn">BGM: ON</button>
+                    <button id="btn-toggle-bgm" class="audio-toggle-btn" style="width: 100%; padding: 14px;">AUDIO:
+                        ON</button>
                 </div>
             </div>
         </div>
@@ -82,10 +79,9 @@
                 style="position: absolute; top: 12px; right: 15px; background: transparent; border: none; color: #E5A93C; font-size: 24px; cursor: pointer;">&times;</button>
             <h2 id="auth-title" style="color: #E5A93C; margin-bottom: 20px;">ACCOUNT LOGIN</h2>
             <div id="auth-msg" style="color: #A34836; margin-bottom: 15px; font-size: 14px;"></div>
-            <input type="text" id="auth-username" placeholder="Username" autocomplete="off" spellcheck="false"
+            <input type="text" id="auth-username" placeholder="Username" autocomplete="off"
                 style="width: 100%; padding: 12px; margin-bottom: 15px; background: #120F0D; border: 1px solid #C28245; color: #FFF; border-radius: 4px; box-sizing: border-box;">
             <input type="password" id="auth-password" placeholder="Password" autocomplete="new-password"
-                spellcheck="false"
                 style="width: 100%; padding: 12px; margin-bottom: 20px; background: #120F0D; border: 1px solid #C28245; color: #FFF; border-radius: 4px; box-sizing: border-box;">
 
             <button id="auth-submit-btn"
@@ -113,11 +109,6 @@
                 <button id="btn-quit-no" class="confirm-btn resume-btn">Resume</button>
             </div>
         </div>
-    </div>
-    <div id="rotate-device-overlay">
-        <div style="font-size: 48px; margin-bottom: 16px;">🔄</div>
-        <h2 style="margin: 0 0 8px 0; color: #E5A93C;">Please Rotate Your Device</h2>
-        <p style="color: #E2D7C5; font-size: 16px;">Kalinga Legends requires Landscape Mode to play.</p>
     </div>
 
     <script src="app.js"></script>

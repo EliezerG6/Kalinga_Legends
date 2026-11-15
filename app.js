@@ -114,11 +114,11 @@ player3Img.src = "res/minigames/player3.png";
 // Kadang-Kadang Character Back-View Sprites (.jpg format matching folder)
 const kadangPlayer1Img = new Image();
 kadangPlayer1Img.onerror = () => console.warn("player8 image not found, falling back.");
-kadangPlayer1Img.src = "res/minigames/player8.png";
+kadangPlayer1Img.src = "res/minigames/player8.jpg";
 
 const kadangPlayer2Img = new Image();
 kadangPlayer2Img.onerror = () => console.warn("player9 image not found, falling back.");
-kadangPlayer2Img.src = "res/minigames/player9.png";
+kadangPlayer2Img.src = "res/minigames/player9.jpg";
 
 const playerRunImg = new Image();
 playerRunImg.onerror = () => console.warn("player_run.png not found, falling back to static player.");
@@ -126,33 +126,21 @@ playerRunImg.src = "res/minigames/player_run.png";
 
 const loadingImg = new Image();
 loadingImg.onerror = () => {
-    if (!loadingImg.src.endsWith("loading.png")) {
-        loadingImg.src = "loading.png";
+    if (!loadingImg.src.endsWith("loading.jpg")) {
+        loadingImg.src = "loading.jpg";
     } else {
         console.warn("loading.jpg missing, using dark color fallback.");
     }
 };
 loadingImg.src = "res/minigames/loading.jpg";
 
-// Audio Management System
+// Audio Management System (Background Music Only)
 const audioManager = {
-    sfxMuted: false,
     bgmMuted: false,
     track: new Audio("res/audio/song3.mp3"),
-    sounds: {
-        grab: new Audio("res/audio/sfx_grab.mp3"),
-        win: new Audio("res/audio/sfx_win.mp3"),
-        lose: new Audio("res/audio/sfx_lose.mp3"),
-        step: new Audio("res/audio/sfx_step.mp3")
-    },
     init() {
         this.track.volume = 0.4;
         this.track.loop = true;
-    },
-    playSfx(key) {
-        if (this.sfxMuted || !this.sounds[key]) return;
-        this.sounds[key].currentTime = 0;
-        this.sounds[key].play().catch(() => { });
     },
     playBgm() {
         if (this.bgmMuted) return;
@@ -184,7 +172,6 @@ const closeModalsBtns = document.querySelectorAll(".close-modal");
 const btnQuitYes = document.getElementById("btn-quit-yes");
 const btnQuitNo = document.getElementById("btn-quit-no");
 
-const toggleSfxBtn = document.getElementById("btn-toggle-sfx");
 const toggleBgmBtn = document.getElementById("btn-toggle-bgm");
 
 const btnModePortrait = document.getElementById("btn-mode-portrait");
@@ -284,17 +271,10 @@ setDeviceMode(currentDeviceMode);
     });
 })();
 
-if (toggleSfxBtn) {
-    toggleSfxBtn.addEventListener("click", () => {
-        audioManager.sfxMuted = !audioManager.sfxMuted;
-        toggleSfxBtn.textContent = `SFX: ${audioManager.sfxMuted ? "OFF" : "ON"}`;
-    });
-}
-
 if (toggleBgmBtn) {
     toggleBgmBtn.addEventListener("click", () => {
         audioManager.bgmMuted = !audioManager.bgmMuted;
-        toggleBgmBtn.textContent = `BGM: ${audioManager.bgmMuted ? "OFF" : "ON"}`;
+        toggleBgmBtn.textContent = `AUDIO: ${audioManager.bgmMuted ? "OFF" : "ON"}`;
         if (audioManager.bgmMuted) {
             audioManager.stopBgm();
         } else {
@@ -369,8 +349,9 @@ function openMinigameInfoModal(gameType) {
             <p><strong>Objective:</strong> Race head-to-head on bamboo stilts across the track without losing balance. Face forward away from the screen like Temple Run!</p>
             <p style="color: #E5A93C; font-weight: bold; margin-top: 8px;">INSTRUCTIONS:</p>
             <ul>
-                <li><strong>Player 1 Controls:</strong> Alternate tapping <code>A</code> and <code>D</code>.</li>
-                <li><strong>Player 2 Controls:</strong> Alternate tapping <code>Left</code> and <code>Right</code> Arrow keys.</li>
+                <li><strong>Phone Mode:</strong> Use the on-screen <strong>[LEFT]</strong> and <code>[RIGHT]</code> foot buttons in your respective viewport.</li>
+                <li><strong>PC Player 1 Controls:</strong> Alternate tapping <code>A</code> and <code>D</code>.</li>
+                <li><strong>PC Player 2 Controls:</strong> Alternate tapping <code>Left</code> and <code>Right</code> Arrow keys.</li>
                 <li>Mashing the same foot causes imbalance/stumble! Keep a steady rhythm.</li>
             </ul>
             <p style="color: #E5A93C; margin-top: 10px; font-weight: bold;">READY TO RACE?</p>
@@ -771,8 +752,6 @@ const kadang = {
             this.triggerStumble(p);
         }
 
-        audioManager.playSfx("step");
-
         if (p.distance >= this.targetDistance) {
             p.distance = this.targetDistance;
             this.endRace(p);
@@ -823,11 +802,6 @@ const kadang = {
         this.isGameOver = true;
         this.winner = p.name;
         this.loser = (p === this.p1) ? this.p2.name : this.p1.name;
-        if (p === this.p1) {
-            audioManager.playSfx("win");
-        } else {
-            audioManager.playSfx("lose");
-        }
         syncProgressToServer();
     }
 };
@@ -869,6 +843,36 @@ canvas.addEventListener("pointerdown", e => {
 
     const clickX = (e.clientX - rect.left) * scaleX;
     const clickY = (e.clientY - rect.top) * scaleY;
+
+    // Kadang-Kadang on-screen touch controller buttons
+    if (currentState === STATE_KADANG && !kadang.isGameOver && !kadang.isCountingDown) {
+        const halfW = VIRTUAL_WIDTH / 2;
+        // Left viewport: Player 1 controls (Left Button vs Right Button)
+        if (clickX < halfW) {
+            // Check if clicking left foot button area (bottom left)
+            if (clickX >= 40 && clickX <= 300 && clickY >= 520 && clickY <= 670) {
+                kadang.registerStep(1, "left");
+                return;
+            }
+            // Check if clicking right foot button area (bottom center-left)
+            if (clickX >= 340 && clickX <= 600 && clickY >= 520 && clickY <= 670) {
+                kadang.registerStep(1, "right");
+                return;
+            }
+        }
+        // Right viewport: Player 2 controls (Left Button vs Right Button)
+        else {
+            const rx = clickX - halfW;
+            if (rx >= 40 && rx <= 300 && clickY >= 520 && clickY <= 670) {
+                kadang.registerStep(2, "left");
+                return;
+            }
+            if (rx >= 340 && rx <= 600 && clickY >= 520 && clickY <= 670) {
+                kadang.registerStep(2, "right");
+                return;
+            }
+        }
+    }
 
     if (currentState === STATE_DOKDOKMA && dokdokma.isPaused) {
         const modalW = 440;
@@ -998,11 +1002,21 @@ canvas.addEventListener("touchstart", e => {
         const tx = (touch.clientX - rect.left) * scaleX;
         const ty = (touch.clientY - rect.top) * scaleY;
 
-        if (currentState === STATE_KADANG) {
-            if (tx < VIRTUAL_WIDTH / 2) {
-                kadang.registerStep(1, ty < VIRTUAL_HEIGHT / 2 ? "left" : "right");
+        if (currentState === STATE_KADANG && !kadang.isGameOver && !kadang.isCountingDown) {
+            const halfW = VIRTUAL_WIDTH / 2;
+            if (tx < halfW) {
+                if (tx >= 40 && tx <= 300 && ty >= 520 && ty <= 670) {
+                    kadang.registerStep(1, "left");
+                } else if (tx >= 340 && tx <= 600 && ty >= 520 && ty <= 670) {
+                    kadang.registerStep(1, "right");
+                }
             } else {
-                kadang.registerStep(2, ty < VIRTUAL_HEIGHT / 2 ? "left" : "right");
+                const rx = tx - halfW;
+                if (rx >= 40 && rx <= 300 && ty >= 520 && ty <= 670) {
+                    kadang.registerStep(2, "left");
+                } else if (rx >= 340 && rx <= 600 && ty >= 520 && ty <= 670) {
+                    kadang.registerStep(2, "right");
+                }
             }
         }
     }
@@ -1171,10 +1185,6 @@ function updateDokdokma() {
     p1GrabTapped = false;
     p2GrabTapped = false;
 
-    if (p1ValidGrab || p2ValidGrab) {
-        audioManager.playSfx("grab");
-    }
-
     let inRangeCount = 0;
     if (dist1 <= dokdokma.catchRadius) inRangeCount++;
     if (dokdokma.activePlayersCount >= 2 && dist2 <= dokdokma.catchRadius) inRangeCount++;
@@ -1202,12 +1212,10 @@ function updateDokdokma() {
         dokdokma.gripProgress = 100;
         dokdokma.isGameOver = true;
         dokdokma.hasWon = true;
-        audioManager.playSfx("win");
         syncProgressToServer();
     } else if (allStaminaDepleted) {
         dokdokma.isGameOver = true;
         dokdokma.hasWon = false;
-        audioManager.playSfx("lose");
     }
 }
 
@@ -1848,6 +1856,36 @@ function drawKadangBalanceHUD(player, x, y, playerName, controls) {
     ctx.restore();
 }
 
+function drawKadangTouchControllers(ctx) {
+    const btnW = 260;
+    const btnH = 90;
+    const btnY = 580;
+
+    // Left Foot Button (Left side of viewport)
+    ctx.fillStyle = "#3A6351";
+    ctx.fillRect(40, btnY, btnW, btnH);
+    ctx.strokeStyle = "#E5A93C";
+    ctx.lineWidth = 3;
+    ctx.strokeRect(40, btnY, btnW, btnH);
+
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "bold 20px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("LEFT FOOT", 40 + btnW / 2, btnY + btnH / 2);
+
+    // Right Foot Button (Right side of viewport)
+    ctx.fillStyle = "#2E5A78";
+    ctx.fillRect(340, btnY, btnW, btnH);
+    ctx.strokeStyle = "#E5A93C";
+    ctx.lineWidth = 3;
+    ctx.strokeRect(340, btnY, btnW, btnH);
+
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText("RIGHT FOOT", 340 + btnW / 2, btnY + btnH / 2);
+    ctx.textBaseline = "alphabetic";
+}
+
 function renderKadang() {
     ctx.clearRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
     drawCanvasBackground();
@@ -1882,6 +1920,7 @@ function renderKadang() {
 
     drawTraditionalPlayer(ctx, kadang.p1, halfW * 0.5, p1Y, false);
     drawKadangBalanceHUD(kadang.p1, 30, 30, "PLAYER 1", "A / D");
+    drawKadangTouchControllers(ctx);
 
     ctx.restore();
 
@@ -1919,6 +1958,7 @@ function renderKadang() {
 
     drawTraditionalPlayer(ctx, kadang.p2, halfW * 0.5, p2Y, true);
     drawKadangBalanceHUD(kadang.p2, 30, 30, "PLAYER 2", "◄ / ►");
+    drawKadangTouchControllers(ctx);
 
     ctx.restore();
 
@@ -2380,7 +2420,6 @@ function openAuthModal() {
     }
 
     if (currentUser) {
-        // Logout Interface when already logged in
         authModal.innerHTML = `
             <div style="background:#2B1A0E;border:3px solid #E5A93C;padding:30px;border-radius:8px;width:380px;text-align:center;position:relative;box-sizing:border-box;">
                 <button id="auth-close-btn" style="position:absolute;top:12px;right:15px;background:none;border:none;color:#E5A93C;font-size:22px;cursor:pointer;font-weight:bold;">✕</button>
@@ -2405,7 +2444,6 @@ function openAuthModal() {
             closeAllModals();
         });
     } else {
-        // Login / Register Interface when guest
         authModal.innerHTML = `
             <div style="background:#2B1A0E;border:3px solid #E5A93C;padding:30px;border-radius:8px;width:380px;text-align:center;position:relative;box-sizing:border-box;">
                 <button id="auth-close-btn" style="position:absolute;top:12px;right:15px;background:none;border:none;color:#E5A93C;font-size:22px;cursor:pointer;font-weight:bold;">✕</button>
