@@ -1346,15 +1346,15 @@ canvas.addEventListener("pointerdown", e => {
     if (handleDokdokmaTouchStart(e, clickX, clickY)) return;
 
     // Kadang-Kadang on-screen touch controller buttons
-    if (currentState === STATE_KADANG && !kadang.isGameOver && !kadang.isPaused && !kadang.isCountingDown) {
+    if (currentState === STATE_KADANG && currentDeviceMode === "PHONE" &&
+        !kadang.isGameOver && !kadang.isPaused && !kadang.isCountingDown) {
         const halfW = VIRTUAL_WIDTH / 2;
         if (kadang.activePlayersCount === 1) {
-            const controlOffset = (VIRTUAL_WIDTH - halfW) / 2;
-            if (clickX >= controlOffset + 40 && clickX <= controlOffset + 300 && clickY >= 520 && clickY <= 670) {
+            if (clickX >= 40 && clickX <= 300 && clickY >= 520 && clickY <= 670) {
                 kadang.registerStep(1, "left");
                 return;
             }
-            if (clickX >= controlOffset + 340 && clickX <= controlOffset + 600 && clickY >= 520 && clickY <= 670) {
+            if (clickX >= VIRTUAL_WIDTH - 300 && clickX <= VIRTUAL_WIDTH - 40 && clickY >= 520 && clickY <= 670) {
                 kadang.registerStep(1, "right");
                 return;
             }
@@ -2215,16 +2215,16 @@ function renderDokdokma() {
     }
     ctx.restore();
 
-    if (currentDeviceMode === "PHONE") drawDualJoysticksUI();
+    if (currentDeviceMode === "PHONE") {
+        drawDualJoysticksUI();
 
-    if (dokdokma.activePlayersCount >= 2 && currentDeviceMode === "PHONE") {
-        drawKalingaGrabBtn(dokdokma.p1GrabBtnDual.cx, dokdokma.p1GrabBtnDual.cy, dokdokma.p1GrabBtnDual.r, "P1 GRAB", dist1 <= dokdokma.catchRadius);
-        drawKalingaGrabBtn(dokdokma.p2GrabBtnDual.cx, dokdokma.p2GrabBtnDual.cy, dokdokma.p2GrabBtnDual.r, "P2 GRAB", dist2 <= dokdokma.catchRadius);
-    } else {
-        let grabInRange = dist1 <= dokdokma.catchRadius;
-        if (dokdokma.activePlayersCount >= 2) grabInRange = grabInRange || (dist2 <= dokdokma.catchRadius);
-        if (dokdokma.activePlayersCount >= 3) grabInRange = grabInRange || (dist3 <= dokdokma.catchRadius);
-        drawKalingaGrabBtn(dokdokma.p1GrabBtnSingle.cx, dokdokma.p1GrabBtnSingle.cy, dokdokma.p1GrabBtnSingle.r, "GRAB", grabInRange);
+        if (dokdokma.activePlayersCount >= 2) {
+            drawKalingaGrabBtn(dokdokma.p1GrabBtnDual.cx, dokdokma.p1GrabBtnDual.cy, dokdokma.p1GrabBtnDual.r, "P1 GRAB", dist1 <= dokdokma.catchRadius);
+            drawKalingaGrabBtn(dokdokma.p2GrabBtnDual.cx, dokdokma.p2GrabBtnDual.cy, dokdokma.p2GrabBtnDual.r, "P2 GRAB", dist2 <= dokdokma.catchRadius);
+        } else {
+            const grabInRange = dist1 <= dokdokma.catchRadius;
+            drawKalingaGrabBtn(dokdokma.p1GrabBtnSingle.cx, dokdokma.p1GrabBtnSingle.cy, dokdokma.p1GrabBtnSingle.r, "GRAB", grabInRange);
+        }
     }
 
     drawGameTopBar(
@@ -2570,33 +2570,35 @@ function drawKadangBalanceHUD(player, x, y, playerName, controls) {
     ctx.restore();
 }
 
-function drawKadangTouchControllers(ctx) {
+function drawKadangTouchControllers(ctx, viewWidth) {
     const btnW = 260;
     const btnH = 90;
     const btnY = 580;
+    const leftBtnX = 40;
+    const rightBtnX = viewWidth - 300;
 
     // Left Foot Button (Left side of viewport)
     ctx.fillStyle = "#3A6351";
-    ctx.fillRect(40, btnY, btnW, btnH);
+    ctx.fillRect(leftBtnX, btnY, btnW, btnH);
     ctx.strokeStyle = "#E5A93C";
     ctx.lineWidth = 3;
-    ctx.strokeRect(40, btnY, btnW, btnH);
+    ctx.strokeRect(leftBtnX, btnY, btnW, btnH);
 
     ctx.fillStyle = "#FFFFFF";
     ctx.font = "bold 20px sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("LEFT FOOT", 40 + btnW / 2, btnY + btnH / 2);
+    ctx.fillText("LEFT FOOT", leftBtnX + btnW / 2, btnY + btnH / 2);
 
     // Right Foot Button (Right side of viewport)
     ctx.fillStyle = "#2E5A78";
-    ctx.fillRect(340, btnY, btnW, btnH);
+    ctx.fillRect(rightBtnX, btnY, btnW, btnH);
     ctx.strokeStyle = "#E5A93C";
     ctx.lineWidth = 3;
-    ctx.strokeRect(340, btnY, btnW, btnH);
+    ctx.strokeRect(rightBtnX, btnY, btnW, btnH);
 
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("RIGHT FOOT", 340 + btnW / 2, btnY + btnH / 2);
+    ctx.fillText("RIGHT FOOT", rightBtnX + btnW / 2, btnY + btnH / 2);
     ctx.textBaseline = "alphabetic";
 }
 
@@ -2682,10 +2684,7 @@ function drawKadangPlayerView(player, playerNum, offsetX, viewWidth) {
 
     drawTraditionalPlayer(ctx, player, viewWidth * 0.5, playerY, playerNum === 2);
     drawKadangBalanceHUD(player, 30, 30, `PLAYER ${playerNum}`, playerNum === 1 ? "A / D" : "◄ / ►");
-    ctx.save();
-    if (viewWidth > 640) ctx.translate((viewWidth - 640) / 2, 0);
-    drawKadangTouchControllers(ctx);
-    ctx.restore();
+    if (currentDeviceMode === "PHONE") drawKadangTouchControllers(ctx, viewWidth);
     ctx.restore();
 }
 
